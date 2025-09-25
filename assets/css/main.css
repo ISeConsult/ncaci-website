@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color: #fff;
+  --text-color: rgba(0,0,0,0.8);
+  --dark-bg-color: #091a28;
+  --dark-text-color: #ebf4f1;
+  --section1-bg-light: #f8f9fa;
+  --section1-bg-dark: #1a202c;
+  --section2-bg-light: #e9ecef;
+  --section2-bg-dark: #2d3748;
+  --section3-bg-light: #f1f3f4;
+  --section3-bg-dark: #4a5568;
+  --section4-bg-light: #ffffff;
+  --section4-bg-dark: #0f1419;
+  --text1-light: #0b0b0b;
+  --text1-dark: #e2e8f0;
+  --text2-light: #666666;
+  --text2-dark: #a0aec0;
+  --text3-light: #999999;
+  --text3-dark: #718096;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+.dark-mode body {
+  background-color: var(--dark-bg-color);
+  color: var(--dark-text-color);
+}
+
+/* Section utility classes */
+.section1-bg {
+  background-color: var(--section1-bg-light);
+  /* color: var(--text-color); */
+}
+.dark-mode .section1-bg {
+  background-color: var(--section1-bg-dark);
+  /* color: var(--dark-text-color); */
+}
+
+.section2-bg {
+  background-color: var(--section2-bg-light);
+  color: var(--text-color);
+}
+.dark-mode .section2-bg {
+  background-color: var(--section2-bg-dark);
+  color: var(--dark-text-color);
+}
+
+.section3-bg {
+  background-color: var(--section3-bg-light);
+  color: var(--text-color);
+}
+.dark-mode .section3-bg {
+  background-color: var(--section3-bg-dark);
+  color: var(--dark-text-color);
+}
+
+.section4-bg {
+  background-color: var(--section4-bg-light);
+  color: var(--text-color);
+}
+.dark-mode .section4-bg {
+  background-color: var(--section4-bg-dark);
+  color: var(--dark-text-color);
+}
+
+/* Text utility classes */
+.text1 {
+  color: var(--text1-light);
+}
+.dark-mode .text1 {
+  color: var(--text1-dark);
+}
+
+.text2 {
+  color: var(--text2-light);
+}
+.dark-mode .text2 {
+  color: var(--text2-dark);
+}
+
+.text3 {
+  color: var(--text3-light);
+}
+.dark-mode .text3 {
+  color: var(--text3-dark);
+}

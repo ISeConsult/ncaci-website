@@ -1,0 +1,79 @@
+declare module '@heroicons/vue/24/outline' {
+  import type { Component } from 'vue'
+  export const ArrowRightIcon: Component
+  export const ArrowLeftIcon: Component
+  export const MagnifyingGlassIcon: Component
+  export const PlusIcon: Component
+  export const TrashIcon: Component
+  export const PencilIcon: Component
+  export const CheckIcon: Component
+  export const XMarkIcon: Component
+  export const UserIcon: Component
+  export const LockClosedIcon: Component
+  export const LockOpenIcon: Component
+  export const HomeIcon: Component
+  export const CogIcon: Component
+  export const BellIcon: Component
+  export const ChatBubbleLeftRightIcon: Component
+  export const ChartBarIcon: Component
+  export const DocumentTextIcon: Component
+  export const FolderIcon: Component
+  export const CalendarIcon: Component
+  export const CameraIcon: Component
+  export const CloudIcon: Component
+  export const HeartIcon: Component
+  export const UserCircleIcon: Component
+  export const Bars3Icon: Component
+  export const TwitterIcon: Component
+  export const FacebookIcon: Component
+  export const InstagramIcon: Component
+  export const LinkedinIcon: Component
+  export const YoutubeIcon: Component
+  export const PhoneIcon: Component
+  export const MailIcon: Component
+  export const LocationMarkerIcon: Component
+  export const GitHubIcon: Component
+  export const DiscordIcon: Component
+  export const LinkedInIcon: Component
+  export const SunIcon: Component
+  export const MoonIcon: Component
+  export const EnvelopeIcon: Component
+  export const MapPinIcon: Component
+  export const ChevronDownIcon: Component
+  export const ChevronUpIcon: Component
+  export const NoSymbolIcon: Component
+  export const ArrowsUpDownIcon: Component
+  export const NoSymbolIcon: Component
+  export const ChevronLeftIcon: Component
+  export const ChevronRightIcon: Component
+  export const PhotoIcon: Component
+  export const ClockIcon: Component
+  export const TrendingUpIcon: Component
+  export const UsersIcon: Component
+  export const NewspaperIcon: Component
+  export const HandRaisedIcon: Component
+  export const CloudArrowUpIcon: Component
+  export const DocumentArrowDownIcon: Component
+  export const EyeIcon: Component
+  export const ArrowDownTrayIcon: Component
+  export const VideoCameraIcon: Component
+  export const MusicalNoteIcon: Component
+  export const ChartLineIcon: Component
+  export const FacebookIcon: Component
+  export const InstagramIcon: Component
+  export const TwitterIcon: Component
+  export const LinkedinIcon: Component
+}
+
+declare module '@heroicons/vue/24/solid' {
+  import type { Component } from 'vue'
+  export const ArrowRightIcon: Component
+  export const MagnifyingGlassIcon: Component
+  export const PlusIcon: Component
+  export const TrashIcon: Component
+  export const PencilIcon: Component
+  export const CheckIcon: Component
+  export const XMarkIcon: Component
+    export const UserIcon: Component
+  // Add more icons as needed
+}
