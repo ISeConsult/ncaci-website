@@ -137,7 +137,6 @@ import {
   CalendarIcon,
   UsersIcon,
   NewspaperIcon,
-  SparklesIcon,
   FolderIcon,
   PhoneIcon,
   ClipboardDocumentListIcon,
@@ -173,7 +172,8 @@ const navigationItems = [
   { name: 'Dashboard', key: 'overview', icon: HomeIcon },
   { name: 'Events & Activities', key: 'event', icon: CalendarIcon, children: [
     { name: 'Events', key: 'events' },
-    { name: 'Activities', key: 'activities' }
+    { name: 'Activities', key: 'activities' },
+    { name: 'Gallery', key: 'gallery' }
   ]},
   { name: 'Courses', key: 'courses', icon: UsersIcon },
   { name: 'News', key: 'news', icon: NewspaperIcon },
@@ -181,6 +181,7 @@ const navigationItems = [
   { name: 'Contacts', key: 'contacts', icon: PhoneIcon },
   { name: 'Registrations', key: 'registrations', icon: ClipboardDocumentListIcon },
   { name: 'Executives', key: 'executives', icon: UsersIcon, children: [
+    { name: 'Users', key: 'users' },
     { name: 'Church Leaders', key: 'leaders' },
     { name: 'Ministry Executive', key: 'executive' }
   ] }

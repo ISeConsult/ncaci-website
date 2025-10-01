@@ -16,7 +16,7 @@
     >
       <!-- Backdrop -->
       <div
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+        class="fixed inset-0 bg-black/5 bg-opacity-50 backdrop-blur-sm transition-opacity"
         aria-hidden="true"
         @click="closeOnBackdrop && close()"
       ></div>

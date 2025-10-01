@@ -1,0 +1,4 @@
+- [ ] Add reactive files array in Gallery.vue script
+- [ ] Bind FileInput to v-model="files"
+- [ ] Add image gallery section in template to display uploaded images in a grid
+- [ ] Test the component by uploading images

@@ -25,6 +25,8 @@ import ContactDirectory from '@/components/dashboard/ContactDirectory.vue'
 import MinistryRegistrations from '@/components/dashboard/MinistryRegistrations.vue'
 import executive from '@/pages/executive/index.vue'
 import courses from '@/components/dashboard/Courses.vue'
+import Gallery from '~/components/dashboard/Gallery.vue'
+import Users from '~/components/dashboard/Users.vue'
 
 const activeSection = ref('overview')
 
@@ -38,7 +40,9 @@ const sectionComponents = {
   contacts: ContactDirectory,
   registrations: MinistryRegistrations,
   executive:executive,
-  courses: courses
+  courses: courses,
+  gallery: Gallery,
+  users: Users
 }
 
 const currentSectionComponent = computed(() => {

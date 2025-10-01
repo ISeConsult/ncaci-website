@@ -45,13 +45,20 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="mt-16">
+                            <div class="mt-16 flex items-center gap-5">
                                 <button
                                     type="submit"
                                     @click="showSocial = !showSocial"
                                     class="flex max-w-max items-center justify-center rounded-md bg-red-600 py-2 px-4 text-base font-medium text-white hover:bg-red-700 transition-colors duration-200"
                                     >
                                     LIVE STREAM
+                                </button>
+                                <button
+                                    type="submit"
+                                    @click="openModal"
+                                    class="flex max-w-max items-center justify-center rounded-md bg-white py-2 px-4 text-base font-medium text-black hover:bg-white/90 transition-colors duration-200"
+                                    >
+                                    REGISTER
                                 </button>
                             </div>
                             <div v-if="showSocial" class="mt-4 flex space-x-10 bg-blue-200/80 p-4 items-center justify-center rounded">
@@ -84,13 +91,52 @@
                 </div>
             </div>
         </div>
+
+
+        <Modal v-model:is-open="isModalOpen" title="Register A Course" size="2xl" @close="closeModal">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-2">
+                    <div class="mb-4">
+                        <TextField v-model="formData.name" label="Name" required />
+                    </div>
+                    <div class="mb-4">
+                        <TextField v-model="formData.email" label="Email" required />
+                    </div>
+                    <div class="mb-4">
+                        <TextField v-model="formData.phone" label="Phone" required />
+                    </div>
+                    <div class="mb-4">
+                        <Select v-model="formData.genda" label="Genda" :options="['Male', 'Female']" clearable required />
+                    </div>
+                </div>
+            </div>
+        </Modal>
     </div>
 </template>
 
 <script setup>
-import UIButton from '../UI/Button.vue'
+import Modal from '../UI/Modal.vue';
+import TextField from '../UI/TextField.vue';
+import Select from '../UI/Select.vue';
 
 const showSocial = ref(false)
+
+const isModalOpen = ref(false)
+
+const formData = ref({
+    name: '',
+    email: '',
+    phone: '',
+    genda: ''
+})
+
+const openModal = () => {
+    isModalOpen.value = true
+}
+
+const closeModal = () => {
+    isModalOpen.value = false
+}
 </script>
 
 <style scoped>
