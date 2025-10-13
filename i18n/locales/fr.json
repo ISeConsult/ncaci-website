@@ -1,0 +1,375 @@
+{
+  "hero": {
+    "welcome": "Bienvenue dans notre Église",
+    "title": "DEVENEZ UNE PARTIE DE NOTRE COMMUNAUTÉ",
+    "button": "DIFFUSION EN DIRECT",
+    "description": "Nous sommes une communauté de croyants d&eacute;di&eacute;s &agrave; r&eacute;pandre la parole de Dieu et &agrave; servir nos voisins."
+  },
+  "navbar": {
+    "home": "Accueil",
+    "about": "À propos",
+    "ministries": "Ministères",
+    "leadership": "Direction",
+    "media": "Médias",
+    "contact": "Contact",
+    "blog": "Blog",
+    "news": "Nouvelles",
+    "nibalt": "NIBALT",
+    "activity": "Activité",
+    "directorate": "Direction",
+    "dashboard": "Tableau de bord",
+    "gallery": "Galerie",
+    "activities": "Activités",
+    "directorates": "Directions"
+  },
+  "footer": {
+    "about": "À propos de nous",
+    "aboutText": "Nous sommes une communauté de croyants dédiés à répandre la parole de Dieu et à servir nos voisins.",
+    "quickLinks": "Liens rapides",
+    "contact": "Contactez-nous",
+    "followUs": "Suivez-nous",
+    "copyright": "© 2024 Nom de l'Église. Tous droits réservés.",
+    "ourMission": "Notre Mission",
+    "ourVision": "Notre Vision",
+    "ourHistory": "Notre Histoire",
+    "leadership": "Direction",
+    "mainConvocation": "Convocation Principale",
+    "subscribeTitle": "Abonnez-vous pour recevoir les dernières mises à jour et nouvelles",
+    "emailPlaceholder": "Entrez votre email",
+    "subscribe": "S'abonner"
+  },
+  "about": {
+    "title": "Une Église Qui Est Pertinente",
+    "aboutTitle": "À propos de nous",
+    "aboutDesc": "Guider les gens vers une relation croissante avec Jésus-Christ et impacter le monde pour Sa gloire.",
+    "involvedTitle": "Impliquez-vous",
+    "involvedDesc": "Être une communauté vibrante de croyants passionnés par l'adoration, le disciple et l'évangélisation.",
+    "givingTitle": "Redonner",
+    "givingDesc": "Nous valorisons l'authenticité, la communauté, le service et la croissance spirituelle.",
+    "subtitle": "notre mission & vision",
+    "heading": "célébrez avec nous",
+    "readMore": "En savoir plus",
+    "headerSubtitle": "À propos de nous",
+    "headerTitle": "servir le monde autour de nous",
+    "vision": {
+      "subtitle": "notre mission & vision",
+      "missionTitle": "notre mission est de fonctionner comme un organisme spirituel",
+      "missionDesc": "organisme animé par le Saint-Esprit en se concentrant principalement sur la construction du royaume, l'équipement des saints pour le travail du ministère, et l'offre de direction spirituelle à nos membres et Pasteurs dans un environnement d'amour, de communion et d'harmonie, « et être un catalyseur pour la croissance spirituelle utilisant une pensée innovante, perspicace et conceptuelle ».",
+      "visionTitle": "Déclaration de Vision/Objectif",
+      "visionDesc": "Le désir de The New Covenant Apostolic Church Int. est de fournir une direction spirituelle à ceux qui s'efforcent dans la poursuite d'une vie sainte. En tant que peuple de Dieu, nous nous engageons corps, âme et nous-mêmes à la construction du Royaume de Dieu. La NCACI continuera à développer un affront contre les ruses de l'adversaire par des avenues éducatives, des croisades, et d'autres moyens viables. Beaucoup d'églises « Apostoliques » se sont structurées pour proclamer l'évangile de Jésus-Christ au monde perdu et mourant : nous les soutenons dans leurs efforts. Réalisant que nos églises connaissent des situations turbulentes, le besoin de restauration dans nos assemblées locales est primordial. L'évangélisation, portée au niveau suivant, nécessite que nous restions conscients que « L'excellence de la puissance est de Dieu et non de nous. »",
+      "spiritualDirectionTitle": "FOURNIR UNE DIRECTION SPIRITUELLE",
+      "spiritualDirectionDesc": "Notre objectif est de fournir une direction spirituelle à ceux qui s'efforcent dans la poursuite d'une vie sainte.",
+      "adversaryTitle": "AFFRONT CONTRE L'ADVERSAIRE",
+      "adversaryDesc": "Par des avenues éducatives, des croisades, et d'autres moyens viables nous développons un affront contre les ruses de l'adversaire",
+      "membershipTitle": "ADHÉSION À L'ÉGLISE",
+      "membershipDesc1": "L'adhésion à l'église se compose d'individus sauvés qui sont dans le corps du Christ. Nous croyons que nos membres doivent assister régulièrement au service d'église comme les Écritures l'ont instruit (Héb, 10:25). L'adhésion véritable dépend de l'acceptation et de l'obéissance à l'ordre et au bureau de l'église, à savoir :",
+      "membershipDesc2": "Apôtres, Prophètes, Pasteurs, etc. Nous croyons que Jésus-Christ reviendra pour Son église, à savoir les gens nés de nouveau. Nous croyons au baptême au nom du Seigneur Jésus-Christ et que chaque membre doit être soumis au Pasteur et à ceux qui ont la règle sur eux.",
+      "beliefsSubtitle": "avantages",
+      "beliefsTitle": "nos croyances et doctrines"
+    }
+  },
+  "ministry": {
+    "meetingDays": "JOURS DE RÉUNION",
+    "upcomingEvent": "Événement à venir",
+    "at": "À",
+    "time": "Heure:",
+    "details": "Détails:",
+    "register": "S'inscrire",
+    "registerAsMember": "S'inscrire en tant que membre",
+    "name": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "skills": "Compétences",
+    "birthDate": "Date de naissance",
+    "ministry": "Ministère",
+    "genda": "Genre",
+    "description": "Description",
+    "cancel": "Annuler",
+    "male": "Homme",
+    "female": "Femme",
+    "namePlaceholder": "Entrez votre nom",
+    "emailPlaceholder": "Entrez votre email",
+    "phonePlaceholder": "Entrez votre téléphone",
+    "skillsPlaceholder": "Entrez vos compétences (séparées par des virgules)",
+    "birthDatePlaceholder": "Sélectionnez votre date de naissance",
+    "ministryPlaceholder": "Sélectionnez votre ministère",
+    "gendaPlaceholder": "Sélectionnez votre genre",
+    "descriptionPlaceholder": "Entrez votre description",
+    "music": {
+      "name": "Ministère de la Musique",
+      "caption": "REJOIGNEZ NOTRE MINISTÈRE",
+      "meetingDays": "Vendredis & Samedis",
+      "eventTitle": "Musique à la Conférence",
+      "venue": "Salle Principale",
+      "date": "9 Septembre 2025",
+      "time": "9:00 - 15:00",
+      "details": "Petit-déjeuner et déjeuner seront fournis"
+    },
+    "youth": {
+      "name": "Ministère des Jeunes",
+      "caption": "EMPOUVOIR LA PROCHAINE GÉNÉRATION",
+      "meetingDays": "Samedis",
+      "eventTitle": "Retraite des Jeunes",
+      "venue": "Salle Principale",
+      "date": "9 Septembre 2025",
+      "time": "9:00 - 15:00",
+      "details": "Petit-déjeuner et déjeuner seront fournis"
+    },
+    "mens": {
+      "name": "Ministère des Hommes",
+      "caption": "CONSTRUIRE UN AVENIR PLUS BRILLANT",
+      "meetingDays": "Samedis",
+      "eventTitle": "Conférence des Hommes",
+      "venue": "Salle Principale",
+      "date": "9 Septembre 2025",
+      "time": "9:00 - 15:00",
+      "details": "Petit-déjeuner et déjeuner seront fournis"
+    },
+    "womens": {
+      "name": "Ministère des Femmes",
+      "caption": "EMPOUVOIR LES FEMMES",
+      "meetingDays": "Samedis",
+      "eventTitle": "Conférence des Femmes",
+      "venue": "Salle Principale",
+      "date": "9 Septembre 2025",
+      "time": "9:00 - 15:00",
+      "details": "Petit-déjeuner et déjeuner seront fournis"
+    },
+    "children": {
+      "name": "Ministère des Enfants",
+      "caption": "NOURRIR LES JEUNES ESPRITS",
+      "meetingDays": "Samedis",
+      "eventTitle": "Journée des Enfants",
+      "venue": "Salle Principale",
+      "date": "9 Septembre 2025",
+      "time": "9:00 - 15:00",
+      "details": "Petit-déjeuner et déjeuner seront fournis"
+    },
+    "evangelism": {
+      "name": "Ministère de l'Évangélisation",
+      "caption": "RÉPANDRE LA PAROLE",
+      "meetingDays": "Samedis",
+      "eventTitle": "Sensibilisation Communautaire",
+      "venue": "Salle Principale",
+      "date": "9 Septembre 2025",
+      "time": "9:00 - 15:00",
+      "details": "Petit-déjeuner et déjeuner seront fournis"
+    }
+  },
+  "stream": {
+    "subtitle": "regarder et écouter",
+    "title": "les avantages de rejoindre notre église",
+    "items": [
+      {
+        "title": "regarder et écouter nos sermons",
+        "description": "lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "title": "regarder et écouter nos sermons",
+        "description": "lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "title": "regarder et écouter nos sermons",
+        "description": "lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "title": "regarder et écouter nos sermons",
+        "description": "lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      }
+    ]
+  },
+  "liveStream": {
+    "subtitle": "diffusion en direct",
+    "title": "rejoignez-nous et faites partie de quelque chose de grand",
+    "upcomingEvent": "événement à venir",
+    "day": "20",
+    "month": "Juillet",
+    "eventTitle": "conférence de prière",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?",
+    "time1": "Vendredi 23:39 IST",
+    "time2": "Samedi 23:39 ISD",
+    "location1": "Assemblée East Legon",
+    "location2": "Accra-Ghana",
+    "liveStreamButton": "DIFFUSION EN DIRECT",
+    "registerButton": "S'INSCRIRE",
+    "modalTitle": "S'inscrire à un cours",
+    "name": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "genda": "Genre",
+    "male": "Homme",
+    "female": "Femme"
+  },
+  "cta": {
+    "title": "nouvelle alliance institution de bible et formation avancée en leadership - nibalt",
+    "description": "Admission en cours pour l'année académique 2025/2026. Pour plus d'informations, appelez 0246411587 / 0247543762/ 0541399801",
+    "button": "COMMENCER ICI",
+    "modalTitle": "S'inscrire à un cours",
+    "name": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "birthDate": "Date de naissance",
+    "course": "Cours",
+    "duration": "Durée",
+    "descriptionLabel": "Description",
+    "namePlaceholder": "Entrez votre nom",
+    "emailPlaceholder": "Entrez votre email",
+    "phonePlaceholder": "Entrez votre téléphone",
+    "birthDatePlaceholder": "Sélectionnez votre date de naissance",
+    "coursePlaceholder": "Sélectionnez votre cours",
+    "durationPlaceholder": "Sélectionnez votre durée",
+    "descriptionPlaceholder": "Entrez votre description",
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "twoYearsDiploma": "diplôme de deux ans",
+    "oneYearCertificate": "certificat d'un an",
+    "Theology": "Théologie",
+    "Christology": "Christologie",
+    "Biobiology": "Biologie",
+    "Evangelization": "Evangelisation",
+    "History": "Histoire",
+    "Communication": "Communication",
+    "oneYear": "1 an",
+    "twoYears": "2 ans"
+  },
+  "leadership": {
+    "headerSubtitle": "Direction",
+    "headerTitle": "Emouvoir les jeunes cœurs à grandir, questionner, et briller comme la lumière de Dieu dans le monde.",
+    "tabs": {
+      "executiveCouncil": "CONSEIL EXÉCUTIF",
+      "districtAreaHeads": "CHEFS DE DISTRICT ET DE ZONE",
+      "nationalMenFellowshipExecutive": "EXÉCUTIF NATIONAL DE LA FRATERNITÉ DES HOMMES",
+      "nationalYouthExecutive": "EXÉCUTIF NATIONAL DE LA JEUNESSE"
+    }
+  },
+  "ministries": {
+    "headerSubtitle": "Ministères",
+    "headerTitle": "Emouvoir les jeunes cœurs à grandir, questionner, et briller comme la lumière de Dieu dans le monde."
+  },
+  "nibalt": {
+    "headerSubtitle": "NIBALT",
+    "headerTitle": "Emouvoir les jeunes cœurs à grandir, questionner, et briller comme la lumière de Dieu dans le monde.",
+    "tabs": {
+      "history": "Histoire",
+      "facultyManagement": "Faculté & Gestion",
+      "academicPrograms": "Programmes Académiques",
+      "admissionRequirements": "Exigences d'Admission"
+    },
+    "history": {
+      "title": "HISTOIRE DE NIBALT",
+      "paragraph1": "NIBALT est né d'un grand désir et d'une vision de notre fondateur, le Révérend Chris Diaba. Sa vision était d'établir une institution d'enseignement supérieur qui formerait des dirigeants et des ministres. Il voulait équiper les disciples pour prêcher et enseigner efficacement l'évangile à la fois au niveau national et international. NIBALT a commencé en 1982 au Temple Grace (maintenant Temple Memorial Chris Diaba) de la New Covenant Church Int. avec 12 étudiants dont le Rév. Akofa McAvor et le Rév. Martin Agbemabiesse",
+      "paragraph2": "En février 1982, l'évêque Ofoe Wright, de l'Église Méthodiste du Ghana, a été chargé de convertir l'École Biblique en une institution de réputation internationale ; il est devenu le premier Directeur des Études. Le Rév. Akofa Mcavor a pris la relève en tant que deuxième Directeur des Études, avec une source de sagesse, de vision et d'intégrité. Le Rév. Frank McAvor est devenu Directeur de NIBALT en 1994. Il est actuellement le Président de NIBALT. Au cours de son existence, NIBALT a formé plus de 150 Pasteurs.",
+      "graduations": "Remises de diplômes",
+      "coreValuesTitle": "valeurs fondamentales",
+      "coreValuesPara1": "L'adhésion à l'église se compose d'individus sauvés qui sont dans le corps du Christ. Nous croyons que nos membres doivent assister régulièrement au service d'église comme les Écritures l'ont instruit (Héb, 10:25). L'adhésion véritable dépend de l'acceptation et de l'obéissance à l'ordre et au bureau de l'église, à savoir :",
+      "coreValuesPara2": "Apôtres, Prophètes, Pasteurs, etc. Nous croyons que Jésus-Christ reviendra pour Son église, à savoir les gens nés de nouveau. Nous croyons au baptême au nom du Seigneur Jésus-Christ et que chaque membre doit être soumis au Pasteur et à ceux qui ont la règle sur eux.",
+      "coreValuesPara3": "Le Pasteur est tenu de prendre des mesures supplémentaires contre tout membre ne respectant pas les règles et réglementations de l'église, conformément aux Écritures. Nous attendons de nos membres qu'ils s'efforcent de maintenir l'unité de l'Esprit dans le lien de la paix. (Eph. 4:3)",
+      "missions": {
+        "missionStatement": {
+          "title": "déclaration de mission",
+          "desc": "Libérer les hommes et les préparer à accomplir la Grande Commission et les commandements donnés par notre Seigneur et Sauveur, Jésus-Christ."
+        },
+        "visionStatement": {
+          "title": "déclaration de vision",
+          "desc": "Éduquer, éclairer, équiper, améliorer, encourager et autonomiser les hommes et les femmes pour atteindre l'excellence dans divers domaines d'effort au niveau international."
+        },
+        "motto": {
+          "title": "devise",
+          "desc": "La nouvelle église apostolique de l'alliance internationale"
+        }
+      }
+    },
+    "faculty": {
+      "title": "direction et faculté",
+      "description": "À NIBALT, nous sommes bénis d'une équipe de dirigeants et de membres du corps professoral dédiés qui sont passionnés par l'équipement des individus pour servir Dieu et l'humanité avec excellence. Notre conseil de gestion fournit une orientation stratégique et assure la réalisation de la vision et de la mission de NIBALT. Les membres du corps professoral apportent une richesse de connaissances, d'expérience et de profondeur spirituelle pour créer un environnement d'apprentissage dynamique et transformateur.",
+      "boardTitle": "conseil de gestion",
+      "boardDescription": "Le Conseil de Gestion supervise les opérations et la direction de NIBALT, assurant que nos programmes s'alignent sur les principes bibliques et répondent aux besoins de nos étudiants. Chaque membre s'engage à fournir un leadership solide et à favoriser une communauté nourricière de foi et d'apprentissage.",
+      "membersTitle": "membres de la faculté",
+      "membersDescription": "La faculté de NIBALT se compose de savants distingués et de dirigeants ministériels qui sont passionnés par l'enseignement, le mentorat et la préparation des étudiants pour des rôles ministériels et de leadership impactants. Chaque membre combine rigueur académique et expérience pratique, assurant aux étudiants une éducation holistique.",
+      "conclusion": "Ensemble, nos dirigeants et notre corps professoral incarnent les valeurs d'excellence, d'intégrité et de dévouement. Ils s'engagent à nourrir la prochaine génération de dirigeants chrétiens, en les habilitant à accomplir la Grande Commission et à servir leurs communautés avec une foi inébranlable."
+    },
+    "admission": {
+      "title": "Pour rejoindre la communauté NIBALT, les candidats doivent répondre aux exigences suivantes :",
+      "applicationFormTitle": "Formulaire de demande rempli :",
+      "applicationFormDesc": "Les étudiants potentiels doivent remplir le formulaire de demande officiel de NIBALT, en s'assurant que toutes les sections sont correctement remplies.",
+      "transcriptTitle": "Relevé de notes du lycée :",
+      "transcriptDesc": "Les candidats doivent soumettre un relevé de notes officiel du lycée. Pour être considéré comme officiel, le relevé doit provenir d'un lycée reconnu, autorisé ou approuvé par le pays de résidence légale du candidat.",
+      "collegeTranscriptsTitle": "Relevés de notes universitaires (le cas échéant) :",
+      "collegeTranscriptsDesc": "Si le candidat a déjà fréquenté une université, il doit fournir les relevés de notes de ces établissements dans le cadre du processus de demande.",
+      "referenceLetterTitle": "Lettre de référence (optionnelle) :",
+      "referenceLetterDesc": "À la discrétion du Directeur des Admissions ou du Comité des Admissions, une lettre de référence d'un pasteur principal ou d'un autre dirigeant d'église peut être demandée pour évaluer davantage la préparation du candidat au programme.",
+      "admissionNote": "Les nouveaux étudiants sont admis au début du trimestre d'octobre ou de février de l'année académique."
+    },
+    "academic": {
+      "header": "programmes académiques à nibalt",
+      "description": "À NIBALT, nous nous engageons à fournir une expérience d'apprentissage complète et enrichissante qui équipe les étudiants à servir en tant que dirigeants efficaces dans le ministère et d'autres domaines d'effort. Nos programmes académiques sont conçus pour combiner la vérité biblique, l'excellence académique et la formation pratique, assurant que les étudiants sont bien préparés pour un service impactant localement et globalement.",
+      "programs": "programmes",
+      "certificateTitle": "programme de certificat d'un an (2 semestres)",
+      "certificateDesc": "Ce programme fondateur fournit une introduction solide aux disciplines théologiques et ministérielles clés. Il est parfait pour les individus cherchant à approfondir leurs connaissances bibliques et à développer des compétences ministérielles pratiques.",
+      "courses": "cours",
+      "diplomaTitle": "programme de diplôme de deux ans (4 semestres)",
+      "diplomaDesc": "Ce programme fondateur fournit une introduction solide aux disciplines théologiques et ministérielles clés. Il est parfait pour les individus cherchant à approfondir leurs connaissances bibliques et à développer des compétences ministérielles pratiques.",
+      "learningModes": "modes d'apprentissage",
+      "learningDesc": "Nous comprenons les besoins divers de nos étudiants et offrons des options d'apprentissage flexibles :",
+      "hybridLearning": "Apprentissage hybride",
+      "hybridDesc": "Un mélange de cours en personne et en ligne pour une expérience académique bien équilibrée",
+      "sandwichCourses": "Cours sandwich",
+      "sandwichDesc": "Cours courts sur mesure pendant les longues vacances pour les étudiants tertiaires, incluant des sujets comme l'Évangélisation, l'Administration ecclésiastique, le Conseil, et la Christologie."
+    }
+  },
+  "blog": {
+    "subtitle": "lisez notre blog",
+    "title": "partager, inspirer, innover",
+    "blogs": [
+      {
+        "category": "relation",
+        "title": "Comment être un meilleur mari",
+        "author": "michael addo",
+        "date": "mardi juillet 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "amour",
+        "title": "Enfants de Dieu",
+        "author": "michael addo",
+        "date": "mardi juillet 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "Théologie",
+        "title": "enseignement biblique",
+        "author": "michael addo",
+        "date": "mardi juillet 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "Sermons",
+        "title": "regarder et écouter nos sermons",
+        "author": "michael addo",
+        "date": "mardi juillet 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      }
+    ]
+  },
+  "belief": {
+    "title": "nous suivre"
+  },
+  "contact": {
+    "subtitle": "contact",
+    "title": "entrez en contact avec nous",
+    "formTitle": "formulaire de contact:",
+    "name": "Nom",
+    "namePlaceholder": "Entrez votre nom",
+    "email": "Email",
+    "emailPlaceholder": "Entrez votre email",
+    "subject": "Sujet",
+    "subjectPlaceholder": "Entrez le sujet",
+    "message": "Message",
+    "messagePlaceholder": "Entrez votre message",
+    "sendMessage": "Envoyer le message",
+    "addressLabel": "adresse:",
+    "address": "P. O. Box 3265",
+    "contactDetailsLabel": "détails de contact:",
+    "findUsLabel": "trouvez-nous ici:"
+  }
+}

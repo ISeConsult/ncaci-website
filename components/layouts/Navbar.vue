@@ -1,11 +1,11 @@
 <template>
   <nav :class="navbarClasses">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
+      <div class="flex justify-between h-20">
          <!-- Logo -->
         <div class="flex-shrink-0 flex items-center">
-          <NuxtLink to="/" class="flex-shrink-0 flex items-center">
-            <img class="block h-12 w-auto" src="/public/images/church-logo.png" alt="NuxtApp" />
+          <NuxtLink to="/" class="flex bg-white p-1 items-center">
+            <img class="block h-16 w-auto" src="/public/images/church-logo.png" alt="NuxtApp" />
           </NuxtLink>
         </div>
         <!--main navigation -->
@@ -27,19 +27,19 @@
                     to="/media"
                     class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
-                    Gallery
+                    {{ $t('navbar.gallery') }}
                   </NuxtLink>
                   <NuxtLink
                     to="/activity"
                     class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
-                    Activities
+                    {{ $t('navbar.activities') }}
                   </NuxtLink>
                   <NuxtLink
                     to="/directorate"
                     class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
-                    Directorates
+                    {{ $t('navbar.directorates') }}
                   </NuxtLink>
                 </div>
               </div>
@@ -62,10 +62,13 @@
           <div class="hidden lg:block">
             <UIButton size="lg">
               <NuxtLink to="/contact" class="w-full text-center" :class="buttonLinkClasses">
-                Contact Us
+                {{ $t('navbar.contact') }}
               </NuxtLink>
             </UIButton>
           </div>
+
+          <!-- Language Switcher -->
+          <Button variant="danger" size="sm" @click="setLocale(nextLocale?.code || 'en')" :class="buttonLinkClasses">{{ currentLocale?.code }}</Button>
 
           <!-- Color mode selector -->
           <div class="hidden lg:ml-4 lg:flex lg:items-center">
@@ -107,13 +110,18 @@
           >
             {{ item.name }}
           </NuxtLink>
+
+          <!-- Mobile Language Switcher -->
+          <button class="border p-1" @click="setLocale(nextLocale?.code || 'en')">
+            {{ currentLocale?.name }}
+          </button>
         </div>
 
         <div class="pt-4 pb-3 border-t border-gray-200">
           <div class="flex items-center px-4">
             <UIButton class="w-full" size="lg">
               <NuxtLink to="/contact" class="w-full text-center" :class="buttonLinkClasses">
-                Contact Us
+                {{ $t('navbar.contact') }}
               </NuxtLink>
             </UIButton>
           </div>
@@ -132,19 +140,22 @@ import {
 } from '@heroicons/vue/24/outline'
 import ColorModeSelector from '../ColorModeSelector.vue'
 import UIButton from '../UI/Button.vue'
+import Button from '../UI/Button.vue'
+
+const { locales, setLocale, locale } = useI18n()
 
 const route = useRoute()
 const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
 
 const navigation = [
-  { name: 'Home', to: '/' },
-  { name: 'About Us', to: '/about' },
-  { name: 'Leadership', to: '/leadership' },
-  { name: 'Ministries', to: '/ministries' },
-  { name: 'News', to: '/blog' },
-  { name: 'NIBALT', to: '/nibalt' },
-  { name: 'Media', to: '/media' }
+  { name: $t('navbar.home'), to: '/' },
+  { name: $t('navbar.about'), to: '/about' },
+  { name: $t('navbar.leadership'), to: '/leadership' },
+  { name: $t('navbar.ministries'), to: '/ministries' },
+  { name: $t('navbar.news'), to: '/blog' },
+  { name: $t('navbar.nibalt'), to: '/nibalt' },
+  { name: $t('navbar.media'), to: '/media' }
 ]
 
 const isHomePage = computed(() => route.path === '/')
@@ -171,6 +182,9 @@ const navLinkClasses = (to: string) => {
 }
 
 const buttonLinkClasses = computed(() => 'text-white')
+
+const currentLocale = computed(() => locales.value.find((l: any) => l.code === locale.value))
+const nextLocale = computed(() => locales.value.find((l: any) => l.code !== locale.value))
 
 const mobileMenuButtonClasses = computed(() =>
   'inline-flex ml-2 items-center justify-center p-2 rounded-md text-white bg-red-500 hover:text-gray-300 hover:bg-red-700'

@@ -20,7 +20,12 @@ import Faculty from './Faculty.vue'
 import Academic from './Academic.vue'
 import Admission from './Admission.vue'
 
-const tabs = ['History', 'Faculty & Management', 'Academic Programs', 'Admission Requirements']
+const tabs = [
+  $t('nibalt.tabs.history'),
+  $t('nibalt.tabs.facultyManagement'),
+  $t('nibalt.tabs.academicPrograms'),
+  $t('nibalt.tabs.admissionRequirements')
+]
 const selectedTab = ref(0)
 </script>
 

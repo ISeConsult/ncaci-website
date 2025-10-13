@@ -5,9 +5,9 @@
                 <img src="/images/about2.jpg" alt="nibalt history" class="w-full h-full object-contain" />
             </div>
             <div class="flex flex-col justify-center">
-                <h1 class="text-3xl font-bold text-left uppercase text1 mb-8 text-nowrap">academic programs<br/> at nibalt</h1>
+                <h1 class="text-3xl font-bold text-left uppercase text1 mb-8 text-nowrap" v-html="$t('nibalt.academic.header')"></h1>
                 <p class="text-base font-light text-left capitalize leading-relaxed">
-                    At NIBALT, we are committed to providing a comprehensive and enriching learning experience that equips students to serve as effective leaders in ministry and other fields of endeavor. Our academic programs are designed to combine biblical truth, academic excellence, and practical training, ensuring students are well-prepared for impactful service locally and globally.
+                    {{ $t('nibalt.academic.description') }}
                 </p>
             </div>
         </div>
@@ -15,14 +15,14 @@
         <!--Causes1 Section-->
         <div class="mt-20">
             <div>
-                <h1 class="text-lg font-bold text-left uppercase text1 mb-2 text-nowrap">programs</h1>
-                <h3 class="text-md font-bold text-left uppercase text-[#535995] mb-2 text-nowrap">one-year certificate program (2 semesters)</h3>
+                <h1 class="text-lg font-bold text-left uppercase text1 mb-2 text-nowrap">{{ $t('nibalt.academic.programs') }}</h1>
+                <h3 class="text-md font-bold text-left uppercase text-[#535995] mb-2 text-nowrap">{{ $t('nibalt.academic.certificateTitle') }}</h3>
                 <p class="text-base font-light text-left capitalize leading-relaxed">
-                    This foundational program provides a solid introduction to key theological and ministerial disciplines. It is perfect for individuals seeking to deepen their biblical knowledge and develop practical ministry skills.
+                    {{ $t('nibalt.academic.certificateDesc') }}
                 </p>
             </div>
             <div class="grid grid-cols-1 mt-8 w-full">
-                <h1 class="text-md font-bold text-left uppercase text1 mb-2 text-nowrap">courses</h1>
+                <h1 class="text-md font-bold text-left uppercase text1 mb-2 text-nowrap">{{ $t('nibalt.academic.courses') }}</h1>
                 <div v-for="(item, index) in courses" :key="index" class="">
                     <div class="mb-4 bg-[#eaecfc] w-full p-6 cursor-pointer" @click="selectedCoursesIndex = selectedCoursesIndex === index ? null : index">
                         <h1 class="text-lg text-wrap md:text-nowrap font-bold text-left uppercase text-[#535995] mb-1">{{ item.title }}</h1>
@@ -35,13 +35,13 @@
         <!--Causes1 Section-->
         <div class="mt-20">
             <div>
-                <h3 class="text-md font-bold text-left uppercase text-[#535995] mb-2 text-nowrap">two-year diploma program (4 semesters)</h3>
+                <h3 class="text-md font-bold text-left uppercase text-[#535995] mb-2 text-nowrap">{{ $t('nibalt.academic.diplomaTitle') }}</h3>
                 <p class="text-base font-light text-left capitalize leading-relaxed">
-                    This foundational program provides a solid introduction to key theological and ministerial disciplines. It is perfect for individuals seeking to deepen their biblical knowledge and develop practical ministry skills.
+                    {{ $t('nibalt.academic.diplomaDesc') }}
                 </p>
             </div>
             <div class="grid grid-cols-1 mt-8 w-full">
-                <h1 class="text-md font-bold text-left uppercase text1 mb-2 text-nowrap">courses</h1>
+                <h1 class="text-md font-bold text-left uppercase text1 mb-2 text-nowrap">{{ $t('nibalt.academic.courses') }}</h1>
                 <div v-for="(item, index) in course" :key="index" class="">
                     <div class="mb-4 bg-[#eaecfc] w-full p-6 cursor-pointer" @click="selectedCourseIndex = selectedCourseIndex === index ? null : index">
                         <h1 class="text-lg text-wrap md:text-nowrap font-bold text-left uppercase text-[#535995] mb-1">{{ item.title }}</h1>
@@ -52,15 +52,15 @@
         </div>
 
         <div class="mt-6 items-start justify-start">
-            <h1 class="text-xl font-bold text-left uppercase text1 mb-2 text-nowrap">learning modes</h1>
+            <h1 class="text-xl font-bold text-left uppercase text1 mb-2 text-nowrap">{{ $t('nibalt.academic.learningModes') }}</h1>
             <p class="text-base font-light text-left capitalize leading-relaxed">
-                We understand the diverse needs of our students and offer flexible learning options:
+                {{ $t('nibalt.academic.learningDesc') }}
             </p>
             <p class="text-base font-light text-left capitalize leading-relaxed">
-                <span class="font-bold">Hybrid Learning</span>: A blend of in-person and online lectures for a well-rounded academic experience
+                <span class="font-bold">{{ $t('nibalt.academic.hybridLearning') }}</span>: {{ $t('nibalt.academic.hybridDesc') }}
             </p>
             <p class="text-base font-light text-left capitalize leading-relaxed">
-                <span class="font-bold">Sandwich Courses</span>: Tailored short courses during long vacations for tertiary students, including subjects like Evangelism, Church Administration, Counseling, and Christology.
+                <span class="font-bold">{{ $t('nibalt.academic.sandwichCourses') }}</span>: {{ $t('nibalt.academic.sandwichDesc') }}
             </p>
         </div>
     </div>

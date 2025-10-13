@@ -3,10 +3,10 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <h1 class="text-3xl font-bold text-left uppercase text1 mb-8 text-nowrap">
-                    leadership and faculty
+                    {{ $t('nibalt.faculty.title') }}
                 </h1>
                 <p class="text-base font-light text-left capitalize leading-relaxed">
-                    At NIBALT, we are blessed with a team of dedicated leaders and faculty members who are passionate about equipping individuals to serve God and humanity with excellence. Our management board provides strategic guidance and ensures the vision and mission of NIBALT are realized. The faculty members bring a wealth of knowledge, experience, and spiritual depth to create a dynamic and transformative learning environment.
+                    {{ $t('nibalt.faculty.description') }}
                 </p>
             </div>
             <div class="w-full h-[500px]">
@@ -17,9 +17,9 @@
         <!--Board Section-->
         <div>
             <div>
-                <h1 class="text-3xl font-bold text-left uppercase text1 mb-4 text-nowrap">management board</h1>
+                <h1 class="text-3xl font-bold text-left uppercase text1 mb-4 text-nowrap">{{ $t('nibalt.faculty.boardTitle') }}</h1>
                 <p class="text-base font-light text-left capitalize leading-relaxed">
-                    The Management Board oversees the operations and direction of NIBALT, ensuring our programs align with biblical principles and meet the needs of our students. Each member is committed to providing strong leadership and fostering a nurturing community of faith and learning.
+                    {{ $t('nibalt.faculty.boardDescription') }}
                 </p>
             </div>
 
@@ -44,9 +44,9 @@
         <!--Members Section-->
         <div class="mt-20">
             <div>
-                <h1 class="text-3xl font-bold text-left uppercase text1 mb-4 text-nowrap">members of faculty</h1>
+                <h1 class="text-3xl font-bold text-left uppercase text1 mb-4 text-nowrap">{{ $t('nibalt.faculty.membersTitle') }}</h1>
                 <p class="text-base font-light text-left capitalize leading-relaxed">
-                    The faculty at NIBALT consists of distinguished scholars and ministry leaders who are passionate about teaching, mentoring, and preparing students for impactful ministry and leadership roles. Each member combines academic rigor with practical experience, ensuring students receive a holistic education.
+                    {{ $t('nibalt.faculty.membersDescription') }}
                 </p>
             </div>
 
@@ -70,7 +70,7 @@
 
         <div>
             <p class="text-base font-light text-left capitalize leading-relaxed mt-8">
-                Together, our leaders and faculty exemplify the values of excellence, integrity, and dedication. They are committed to nurturing the next generation of Christian leaders, empowering them to fulfill the Great Commission and serve their communities with unwavering faith.
+                {{ $t('nibalt.faculty.conclusion') }}
             </p>
         </div>
     </div>

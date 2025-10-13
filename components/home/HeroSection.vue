@@ -26,24 +26,23 @@
       <!-- Hero Section -->
       <div class="flex-1 flex items-center justify-start px-4 sm:px-6 md:px-8 lg:px-16">
         <div class="max-w-xl sm:max-w-2xl">
-          <p class="text-sm sm:text-base font-semibold text-gray-400 uppercase mb-3 sm:mb-4">
-            Welcome to our Church
+          <p class="text-base md:text-2xl font-semibold text-red-600 uppercase mb-3 sm:mb-4">
+            {{ $t('hero.welcome') }}
           </p>
           <h1 class="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-6 sm:mb-10 leading-tight">
-            BECOME A PART OF<br>
-            OUR COMMUNITY
+            {{ $t('hero.title') }}
           </h1>
-          
+
           <UIButton size="lg" class="sm:size-xl">
             <NuxtLink to="/contact" class="w-full text-center">
-              LIVE STREAM
+              {{ $t('hero.button') }}
             </NuxtLink>
           </UIButton>
 
           <div class="flex items-start gap-2 mt-6 sm:mt-10">
-            <div class="w-8 sm:w-12 h-1 bg-gray-200 mt-3 sm:mt-5"></div>
+            <div class="w-8 sm:w-12 h-1 bg-red-600 mt-3 sm:mt-6"></div>
             <p class="text-xs sm:text-sm text-gray-200 mt-2 sm:mt-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?
+              {{ $t('hero.description') }}
             </p>
           </div>
         </div>

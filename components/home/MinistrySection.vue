@@ -40,7 +40,7 @@
               class="text-gray-400 mb-2 uppercase text-xs md:text-lg font-light absolute top-16 md:top-28 left-4 transition-all duration-700"
               :class="{ 'pl-4': activeCard === index }"
             >
-              MEETING DAYS {{ ministry.meetingDays }}
+              {{ $t('ministry.meetingDays') }} {{ ministry.meetingDays }}
             </p>
             <p
               class="text-gray-100 font-bold text-base md:text-4xl mb-8 absolute top-4 left-4 transition-all duration-700"
@@ -50,27 +50,27 @@
             </p>
 
             <h3 class="text-lg text-gray-100 uppercase font-semibold mb-2 absolute top-24 md:top-4 right-10">
-              Upcoming Event
+              {{ $t('ministry.upcomingEvent') }}
             </h3>
             <p class="text-gray-200 text-xs md:text-lg uppercase absolute bottom-28 md:top-20 right-10">
               {{ ministry.upcomingEvent.title }}
             </p>
             <p class="text-gray-200 uppercase absolute bottom-52 md:top-28 right-10 text-xs md:text-lg">
-              AT {{ ministry.upcomingEvent.venue }}
+              {{ $t('ministry.at') }} {{ ministry.upcomingEvent.venue }}
             </p>
             <p class="text-gray-200 uppercase absolute bottom-48 md:top-44 right-10 text-xs md:text-lg">
               {{ ministry.upcomingEvent.date }}
             </p>
             <p class="text-gray-200 uppercase absolute bottom-44 md:top-52 right-10 text-xs md:text-lg">
-              Time: {{ ministry.upcomingEvent.time }}
+              {{ $t('ministry.time') }} {{ ministry.upcomingEvent.time }}
             </p>
             <p class="text-gray-200 uppercase absolute bottom-36 md:top-60 right-10 text-xs md:text-lg">
-              Details: {{ ministry.upcomingEvent.details }}
+              {{ $t('ministry.details') }} {{ ministry.upcomingEvent.details }}
             </p>
 
             <div class="absolute bottom-10 md:top-40 left-28 md:left-8">
               <UIButton size="xl" @click="openModel">
-                Register
+                {{ $t('ministry.register') }}
               </UIButton>
             </div>
           </div>
@@ -87,29 +87,29 @@
     </div>
 
 
-    <Modal v-model:is-open="isModalOpen" size="3xl" @close="closeModal" title="Register As A Member">
+    <Modal v-model:is-open="isModalOpen" size="3xl" @close="closeModal" :title="$t('ministry.registerAsMember')">
       <form @submit.prevent="submitForm">
         <div class="space-y-4 md:space-y-0 grid md:grid-cols-2 gap-4">
-          <TextField v-model="formData.name" label="Name" placeholder="Enter your name" required />
-          <TextField v-model="formData.email" label="Email" placeholder="Enter your email" required />
-          <TextField v-model="formData.phone" label="Phone" placeholder="Enter your phone" required />
-          <TextField v-model="formData.skills" label="Skills" placeholder="Enter your skills (comma-separated)" required />
+          <TextField v-model="formData.name" :label="$t('ministry.name')" :placeholder="$t('ministry.namePlaceholder')" required />
+          <TextField v-model="formData.email" :label="$t('ministry.email')" :placeholder="$t('ministry.emailPlaceholder')" required />
+          <TextField v-model="formData.phone" :label="$t('ministry.phone')" :placeholder="$t('ministry.phonePlaceholder')" required />
+          <TextField v-model="formData.skills" :label="$t('ministry.skills')" :placeholder="$t('ministry.skillsPlaceholder')" required />
           <div>
-            <label class="block text-gray-900 dark:text-gray-200 mb-1">Birth Date</label>
-            <DatePicker v-model="formData.birthDate" label="Birth Date" placeholder="Select your birth date" required />
+            <label class="block text-gray-900 dark:text-gray-200 mb-1">{{ $t('ministry.birthDate') }}</label>
+            <DatePicker v-model="formData.birthDate" :label="$t('ministry.birthDate')" :placeholder="$t('ministry.birthDatePlaceholder')" required />
           </div>
-          <Select v-model="formData.ministry" clearable label="Ministry" placeholder="Select your ministry" :options="ministries.map(ministry => ministry.name)" required />
-          
-          <Select v-model="formData.genda" clearable label="Genda" placeholder="Select your genda" :options="gendas" required />
+          <Select v-model="formData.ministry" clearable :label="$t('ministry.ministry')" :placeholder="$t('ministry.ministryPlaceholder')" :options="ministries.map(ministry => ministry.name)" required />
+
+          <Select v-model="formData.genda" clearable :label="$t('ministry.genda')" :placeholder="$t('ministry.gendaPlaceholder')" :options="gendas" required />
         </div>
         <div class="mt-4">
-          <Textarea v-model="formData.description" placeholder="Enter your description" label="Description" required />
+          <Textarea v-model="formData.description" :placeholder="$t('ministry.descriptionPlaceholder')" :label="$t('ministry.description')" required />
         </div>
       </form>
       <template #footer>
         <div class="flex justify-end space-x-2 pt-4">
-          <Button type="button" @click="closeModal" variant="secondary">Cancel</Button>
-          <Button type="submit" variant="primary">Register</Button>
+          <Button type="button" @click="closeModal" variant="secondary">{{ $t('ministry.cancel') }}</Button>
+          <Button type="submit" variant="primary">{{ $t('ministry.register') }}</Button>
         </div>
       </template>
     </Modal>
@@ -118,6 +118,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useI18n } from 'vue-i18n';
 import UIButton from "../UI/Button.vue";
 import TextField from "../UI/TextField.vue";
 import Textarea from "../UI/Textarea.vue";
@@ -125,6 +126,8 @@ import Modal from "../UI/Modal.vue";
 import DatePicker from "../UI/DatePicker.vue";
 import Select from "../UI/Select.vue";
 import Button from "../UI/Button.vue";
+
+const { t } = useI18n();
 
 const isModalOpen = ref(false)
 
@@ -143,8 +146,8 @@ const toggleCard = (index: number) => {
 };
 
 const gendas = [
-  'Male',
-  'Female'
+  t('ministry.male'),
+  t('ministry.female')
 ]
 
 const formData = ref({
@@ -166,86 +169,86 @@ const submitForm = () => {
 
 const ministries = [
   {
-    name: 'Music Ministry',
+    name: t('ministry.music.name'),
     image: '/images/music-min.jpg',
-    meetingDays: 'Fridays & Saturdays',
-    caption: 'JOIN OUR MINISTRY',
+    meetingDays: t('ministry.music.meetingDays'),
+    caption: t('ministry.music.caption'),
     upcomingEvent: {
-      title: 'Music at Conference',
-      venue: 'Main Hall',
-      date: '9th Sept, 2025',
-      time: '9:00 AM - 3:00 PM',
-      details: 'Breakfast & Lunch will be provided'
+      title: t('ministry.music.eventTitle'),
+      venue: t('ministry.music.venue'),
+      date: t('ministry.music.date'),
+      time: t('ministry.music.time'),
+      details: t('ministry.music.details')
     },
     link: '/ministries'
   },
   {
-    name: 'Youth Ministry',
+    name: t('ministry.youth.name'),
     image: '/images/youth-min.jpg',
-    meetingDays: 'Saturdays',
-    caption: 'EMPOWERING THE NEXT GENERATION',
+    meetingDays: t('ministry.youth.meetingDays'),
+    caption: t('ministry.youth.caption'),
     upcomingEvent: {
-      title: 'Youth Retreat',
-      venue: 'Main Hall',
-      date: '9th Sept, 2025',
-      time: '9:00 AM - 3:00 PM',
-      details: 'Breakfast & Lunch will be provided',
+      title: t('ministry.youth.eventTitle'),
+      venue: t('ministry.youth.venue'),
+      date: t('ministry.youth.date'),
+      time: t('ministry.youth.time'),
+      details: t('ministry.youth.details'),
     },
     link: '/ministries'
   },
   {
-    name: "Men's Ministry",
+    name: t('ministry.mens.name'),
     image: '/images/mens-min.jpg',
-    meetingDays: 'Saturdays',
-    caption: 'BUILDING A BRIGHTER FUTURE',
+    meetingDays: t('ministry.mens.meetingDays'),
+    caption: t('ministry.mens.caption'),
     upcomingEvent: {
-      title: 'Men\'s Conference',
-      venue: 'Main Hall',
-      date: '9th Sept, 2025',
-      time: '9:00 AM - 3:00 PM',
-      details: 'Breakfast & Lunch will be provided',
+      title: t('ministry.mens.eventTitle'),
+      venue: t('ministry.mens.venue'),
+      date: t('ministry.mens.date'),
+      time: t('ministry.mens.time'),
+      details: t('ministry.mens.details'),
     },
     link: '/ministries'
   },
   {
-    name: "Women's Ministry",
+    name: t('ministry.womens.name'),
     image: '/images/women-min.jpg',
-    meetingDays: 'Saturdays',
-    caption: 'EMPOWERING WOMEN',
+    meetingDays: t('ministry.womens.meetingDays'),
+    caption: t('ministry.womens.caption'),
     upcomingEvent: {
-      title: 'Women\'s Conference',
-      venue: 'Main Hall',
-      date: '9th Sept, 2025',
-      time: '9:00 AM - 3:00 PM',
-      details: 'Breakfast & Lunch will be provided'
+      title: t('ministry.womens.eventTitle'),
+      venue: t('ministry.womens.venue'),
+      date: t('ministry.womens.date'),
+      time: t('ministry.womens.time'),
+      details: t('ministry.womens.details')
     },
     link: '/ministries'
   },
   {
-    name: "Children Ministry",
+    name: t('ministry.children.name'),
     image: '/images/children-min.jpg',
-    meetingDays: 'Saturdays',
-    caption: 'NURTURING YOUNG MINDS',
+    meetingDays: t('ministry.children.meetingDays'),
+    caption: t('ministry.children.caption'),
     upcomingEvent: {
-      title: 'Children\'s Day',
-      venue: 'Main Hall',
-      date: '9th Sept, 2025',
-      time: '9:00 AM - 3:00 PM',
-      details: 'Breakfast & Lunch will be provided'
+      title: t('ministry.children.eventTitle'),
+      venue: t('ministry.children.venue'),
+      date: t('ministry.children.date'),
+      time: t('ministry.children.time'),
+      details: t('ministry.children.details')
     },
     link: '/ministries'
   },
   {
-    name: "Evangelism Ministry",
+    name: t('ministry.evangelism.name'),
     image: '/images/evangelis-min.jpg',
-    meetingDays: 'Saturdays',
-    caption: 'SPREADING THE WORD',
+    meetingDays: t('ministry.evangelism.meetingDays'),
+    caption: t('ministry.evangelism.caption'),
     upcomingEvent: {
-      title: 'Community Outreach',
-      venue: 'Main Hall',
-      date: '9th Sept, 2025',
-      time: '9:00 AM - 3:00 PM',
-      details: 'Breakfast & Lunch will be provided'
+      title: t('ministry.evangelism.eventTitle'),
+      venue: t('ministry.evangelism.venue'),
+      date: t('ministry.evangelism.date'),
+      time: t('ministry.evangelism.time'),
+      details: t('ministry.evangelism.details')
     },
     link: '/ministries'
   }

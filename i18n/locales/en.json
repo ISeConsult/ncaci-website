@@ -1,0 +1,433 @@
+{
+  "hero": {
+    "welcome": "Welcome to our Church",
+    "title": "BECOME A PART OF OUR COMMUNITY",
+    "button": "LIVE STREAM",
+    "description": "We are a community of believers dedicated to spreading the word of God and serving our neighbors."
+  },
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "ministries": "Ministries",
+    "leadership": "Leadership",
+    "media": "Media",
+    "contact": "Contact",
+    "blog": "Blog",
+    "news": "News",
+    "nibalt": "NIBALT",
+    "activity": "Activity",
+    "directorate": "Directorate",
+    "dashboard": "Dashboard",
+    "gallery": "Gallery",
+    "activities": "Activities",
+    "directorates": "Directorates"
+  },
+  "footer": {
+    "about": "About Us",
+    "aboutText": "We are a community of believers dedicated to spreading the word of God and serving our neighbors.",
+    "quickLinks": "Quick Links",
+    "contact": "Contact Us",
+    "followUs": "Follow Us",
+    "copyright": "© 2024 Church Name. All rights reserved.",
+    "ourMission": "Our Mission",
+    "ourVision": "Our Vision",
+    "ourHistory": "Our History",
+    "leadership": "Leadership",
+    "mainConvocation": "Main Convocation",
+    "subscribeTitle": "Subscribe to get latest updates and news",
+    "emailPlaceholder": "Enter your email",
+    "subscribe": "Subscribe"
+  },
+  "about": {
+    "title": "A Church That's Relevant",
+    "aboutTitle": "About Us",
+    "aboutDesc": "To lead people into a growing relationship with Jesus Christ and to impact the world for His glory.",
+    "involvedTitle": "Get Involved",
+    "involvedDesc": "To be a vibrant community of believers who are passionate about worship, discipleship, and outreach.",
+    "givingTitle": "Giving Back",
+    "givingDesc": "We value authenticity, community, service, and spiritual growth.",
+    "subtitle": "our mission & vision",
+    "heading": "celebrate with us",
+    "readMore": "Read More",
+    "headerSubtitle": "About Us",
+    "headerTitle": "serving the world around us",
+    "vision": {
+      "subtitle": "our mission & vision",
+      "missionTitle": "our mission is to function as a spiritual",
+      "missionDesc": "organism empowered by the Holy Spirit by focusing primarily on kingdom building, equipping the saints for the work of the ministry, and offering spiritual direction to our members and Pastors in an environment of love, fellowship and harmony, ‘and being a catalyst for spiritual growth utilizing innovative, keen, and conceptual thinking’.",
+      "visionTitle": "Vision/Purpose Statement",
+      "visionDesc": "The desire of The New Covenant Apostolic Church Int. is to provide spiritual direction for those endeavouring in the pursuit of holy living. As a people of God, we commit body, Soul and ourselves to the building up of God's Kingdom. The NCACI will continue to develop an affront against the wiles of the adversary through educational avenues, crusades, and other viable means. Many \"Apostolic\" churches have structured themselves to proclaim the gospel of Jesus Christ to the lost and dying world: we support them in their endeavours. Realizing that our churches are experiencing turbulent situations, the need for restoration within our local assemblies is paramount. Evangelism, taken to the next level requires us to remain cognizant that \"The Excellency of the power is of God and not us.\"",
+      "spiritualDirectionTitle": "PROVIDING SPIRITUAL DIRECTION",
+      "spiritualDirectionDesc": "Our Purpose is to provide spiritual direction for those endeavouring in the pursuit of holy living.",
+      "adversaryTitle": "AFFRONT AGAINST THE ADVERSARY",
+      "adversaryDesc": "Through educational avenues, crusades, and other viable means we develop an affront against the wiles of the adversary",
+      "membershipTitle": "CHURCH MEMBERSHIP",
+      "membershipDesc1": "The membership of the church consists of saved individuals who are in the body of Christ. We believe that our members must attend church service regularly as the Scriptures have instructed (Heb, 10:25). True membership depends on one’s acceptance and obedience to the order and office of the church, namely:",
+      "membershipDesc2": "Apostles, Prophets, Pastors, etc. We believe that Jesus Christ is coming again for His church namely the born again people. We believe in baptizing in the name of the Lord Jesus Christ and that every member must be subject to the Pastor and those who have rule over them.",
+      "beliefsSubtitle": "benefits",
+      "beliefsTitle": "our beliefs and doctrines",
+      "beliefs": [
+        {
+          "title": "BAPTISIM BY WATER (IMMERSION)",
+          "description": "We believe that God has a place of punishment for the vices (Rev.20:11-15); we believe in life everlasting. (John3:15, Titus 1:20)"
+        },
+        {
+          "title": "SALVATION",
+          "description": "We believe in a three-fold Salvation of the Spirit, soul and body. (1 Thess. 5:23); man is a tripartite being"
+        },
+        {
+          "title": "THE SECOND COMING OF CHRIST",
+          "description": "We believe in the second coming of Jesus Christ."
+        },
+        {
+          "title": "Divine Punishment for Vices",
+          "description": "We believe that God has a place of punishment for the vices (Rev.20:11-15); we believe in life everlasting. (John3:15, Titus 1:20)"
+        },
+        {
+          "title": "TITHES & OFFERING",
+          "description": "As a non profit making organization, we believe in supporting the Ministry with tithes, freewill offerings and donations. (Gen. 14:20, 28:22, Amos 4:4, Mat. 23:23, Luke 18:12, 1 Cor. 16:2)."
+        },
+        {
+          "title": "MARRIAGE",
+          "description": "We believe what the Scriptures say concerning Marriage and Divorce (Mat, 5:31-32, Mat, 19:4-12, Mark 10:2 - 12, 1 Cor. 7:10-15,)"
+        },
+        {
+          "title": "PRAYER & FASTING",
+          "description": "We believe in the power of prayer and fasting. (Mat 9:15, Mark 9:29)"
+        },
+        {
+          "title": "ASCENDED GIFT MINISTRY",
+          "description": "we believe in ascended gift ministry - Apostles, Prophets, Evangelists, Pastors and Teachers (Eph, 4:11-12)"
+        },
+        {
+          "title": "THE BIBLE",
+          "description": "We believe all that have been revealed in the Holy Scriptures that the Bible is the Supreme Authority in all matters. (II Tim. 3:16)"
+        },
+        {
+          "title": "THE ONE TRUE GOD",
+          "description": "We believe and teach that God Is one. (Gen.1:1. Deut 6:4 Isaiah 43:10 John 1:1, I Tim. 3:16)"
+        },
+        {
+          "title": "THE HOLY TRINITY",
+          "description": "We believe that Father, Son and Holy Ghost are three manifestations of the one God. (I John 5:7-8)"
+        },
+        {
+          "title": "SPIRITUAL REBIRTH",
+          "description": "We believe that all persons are sinners by nature and therefore need to be born of water and the Spirit. (Ps. 51:5, John 3:3-6, Rom 3:23)"
+        },
+        {
+          "title": "DIVINE HEALING",
+          "description": "We believe in Divine Healing as provided in the atonement, the word of God, prayer and laying on of hands. However, members of the Church are free to seek medical help from qualified practitioners necessary. (Mark 16:18, James 5:13-16, Isaiah 53:4-5, 1 Pet 2:24, Matthew 9:12, 11 Kings 20:7, Luke 10:34)"
+        },
+        {
+          "title": "SPIRITUAL GIFTS",
+          "description": "We believe in all the nine spiritual gifts and that they should be operating in the church, and we believe that one person can have all the nine gifts in his ministry (I Cor. 12:8-10.) We believe in the Holy Communion also known as the Lord's Supper and that it should be partaken by all members who are in true fellowship with the Lord. (1 Cor. 11:23-33) We believe in Women's Ministry, that women can be Apostles, Preachers, Teachers, Evangelists, Deaconesses, and Helpers, (Acts 2:8- 9, 10:24, Gal, 3:26-28, Rom. 16-1-6)"
+        }
+      ]
+    }
+  },
+  "ministry": {
+    "meetingDays": "MEETING DAYS",
+    "upcomingEvent": "Upcoming Event",
+    "at": "AT",
+    "time": "Time:",
+    "details": "Details:",
+    "register": "Register",
+    "registerAsMember": "Register As A Member",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "skills": "Skills",
+    "birthDate": "Birth Date",
+    "ministry": "Ministry",
+    "genda": "Genda",
+    "description": "Description",
+    "cancel": "Cancel",
+    "male": "Male",
+    "female": "Female",
+    "namePlaceholder": "Enter your name",
+    "emailPlaceholder": "Enter your email",
+    "phonePlaceholder": "Enter your phone",
+    "skillsPlaceholder": "Enter your skills (comma-separated)",
+    "birthDatePlaceholder": "Select your birth date",
+    "ministryPlaceholder": "Select your ministry",
+    "gendaPlaceholder": "Select your genda",
+    "descriptionPlaceholder": "Enter your description",
+    "music": {
+      "name": "Music Fellowship",
+      "caption": "JOIN OUR MINISTRY",
+      "meetingDays": "Fridays & Saturdays",
+      "eventTitle": "Music at Conference",
+      "venue": "Main Hall",
+      "date": "9th Sept, 2025",
+      "time": "9:00 AM - 3:00 PM",
+      "details": "Breakfast & Lunch will be provided"
+    },
+    "youth": {
+      "name": "Youth Fellowship",
+      "caption": "EMPOWERING THE NEXT GENERATION",
+      "meetingDays": "Saturdays",
+      "eventTitle": "Youth Retreat",
+      "venue": "Main Hall",
+      "date": "9th Sept, 2025",
+      "time": "9:00 AM - 3:00 PM",
+      "details": "Breakfast & Lunch will be provided"
+    },
+    "mens": {
+      "name": "Men's Fellowship",
+      "caption": "BUILDING A BRIGHTER FUTURE",
+      "meetingDays": "Saturdays",
+      "eventTitle": "Men's Conference",
+      "venue": "Main Hall",
+      "date": "9th Sept, 2025",
+      "time": "9:00 AM - 3:00 PM",
+      "details": "Breakfast & Lunch will be provided"
+    },
+    "womens": {
+      "name": "Women's Fellowship",
+      "caption": "EMPOWERING WOMEN",
+      "meetingDays": "Saturdays",
+      "eventTitle": "Women's Conference",
+      "venue": "Main Hall",
+      "date": "9th Sept, 2025",
+      "time": "9:00 AM - 3:00 PM",
+      "details": "Breakfast & Lunch will be provided"
+    },
+    "children": {
+      "name": "Children Fellowship",
+      "caption": "NURTURING YOUNG MINDS",
+      "meetingDays": "Saturdays",
+      "eventTitle": "Children's Day",
+      "venue": "Main Hall",
+      "date": "9th Sept, 2025",
+      "time": "9:00 AM - 3:00 PM",
+      "details": "Breakfast & Lunch will be provided"
+    },
+    "evangelism": {
+      "name": "Evangelism Fellowship",
+      "caption": "SPREADING THE WORD",
+      "meetingDays": "Saturdays",
+      "eventTitle": "Community Outreach",
+      "venue": "Main Hall",
+      "date": "9th Sept, 2025",
+      "time": "9:00 AM - 3:00 PM",
+      "details": "Breakfast & Lunch will be provided"
+    }
+  },
+  "stream": {
+    "subtitle": "watch and listen",
+    "title": "the benefits of joining our church",
+    "items": [
+      {
+        "title": "watch and listen to our sermons",
+        "description": "lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "title": "watch and listen to our sermons",
+        "description": "lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "title": "watch and listen to our sermons",
+        "description": "lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "title": "watch and listen to our sermons",
+        "description": "lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      }
+    ]
+  },
+  "liveStream": {
+    "subtitle": "live stream",
+    "title": "join us and become part of something great",
+    "upcomingEvent": "upcoming event",
+    "day": "20",
+    "month": "July",
+    "eventTitle": "prayer conference",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?",
+    "time1": "Friday 23:39 IST",
+    "time2": "Saturday 23:39 ISD",
+    "location1": "East Legon Assembly",
+    "location2": "Accra-Ghana",
+    "liveStreamButton": "LIVE STREAM",
+    "registerButton": "REGISTER",
+    "modalTitle": "Register A Course",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "genda": "Genda",
+    "male": "Male",
+    "female": "Female"
+  },
+  "cta": {
+    "title": "new covenant institution of bible & advanced leadership training - nibalt",
+    "description": "Admission ongoing for the 2025/2026 academic year. For more information call 0246411587 / 0247543762/ 0541399801",
+    "button": "START HERE",
+    "modalTitle": "Register A Course",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "birthDate": "Birth Date",
+    "course": "Course",
+    "duration": "Duration",
+    "descriptionLabel": "Description",
+    "namePlaceholder": "Enter your name",
+    "emailPlaceholder": "Enter your email",
+    "phonePlaceholder": "Enter your phone",
+    "birthDatePlaceholder": "Select your birth date",
+    "coursePlaceholder": "Select your course",
+    "durationPlaceholder": "Select your duration",
+    "descriptionPlaceholder": "Enter your description",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "twoYearsDiploma": "two years diploma",
+    "oneYearCertificate": "one year certificate",
+    "Theology": "Theology",
+    "Christology": "Christology",
+    "Biobiology": "Biobiology",
+    "Evangelization": "Evangelization",
+    "History": "History",
+    "Communication": "Communication",
+    "oneYear": "1 year",
+    "twoYears": "2 years"
+  },
+  "leadership": {
+    "headerSubtitle": "Leadership",
+    "headerTitle": "Empowering young hearts to grow, question, and shine as God’s light in the world.",
+    "tabs": {
+      "executiveCouncil": "EXECUTIVE COUNCIL",
+      "districtAreaHeads": "DISTRICT & AREA HEADS",
+      "nationalMenFellowshipExecutive": "NATIONAL MEN FELLOWSHIP EXECUTIVE",
+      "nationalYouthExecutive": "NATIONAL YOUTH EXECUTIVE"
+    }
+  },
+  "ministries": {
+    "headerSubtitle": "Ministries",
+    "headerTitle": "Empowering young hearts to grow, question, and shine as God’s light in the world."
+  },
+  "nibalt": {
+    "headerSubtitle": "NIBALT",
+    "headerTitle": "Empowering young hearts to grow, question, and shine as God’s light in the world.",
+    "tabs": {
+      "history": "History",
+      "facultyManagement": "Faculty & Management",
+      "academicPrograms": "Academic Programs",
+      "admissionRequirements": "Admission Requirements"
+    },
+    "history": {
+      "title": "NIBALT HISTORY",
+      "paragraph1": "NIBALT was born out of a great desire and a vision of our founder, Reverend Chris Diaba. His vision was to establish a higher education institution that would train leaders and ministers. He wanted to equip disciples to effectively preach and teach the gospel both domestically and globally. NIBALT started in 1982 started at the Grace Temple(now Chris Diaba Memorial Temple) of the New Covenant Church Int. with 12 students including Rev. Akofa McAvor and Rev. Martin Agbemabiesse",
+      "paragraph2": "In February 1982, Bishop Ofoe Wright, of the Methodist Church of Ghana was tasked to convert the Bible School into an institution of international repute; he became the first Director of Studies. Rev Akofa Mcavor took over as the Second Director of Studies took over, with a well of wisdom, vision, and integrity. Rev. Frank McAvor became the Director of NIBALT in 1994. He is currently the President of NIBALT. Within its time of existence, NIBALT has trained over 150 Pastors.",
+      "graduations": "Graduations",
+      "coreValuesTitle": "core values",
+      "coreValuesPara1": "The membership of the church consists of saved individuals who are in the body of Christ. We believe that our members must attend church service regularly as the Scriptures have instructed (Heb, 10:25). True membership depends on one’s acceptance and obedience to the order and office of the church, namely:",
+      "coreValuesPara2": "Apostles, Prophets, Pastors, etc. We believe that Jesus Christ is coming again for His church namely the born again people. We believe in baptizing in the name of the Lord Jesus Christ and that every member must be subject to the Pastor and those who have rule over them.",
+      "coreValuesPara3": "The Pastor is expected to take further actions against any member not complying with the rules and regulations of the church, in accordance with the Scriptures. We expect our members should endeavor to keep the unity of the Spirit in the bond of peace. (Eph. 4:3)",
+      "missions": {
+        "missionStatement": {
+          "title": "mission statement",
+          "desc": "To set men free and prepare them to fulfill the Great Commission and commands given by our Lord and Savior, Jesus Christ."
+        },
+        "visionStatement": {
+          "title": "vision statement",
+          "desc": "To educate, enlighten, equip, enhance, encourage, and empower men and women to achieve excellence in various fields of endeavour internationally."
+        },
+        "motto": {
+          "title": "motto",
+          "desc": "The new covenant apostolic church international"
+        }
+      }
+    },
+    "faculty": {
+      "title": "leadership and faculty",
+      "description": "At NIBALT, we are blessed with a team of dedicated leaders and faculty members who are passionate about equipping individuals to serve God and humanity with excellence. Our management board provides strategic guidance and ensures the vision and mission of NIBALT are realized. The faculty members bring a wealth of knowledge, experience, and spiritual depth to create a dynamic and transformative learning environment.",
+      "boardTitle": "management board",
+      "boardDescription": "The Management Board oversees the operations and direction of NIBALT, ensuring our programs align with biblical principles and meet the needs of our students. Each member is committed to providing strong leadership and fostering a nurturing community of faith and learning.",
+      "membersTitle": "members of faculty",
+      "membersDescription": "The faculty at NIBALT consists of distinguished scholars and ministry leaders who are passionate about teaching, mentoring, and preparing students for impactful ministry and leadership roles. Each member combines academic rigor with practical experience, ensuring students receive a holistic education.",
+      "conclusion": "Together, our leaders and faculty exemplify the values of excellence, integrity, and dedication. They are committed to nurturing the next generation of Christian leaders, empowering them to fulfill the Great Commission and serve their communities with unwavering faith."
+    },
+    "admission": {
+      "title": "To join the NIBALT community, applicants must meet the following requirements:",
+      "applicationFormTitle": "Completed Application Form:",
+      "applicationFormDesc": "Prospective students are required to fill out the official NIBALT application form, ensuring all sections are accurately completed.",
+      "transcriptTitle": "Senior High School Transcript:",
+      "transcriptDesc": "Applicants must submit an official high school transcript. To be deemed official, the transcript must come from a high school recognized, authorized, or approved by the applicant’s country of legal residence.",
+      "collegeTranscriptsTitle": "College Transcripts (if applicable):",
+      "collegeTranscriptsDesc": "If the applicant has previously attended any college, they must provide transcripts from those institutions as part of the application process.",
+      "referenceLetterTitle": "Reference Letter (Optional):",
+      "referenceLetterDesc": "At the discretion of the Admissions Director or Admissions Committee, a reference letter from a senior pastor or other church leader may be requested to further assess the applicant’s readiness for the program.",
+      "admissionNote": "New students are admitted at the start of the October or February term of the academic year."
+    },
+    "academic": {
+      "header": "academic programs at nibalt",
+      "description": "At NIBALT, we are committed to providing a comprehensive and enriching learning experience that equips students to serve as effective leaders in ministry and other fields of endeavor. Our academic programs are designed to combine biblical truth, academic excellence, and practical training, ensuring students are well-prepared for impactful service locally and globally.",
+      "programs": "programs",
+      "certificateTitle": "one-year certificate program (2 semesters)",
+      "certificateDesc": "This foundational program provides a solid introduction to key theological and ministerial disciplines. It is perfect for individuals seeking to deepen their biblical knowledge and develop practical ministry skills.",
+      "courses": "courses",
+      "diplomaTitle": "two-year diploma program (4 semesters)",
+      "diplomaDesc": "This foundational program provides a solid introduction to key theological and ministerial disciplines. It is perfect for individuals seeking to deepen their biblical knowledge and develop practical ministry skills.",
+      "learningModes": "learning modes",
+      "learningDesc": "We understand the diverse needs of our students and offer flexible learning options:",
+      "hybridLearning": "Hybrid Learning",
+      "hybridDesc": "A blend of in-person and online lectures for a well-rounded academic experience",
+      "sandwichCourses": "Sandwich Courses",
+      "sandwichDesc": "Tailored short courses during long vacations for tertiary students, including subjects like Evangelism, Church Administration, Counseling, and Christology."
+    }
+  },
+  "blog": {
+    "subtitle": "read our blog",
+    "title": "share, inspire, innovate",
+    "blogs": [
+      {
+        "category": "relationship",
+        "title": "How to be a better husband",
+        "author": "michael addo",
+        "date": "tuesday july 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "love",
+        "title": "Children of God",
+        "author": "michael addo",
+        "date": "tuesday july 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "Theology",
+        "title": "biblic teaching",
+        "author": "michael addo",
+        "date": "tuesday july 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "Sermons",
+        "title": "watch and listen to our sermons",
+        "author": "michael addo",
+        "date": "tuesday july 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      }
+    ]
+  },
+  "belief": {
+    "title": "our beliefs"
+  },
+  "contact": {
+    "subtitle": "contact",
+    "title": "get in touch with us",
+    "formTitle": "Contact form:",
+    "name": "Name",
+    "namePlaceholder": "Enter your name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "subject": "Subject",
+    "subjectPlaceholder": "Enter subject",
+    "message": "Message",
+    "messagePlaceholder": "Enter your message",
+    "sendMessage": "Send Message",
+    "addressLabel": "address:",
+    "address": "P. O. Box 3265",
+    "contactDetailsLabel": "contact details:",
+    "findUsLabel": "find us here:"
+  }
+}

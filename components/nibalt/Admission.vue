@@ -2,43 +2,43 @@
   <div class="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
     <div class="py-12">
       <h1 class="text-xl font-bold text-center lg:text-left uppercase text1 mb-4 text-wrap lg:text-nowrap">
-        To join the NIBALT community, applicants must meet the following requirements:
+        {{ $t('nibalt.admission.title') }}
       </h1>
     </div>
 
     <ul class="list-disc pl-6 space-y-8">
       <li>
-        <span class="font-bold text-base">Completed Application Form:</span>
+        <span class="font-bold text-base">{{ $t('nibalt.admission.applicationFormTitle') }}</span>
         <p class="text-base font-light text-left capitalize leading-relaxed mt-2">
-          Prospective students are required to fill out the official NIBALT application form, ensuring all sections are accurately completed.
+          {{ $t('nibalt.admission.applicationFormDesc') }}
         </p>
       </li>
 
       <li>
-        <span class="font-bold text-base">Senior High School Transcript:</span>
+        <span class="font-bold text-base">{{ $t('nibalt.admission.transcriptTitle') }}</span>
         <p class="text-base font-light text-left capitalize leading-relaxed mt-2">
-          Applicants must submit an official high school transcript. To be deemed official, the transcript must come from a high school recognized, authorized, or approved by the applicant’s country of legal residence.
+          {{ $t('nibalt.admission.transcriptDesc') }}
         </p>
       </li>
 
       <li>
-        <span class="font-bold text-base">College Transcripts (if applicable):</span>
+        <span class="font-bold text-base">{{ $t('nibalt.admission.collegeTranscriptsTitle') }}</span>
         <p class="text-base font-light text-left capitalize leading-relaxed mt-2">
-          If the applicant has previously attended any college, they must provide transcripts from those institutions as part of the application process.
+          {{ $t('nibalt.admission.collegeTranscriptsDesc') }}
         </p>
       </li>
 
       <li>
-        <span class="font-bold text-base">Reference Letter (Optional):</span>
+        <span class="font-bold text-base">{{ $t('nibalt.admission.referenceLetterTitle') }}</span>
         <p class="text-base font-light text-left capitalize leading-relaxed mt-2">
-          At the discretion of the Admissions Director or Admissions Committee, a reference letter from a senior pastor or other church leader may be requested to further assess the applicant’s readiness for the program.
+          {{ $t('nibalt.admission.referenceLetterDesc') }}
         </p>
       </li>
     </ul>
 
     <div class="mt-8 flex flex-col items-start justify-start">
       <p class="text-base font-light text-left capitalize leading-relaxed">
-        New students are admitted at the start of the October or February term of the academic year.
+        {{ $t('nibalt.admission.admissionNote') }}
       </p>
     </div>
   </div>

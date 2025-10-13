@@ -6,14 +6,14 @@
             </div>
             <div>
                 <div class="flex flex-col justify-center mb-10">
-                    <h1 class="text-4xl font-bold text-left uppercase text1 mb-6">NIBALT HISTORY</h1>
+                    <h1 class="text-4xl font-bold text-left uppercase text1 mb-6">{{ $t('nibalt.history.title') }}</h1>
                 </div>
                 <div class="flex flex-col justify-center space-y-8">
                     <p class="text-sm font-thin text-left capitalize">
-                        NIBALT was born out of a great desire and a vision of our founder, Reverend Chris Diaba. His vision was to establish a higher education institution that would train leaders and ministers. He wanted to equip disciples to effectively preach and teach the gospel both domestically and globally. NIBALT started in 1982 started at the Grace Temple(now Chris Diaba Memorial Temple) of the New Covenant Church Int. with 12 students including Rev. Akofa McAvor and Rev. Martin Agbemabiesse
+                        {{ $t('nibalt.history.paragraph1') }}
                     </p>
                     <p class="text-sm font-thin text-left capitalize">
-                        In February 1982, Bishop Ofoe Wright, of the Methodist Church of Ghana was tasked to convert the Bible School into an institution of international repute; he became the first Director of Studies. Rev Akofa Mcavor took over as the Second Director of Studies took over, with a well of wisdom, vision, and integrity. Rev. Frank McAvor became the Director of NIBALT in 1994. He is currently the President of NIBALT. Within its time of existence, NIBALT has trained over 150 Pastors.
+                        {{ $t('nibalt.history.paragraph2') }}
                     </p>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                 <img src="/images/graduation.jpg" alt="graduation" class="w-full h-full object-cover" />
             </div>
             <div class="absolute bottom-0 right-0 py-4 w-full">
-                <p class="text-[50px] font-bold text-center uppercase text-white relative z-50">Graduations</p>
+                <p class="text-[50px] font-bold text-center uppercase text-white relative z-50">{{ $t('nibalt.history.graduations') }}</p>
             </div>
             <div class="bg-black inset-0 opacity-50 absolute"></div>
         </div>
@@ -37,17 +37,17 @@
             </div>
             <div>
                 <div class="flex flex-col justify-center mb-6">
-                    <h1 class="text-4xl font-bold text-left uppercase text1">core values</h1>
+                    <h1 class="text-4xl font-bold text-left uppercase text1">{{ $t('nibalt.history.coreValuesTitle') }}</h1>
                 </div>
                 <div class="flex flex-col justify-center space-y-8">
                     <p class="text-sm font-thin text-left capitalize">
-                        The membership of the church consists of saved individuals who are in the body of Christ. We believe that our members must attend church service regularly as the Scriptures have instructed (Heb, 10:25). True membership depends on one’s acceptance and obedience to the order and office of the church, namely:
+                        {{ $t('nibalt.history.coreValuesPara1') }}
                     </p>
                     <p class="text-sm font-thin text-left capitalize">
-                        Apostles, Prophets, Pastors, etc. We believe that Jesus Christ is coming again for His church namely the born again people. We believe in baptizing in the name of the Lord Jesus Christ and that every member must be subject to the Pastor and those who have rule over them.
+                        {{ $t('nibalt.history.coreValuesPara2') }}
                     </p>
                     <p class="text-sm font-thin text-left capitalize">
-                        The Pastor is expected to take further actions against any member not complying with the rules and regulations of the church, in accordance with the Scriptures. We expect our members should endeavor to keep the unity of the Spirit in the bond of peace. (Eph. 4:3)
+                        {{ $t('nibalt.history.coreValuesPara3') }}
                     </p>
                 </div>
             </div>
@@ -73,16 +73,16 @@
 
 const missions = [
     {
-        title: 'mission statement',
-        desc: "To set men free and prepare them to fulfill the Great Commission and commands given by our Lord and Savior, Jesus Christ."
+        title: $t('nibalt.history.missions.missionStatement.title'),
+        desc: $t('nibalt.history.missions.missionStatement.desc')
     },
     {
-        title: 'vision statement',
-        desc: "To educate, enlighten, equip, enhance, encourage, and empower men and women to achieve excellence in various fields of endeavour internationally."
+        title: $t('nibalt.history.missions.visionStatement.title'),
+        desc: $t('nibalt.history.missions.visionStatement.desc')
     },
     {
-        title: 'motto',
-        desc: "The new covenant apostolic church international"
+        title: $t('nibalt.history.missions.motto.title'),
+        desc: $t('nibalt.history.missions.motto.desc')
     }
 ]
 

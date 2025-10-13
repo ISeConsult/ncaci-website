@@ -3,34 +3,34 @@
         <div class="flex flex-col justify-center items-center  mx-auto max-w-7xl py-12">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div class="md:col-span-2">
-                    <h1 class="text-md font-bold text-left mb-2 uppercase text-black">Contact form:</h1>
+                    <h1 class="text-md font-bold text-left mb-2 uppercase text-black">{{ $t('contact.formTitle') }}</h1>
                     <form @submit.prevent="handleSubmit" class="w-full space-y-4">
                         <TextField
                             v-model="form.name"
-                            label="Name"
-                            placeholder="Enter your name"
+                            :label="$t('contact.name')"
+                            :placeholder="$t('contact.namePlaceholder')"
                             required
                         />
 
                         <TextField
                             v-model="form.email"
                             type="email"
-                            label="Email"
-                            placeholder="Enter your email"
+                            :label="$t('contact.email')"
+                            :placeholder="$t('contact.emailPlaceholder')"
                             required
                         />
 
                         <TextField
                             v-model="form.subject"
-                            label="Subject"
-                            placeholder="Enter subject"
+                            :label="$t('contact.subject')"
+                            :placeholder="$t('contact.subjectPlaceholder')"
                             required
                         />
 
                         <Textarea
                             v-model="form.message"
-                            label="Message"
-                            placeholder="Enter your message"
+                            :label="$t('contact.message')"
+                            :placeholder="$t('contact.messagePlaceholder')"
                             rows="5"
                             required
                         />
@@ -39,23 +39,23 @@
                             type="submit"
                             class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-200"
                         >
-                        Send Message
+                        {{ $t('contact.sendMessage') }}
                     </button>
                 </form>
                 </div>
                 <div>
                     <div class="mb-10">
-                        <p class="text-sm font-thin text-left capitalize text-black mb-1">address:</p>
-                        <h3 class="font-bold text-lg text-black uppercase">P. O. Box 3265</h3>
+                        <p class="text-sm font-thin text-left capitalize text-black mb-1">{{ $t('contact.addressLabel') }}</p>
+                        <h3 class="font-bold text-lg text-black uppercase">{{ $t('contact.address') }}</h3>
                     </div>
 
                     <div class="mb-10">
-                        <p class="text-sm font-thin text-left capitalize text-black mb-1">contact details:</p>
+                        <p class="text-sm font-thin text-left capitalize text-black mb-1">{{ $t('contact.contactDetailsLabel') }}</p>
                         <h3 class="font-bold text-lg text-black">+233 302 663 239 | 0302 631 639 <br/>info@thencacint.org</h3>
                     </div>
 
                     <div class="flex flex-col items-start space-y-2">
-                        <p class="text-sm font-thin text-left capitalize text-black mb-1">find use here:</p>
+                        <p class="text-sm font-thin text-left capitalize text-black mb-1">{{ $t('contact.findUsLabel') }}</p>
                         <div class="flex items-start space-x-2">
                             <nuxt-link to="/" class="text-black hover:text-blue-600 transition-colors duration-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="w-6 h-6" viewBox="0 0 50 50">

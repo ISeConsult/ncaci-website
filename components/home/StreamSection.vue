@@ -2,8 +2,8 @@
     <div class="bg-[#ffeded] pb-8">
         <div class="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
             <div class="flex flex-col justify-center items-center pt-10">
-                <span class="text-xs font-thin text-center uppercase text-black mb-4">watch and listen</span>
-                <h1 class="text-4xl font-bold text-center uppercase text-black mb-2 max-w-md">the benefits of joining our church</h1>
+                <span class="text-xs font-thin text-center uppercase text-black mb-4">{{ $t('stream.subtitle') }}</span>
+                <h1 class="text-4xl font-bold text-center uppercase text-black mb-2 max-w-md">{{ $t('stream.title') }}</h1>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
@@ -39,26 +39,29 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const stream = [
     {
-        title: 'watch and listen to our sermons',
-        description: 'lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
+        title: t('stream.items[0].title'),
+        description: t('stream.items[0].description'),
         Image: '/images/stream1.jpg'
     },
     {
-        title: 'watch and listen to our sermons',
-        description: 'lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
+        title: t('stream.items[1].title'),
+        description: t('stream.items[1].description'),
         Image: '/images/stream2.jpg'
     },
     {
-        title: 'watch and listen to our sermons',
-        description: 'lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
+        title: t('stream.items[2].title'),
+        description: t('stream.items[2].description'),
         Image: '/images/stream3.jpg'
     },
     {
-        title: 'watch and listen to our sermons',
-        description: 'lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
+        title: t('stream.items[3].title'),
+        description: t('stream.items[3].description'),
         Image: '/images/stream4.jpg'
     },
 ]

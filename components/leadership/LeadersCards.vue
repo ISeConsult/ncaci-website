@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="mb-6">
             <Tabs
-            :tabs="['EXECUTIVE COUNCIL', 'DISTRICT & AREA HEADS', 'NATIONAL MEN FELLOWSHIP EXECUTIVE', 'NATIONAL MEN FELLOWSHIP EXECUTIVE', 'NATIONAL YOUTH EXECUTIVE']"
+            :tabs="[$t('leadership.tabs.executiveCouncil'), $t('leadership.tabs.districtAreaHeads'), $t('leadership.tabs.nationalMenFellowshipExecutive'), $t('leadership.tabs.nationalMenFellowshipExecutive'), $t('leadership.tabs.nationalYouthExecutive')]"
             v-model="activeTab"
             @update:modelValue="onTabChange"
         />

@@ -2,13 +2,13 @@
     <div>
         <div class="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
             <div class="flex flex-col justify-center items-center pt-10">
-                <span class="text-xs font-thin text-center uppercase text1 mb-4">read our blog</span>
-                <h1 class="text-4xl font-bold text-center uppercase text1 mb-2 max-w-lg">share, inspire, innovate</h1>
+                <span class="text-xs font-thin text-center uppercase text1 mb-4">{{ $t('blog.subtitle') }}</span>
+                <h1 class="text-4xl font-bold text-center uppercase text1 mb-2 max-w-lg">{{ $t('blog.title') }}</h1>
             </div>
 
             <div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full mt-8">
-                    <div v-for="(blog, index) in blogs" :key="index" class="blog-card flex items-start space-x-4 bg-[#ffeded] bg-opacity-80 p-6">
+                    <div v-for="blog in blogs" :key="blog.title" class="blog-card flex items-start space-x-4 bg-[#ffeded] bg-opacity-80 p-6">
                         <div class="p-6">
                             <div class="flex mb-10">
                                 <p class="text-sm font-bold text-left uppercase text-[#FF4949]">{{ blog.category }}</p>
@@ -32,38 +32,76 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 
-const blogs = [
-    {
-        category: 'relationship',
-        title: 'How to be a better husband',
-        author: 'michael addo',
-        date: 'tuesday july 20, 2025',
-        description: 'lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
-    },
-    {
-        category: 'love',
-        title: 'Children of God',
-        author: 'michael addo',
-        date: 'tuesday july 20, 2025',
-        description: 'lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
-    },
-    {
-        category: 'Theology',
-        title: 'biblic teaching',
-        author: 'michael addo',
-        date: 'tuesday july 20, 2025',
-        description: 'lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
-    },
-    {
-        category: 'Sermons',
-        title: 'watch and listen to our sermons',
-        author: 'michael addo',
-        date: 'tuesday july 20, 2025',
-        description: 'lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
-    }
-]
+const { locale } = useI18n();
 
+const blogs = computed(() => {
+  if (locale.value === 'en') {
+    return [
+      {
+        "category": "relationship",
+        "title": "How to be a better husband",
+        "author": "michael addo",
+        "date": "tuesday july 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "love",
+        "title": "Children of God",
+        "author": "michael addo",
+        "date": "tuesday july 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "Theology",
+        "title": "biblic teaching",
+        "author": "michael addo",
+        "date": "tuesday july 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "Sermons",
+        "title": "watch and listen to our sermons",
+        "author": "michael addo",
+        "date": "tuesday july 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      }
+    ];
+  } else {
+    return [
+      {
+        "category": "relation",
+        "title": "Comment être un meilleur mari",
+        "author": "michael addo",
+        "date": "mardi juillet 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "amour",
+        "title": "Enfants de Dieu",
+        "author": "michael addo",
+        "date": "mardi juillet 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "Théologie",
+        "title": "enseignement biblique",
+        "author": "michael addo",
+        "date": "mardi juillet 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      },
+      {
+        "category": "Sermons",
+        "title": "regarder et écouter nos sermons",
+        "author": "michael addo",
+        "date": "mardi juillet 20, 2025",
+        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
+      }
+    ];
+  }
+});
 </script>
 
 <style scoped>

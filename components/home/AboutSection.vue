@@ -3,7 +3,7 @@
     <div class="blurred-bg absolute inset-0"></div>
     <div class="relative z-10 flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h1 class="text-4xl font-bold text-center my-10 uppercase text1">
-        A Church That's Relevant
+        {{ $t('about.title') }}
       </h1>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-8">
@@ -27,9 +27,11 @@
 
      <!--Missionary Section-->
      <div class="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
-      <span class="text-xs font-thin text-center uppercase text1 mb-4">our missisosn & vision</span>
-      <h1 class="text-2xl font-bold text-center uppercase text1 mb-2">celebrate with us</h1>
-      <p class="text-1 font-semibold text-sm">Read More <ArrowRightIcon class="w-4 h-4 inline-block"/></p>
+      <span class="text-xs font-thin text-center uppercase text1 mb-4">{{ $t('about.subtitle') }}</span>
+      <h1 class="text-2xl font-bold text-center uppercase text1 mb-2">{{ $t('about.heading') }}</h1>
+      <NuxtLink to="/about" class="cursor-pointer">
+        <p class="text-1 font-semibold text-sm">{{ $t('about.readMore') }} <ArrowRightIcon class="w-4 h-4 inline-block"/></p>
+      </NuxtLink>
      </div>
   </div>
 </template>
@@ -40,22 +42,19 @@ import MinistrySection from './MinistrySection.vue'
 
 const aboutData = [
   {
-    title: 'About Us',
+    title: $t('about.aboutTitle'),
     icon: HomeIcon,
-    description:
-      'To lead people into a growing relationship with Jesus Christ and to impact the world for His glory.',
+    description: $t('about.aboutDesc'),
   },
   {
-    title: 'Get Involved',
+    title: $t('about.involvedTitle'),
     icon: UserIcon,
-    description:
-      'To be a vibrant community of believers who are passionate about worship, discipleship, and outreach.',
+    description: $t('about.involvedDesc'),
   },
   {
-    title: 'Giving Back',
+    title: $t('about.givingTitle'),
     icon: HeartIcon,
-    description:
-      'We value authenticity, community, service, and spiritual growth.',
+    description: $t('about.givingDesc'),
   },
 ]
 </script>

@@ -63,6 +63,8 @@ declare module '@heroicons/vue/24/outline' {
   export const InstagramIcon: Component
   export const TwitterIcon: Component
   export const LinkedinIcon: Component
+  export const EnglishIcon: Component
+  export const FrenchIcon: Component
 }
 
 declare module '@heroicons/vue/24/solid' {

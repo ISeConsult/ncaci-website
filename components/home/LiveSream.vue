@@ -2,8 +2,8 @@
     <div>
         <div class="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
             <div class="flex flex-col justify-center items-center pt-10">
-                <span class="text-xs font-thin text-center uppercase text1 mb-4">live stream</span>
-                <h1 class="text-lg md:text-4xl font-bold text-center uppercase text1 mb-2 max-w-md">join us and become part of something great</h1>
+                <span class="text-xs font-thin text-center uppercase text1 mb-4">{{ $t('liveStream.subtitle') }}</span>
+                <h1 class="text-lg md:text-4xl font-bold text-center uppercase text1 mb-2 max-w-md">{{ $t('liveStream.title') }}</h1>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-8">
@@ -11,26 +11,24 @@
                     <div class="flex items-center">
                         <div class="w-full space-y-6" >
                             <div class="flex items-center justify-between">
-                                <span class="text-xs font-thin text-center uppercase text-gray-100">upcoming event</span>
+                                <span class="text-xs font-thin text-center uppercase text-gray-100">{{ $t('liveStream.upcomingEvent') }}</span>
                                 <div class="flex flex-col items-start">
-                                    <h1 class="text-4xl font-bold text-center uppercase text-gray-100 mb-2">20</h1>
-                                    <p class="text-xs font-thin text-center uppercase text-gray-100">July</p>
+                                    <h1 class="text-4xl font-bold text-center uppercase text-gray-100 mb-2">{{ $t('liveStream.day') }}</h1>
+                                    <p class="text-xs font-thin text-center uppercase text-gray-100">{{ $t('liveStream.month') }}</p>
                                 </div>
                             </div>
                             <div class="mt-4">
-                                <h1 class="text-2xl font-bold text-left uppercase text-gray-100 mb-2">prayer<br></br> conference</h1>
+                                <h1 class="text-2xl font-bold text-left uppercase text-gray-100 mb-2">{{ $t('liveStream.eventTitle') }}</h1>
                             </div>
                             <div class="mt-4">
-                                <p class="text-xs font-thin text-left uppercase text-gray-100">Lorem ipsum dolor sit amet<br/> consectetur adipisicing elit. Vel, magni?</p>
+                                <p class="text-xs font-thin text-left uppercase text-gray-100">{{ $t('liveStream.description') }}</p>
                             </div>
                             <div class="mt-6 flex items-start gap-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 text-gray-100">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
                                 <div>
-                                    <p class="text-xs font-thin text-left uppercase text-gray-100">Friday 23:39 IST<br/> 
-                                        Saturday 23:39 ISD
-                                    </p>
+                                    <p class="text-xs font-thin text-left uppercase text-gray-100">{{ $t('liveStream.time1') }}<br/>{{ $t('liveStream.time2') }}</p>
                                 </div>
                             </div>
                             <div class="mt-6 flex items-start gap-4">
@@ -40,9 +38,7 @@
                                 </svg>
 
                                 <div>
-                                    <p class="text-xs font-thin text-left uppercase text-gray-100">East Legon Assembly<br/> 
-                                        Accra-Ghana
-                                    </p>
+                                    <p class="text-xs font-thin text-left uppercase text-gray-100">{{ $t('liveStream.location1') }}<br/>{{ $t('liveStream.location2') }}</p>
                                 </div>
                             </div>
                             <div class="mt-16 flex items-center gap-5">
@@ -51,14 +47,14 @@
                                     @click="showSocial = !showSocial"
                                     class="flex max-w-max items-center justify-center rounded-md bg-red-600 py-2 px-4 text-base font-medium text-white hover:bg-red-700 transition-colors duration-200"
                                     >
-                                    LIVE STREAM
+                                    {{ $t('liveStream.liveStreamButton') }}
                                 </button>
                                 <button
                                     type="submit"
                                     @click="openModal"
                                     class="flex max-w-max items-center justify-center rounded-md bg-white py-2 px-4 text-base font-medium text-black hover:bg-white/90 transition-colors duration-200"
                                     >
-                                    REGISTER
+                                    {{ $t('liveStream.registerButton') }}
                                 </button>
                             </div>
                             <div v-if="showSocial" class="mt-4 flex space-x-10 bg-blue-200/80 p-4 items-center justify-center rounded">
@@ -93,20 +89,20 @@
         </div>
 
 
-        <Modal v-model:is-open="isModalOpen" title="Register A Course" size="2xl" @close="closeModal">
+        <Modal v-model:is-open="isModalOpen" :title="$t('liveStream.modalTitle')" size="2xl" @close="closeModal">
             <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-2">
                     <div class="mb-4">
-                        <TextField v-model="formData.name" label="Name" required />
+                        <TextField v-model="formData.name" :label="$t('liveStream.name')" required />
                     </div>
                     <div class="mb-4">
-                        <TextField v-model="formData.email" label="Email" required />
+                        <TextField v-model="formData.email" :label="$t('liveStream.email')" required />
                     </div>
                     <div class="mb-4">
-                        <TextField v-model="formData.phone" label="Phone" required />
+                        <TextField v-model="formData.phone" :label="$t('liveStream.phone')" required />
                     </div>
                     <div class="mb-4">
-                        <Select v-model="formData.genda" label="Genda" :options="['Male', 'Female']" clearable required />
+                        <Select v-model="formData.genda" :label="$t('liveStream.genda')" :options="[$t('liveStream.male'), $t('liveStream.female')]" clearable required />
                     </div>
                 </div>
             </div>

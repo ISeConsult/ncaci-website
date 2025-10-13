@@ -31,7 +31,7 @@
               <!-- Solutions -->
               <div>
                 <h3 class="text-md font-semibold text-white tracking-wider uppercase">
-                  Quick Links
+                  {{ $t('footer.quickLinks') }}
                 </h3>
                 <ul class="mt-4 space-y-4">
                   <li v-for="item in solutions" :key="item.name" class="flex">
@@ -46,7 +46,7 @@
               <!-- Contact -->
               <div class="mt-0">
                 <h3 class="text-md font-semibold text-white tracking-wider uppercase">
-                  Contact
+                  {{ $t('footer.contact') }}
                 </h3>
                 <div class="mt-4 flex">
                   <div v-for="item in contact " :key="item.href" class="flex items-center space-x-4">
@@ -64,7 +64,7 @@
               <div class="space-y-6">
                 <div>
                   <h3 class="text-4xl font-semibold text-gray-300 tracking-wider uppercase">
-                    Subscribe to get latest updates and news
+                    {{ $t('footer.subscribeTitle') }}
                   </h3>
                 </div>
                 <div class="mt-4 lg:mt-0">
@@ -77,14 +77,14 @@
                       autocomplete="email"
                       required
                       class="w-full min-w-0 appearance-none rounded-md border border-gray-600 bg-gray-800 py-2 px-4 text-base text-white placeholder-gray-400 sm:max-w-xs focus:outline-none"
-                      placeholder="Enter your email"
+                      :placeholder="$t('footer.emailPlaceholder')"
                     >
                     <div class="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
                       <button
                         type="submit"
                         class="flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-base font-medium text-white hover:bg-red-700 focus:outline-none transition-colors duration-200"
                       >
-                        Subscribe
+                        {{ $t('footer.subscribe') }}
                       </button>
                     </div>
                   </form>
@@ -103,11 +103,11 @@ import { PhoneIcon, EnvelopeIcon, MapPinIcon } from '@heroicons/vue/24/outline'
 
 
 const solutions = [
-  { name: 'Our Mission', href: '#' },
-  { name: 'Our Vision', href: '#' },
-  { name: 'Our History', href: '#' },
-  { name: 'Leadership', href: '#' },
-  { name: 'Main Convocation', href: '#' },
+  { name: $t('footer.ourMission'), href: '#' },
+  { name: $t('footer.ourVision'), href: '#' },
+  { name: $t('footer.ourHistory'), href: '#' },
+  { name: $t('footer.leadership'), href: '#' },
+  { name: $t('footer.mainConvocation'), href: '#' },
 
 ]
 
