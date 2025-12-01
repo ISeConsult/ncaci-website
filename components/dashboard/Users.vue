@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-7xl mx-auto px-4 py-8">
+    <div>
     <!-- Header Section -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
       <div>
@@ -11,7 +11,7 @@
         </p>
       </div>
       <div class="flex gap-3">
-        <button @click="openModal" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center font-medium shadow-md">
+        <button @click="openModal(null)" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center font-medium shadow-md">
           <PlusIcon class="h-5 w-5 mr-2" />
           Add User
         </button>
@@ -19,44 +19,73 @@
     </div>
 
     <!-- Users Table -->
-    <Table :columns="columns" :data="users" :rows="users" title="Users" :searchable="true" :search-placeholder="'Search users...'" :items-per-page="10" :pagination="true" class="text-nowrap">
+    <div v-if="loading" class="space-y-4">
+      <Skeleton v-for="i in 5" :key="i" variant="table" height="h-12" class="w-full" />
+    </div>
+    <Table v-else :columns="columns" :data="users" :rows="users" title="Users" :searchable="true" :search-placeholder="'Search users...'" :items-per-page="10" :pagination="true" class="text-nowrap">
       <template #actions="{ item }">
-        <button class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 p-1 rounded">
+        <button @click="openModal(item)" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 p-1 rounded">
           <PencilIcon class="h-4 w-4" />
         </button>
-        <button class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 p-1 rounded">
+        <button @click="openDeleteModal(item)" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 p-1 rounded">
           <TrashIcon class="h-4 w-4" />
         </button>
       </template>
     </Table>
     
-    <!--Add user modal -->
-    <Modal v-model:is-open="isModalOpen" size="3xl" title="Add New User" @close="closeModal">
-      
+    <!--Add/Edit user modal -->
+    <Modal v-model:is-open="isModalOpen" size="3xl" :title="isEditing ? 'Edit User' : 'Add New User'" @close="closeModal">
+
       <form @submit.prevent="submitForm">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <TextField v-model="formData.name" label="Name" placeholder="John Doe" />
+          <TextField v-model="formData.first_name" label="First Name" placeholder="John" />
+          <TextField v-model="formData.last_name" label="Last Name" placeholder="Doe" />
           <TextField v-model="formData.email" label="Email" placeholder="3o9jS@example.com" />
-          <Select v-model="formData.role" label="Role" clearable placeholder="Select role" :options="['Admin', 'Member']" />
-          <Select v-model="formData.status" label="Status" clearable placeholder="Select status" :options="['Active', 'Inactive']" />
-          <TextField v-model="formData.position" label="Position" placeholder="Senior Pastor" />
+          <TextField v-model="formData.phone_number" label="Phone" placeholder="123-456-7890" />
         </div>
       </form>
       <template #footer>
         <div class="flex justify-end space-x-3">
-          <button
+          <Button
             @click="closeModal"
             type="button"
-            class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            variant="secondary"
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
+            @click="submitForm"
             type="button"
-            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            variant="primary"
+            :loading="loading"
           >
-            Add User
-          </button>
+            {{ isEditing ? 'Update User' : 'Add User' }}
+          </Button>
+        </div>
+      </template>
+    </Modal>
+
+    <!-- Delete confirmation modal -->
+    <Modal v-model:is-open="isDeleteModalOpen" size="md" title="Confirm Delete" @close="cancelDelete">
+      <p class="text-gray-700 dark:text-gray-300">
+        Are you sure you want to delete the user "{{ userToDelete?.first_name }} {{ userToDelete?.last_name }}"? This action cannot be undone.
+      </p>
+      <template #footer>
+        <div class="flex justify-end space-x-3">
+          <Button
+            @click="cancelDelete"
+            type="button"
+            variant="secondary"
+          >
+            Cancel
+          </Button>
+          <Button
+            @click="confirmDelete"
+            type="button"
+            variant="danger"
+          >
+            Delete
+          </Button>
         </div>
       </template>
     </Modal>
@@ -68,84 +97,108 @@ import { ref } from 'vue'
 import Table from '../UI/Table.vue';
 import Modal from '../UI/Modal.vue';
 import TextField from '../UI/TextField.vue';
-import Select from '../UI/Select.vue';
+import Skeleton from '../UI/Skeleton.vue';
 import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import { useUserStore } from '@/stores/useUserStore';
+import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
+import { useToast } from '~/composables/useToast'
+import Button from '../UI/Button.vue';
+
+const UserStore = useUserStore();
+const { users, loading } = storeToRefs(UserStore);
+
+const { addToast } = useToast()
+
+
+onMounted(() => {
+  UserStore.fetchUsers();
+  console.log('users:', users);
+});
 
 const formData = ref({
-  name: '',
+  first_name: '',
+  last_name: '',
   email: '',
-  role: '',
-  status: '',
-  position: ''
+  phone_number: ''
 })
 
-const users = [
-    {
-        id: 1,
-        name: 'John Doe',
-        email: '3o9jS@example.com',
-        role: 'Admin',
-        status: 'Active',
-        lastLogin: '2022-01-01',
-        position: 'Senior Pastor'
-    },
-    {
-        id: 2,
-        name: 'Jane Smith',
-        email: 'ZV6m9@example.com',
-        role: 'Member',
-        status: 'Inactive',
-        lastLogin: '2022-02-01',
-        position: 'Pastor'
-    },
-    {
-        id: 3,
-        name: 'Bob Johnson',
-        email: 'ZV6m9@example.com',
-        role: 'Member',
-        status: 'Active',
-        lastLogin: '2022-03-01',
-        position: 'Pastor'
-    },
-    {
-        id: 4,
-        name: 'Alice Williams',
-        email: 'ZV6m9@example.com',
-        role: 'Member',
-        status: 'Inactive',
-        lastLogin: '2022-04-01',
-        position: 'Pastor'
-    },
-    {
-        id: 5,
-        name: 'Charlie Brown',
-        email: 'ZV6m9@example.com',
-        role: 'Member',
-        status: 'Active',
-        lastLogin: '2022-05-01',
-        position: 'Pastor'
-    }
-]
-
 const columns = [
-    { key: 'name', label: 'Name', sortable: true },
+    { key: 'first_name', label: 'First Name', sortable: true },
+    { key: 'last_name', label: 'Last Name', sortable: true },
     { key: 'email', label: 'Email', sortable: true },
-    { key: 'role', label: 'Role', sortable: true },
     { key: 'status', label: 'Status', sortable: true },
-    { key: 'lastLogin', label: 'Last Login', sortable: true },
-    { key: 'position', label: 'Position', sortable: true },
+    { key: 'phone_number', label: 'Phone', sortable: true }
 ]
 
 const isModalOpen = ref(false)
-const openModal = () => {
+const isEditing = ref(false)
+const editingUser = ref(null)
+const isDeleteModalOpen = ref(false)
+const userToDelete = ref(null)
+
+const openModal = (user = null) => {
+  isEditing.value = !!user
+  editingUser.value = user
+  
+  formData.value = isEditing.value ? { ...user } : {
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone_number: ''
+  }
+  
   isModalOpen.value = true
 }
+
 const closeModal = () => {
   isModalOpen.value = false
+  isEditing.value = false
+  editingUser.value = null
+  formData.value = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone_number: ''
+  }
 }
 
-const submitForm = () => {
-  console.log('Form submitted')
+const submitForm = async () => {
+  try {
+    let response;
+    if (isEditing.value) {
+      response = await UserStore.updateUser(editingUser.value.uid, formData.value)
+    } else {
+      response = await UserStore.addUser(formData.value)
+    }
+    addToast(response.data.message || 'User added successfully', 'success')
+    closeModal()
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    addToast(error.response.data.message, 'error')
+  }
+}
+
+const openDeleteModal = (user) => {
+  userToDelete.value = user
+  isDeleteModalOpen.value = true
+}
+
+const confirmDelete = async () => {
+  try {
+    await UserStore.deleteUser(userToDelete.value.uid)
+    isDeleteModalOpen.value = false
+    userToDelete.value = null
+    addToast('User deleted successfully', 'success')
+  } catch (error) {
+    console.error('Error deleting user:', error)
+    addToast(error.response.data.message, 'error')
+  }
+}
+
+const cancelDelete = () => {
+  isDeleteModalOpen.value = false
+  userToDelete.value = null
 }
 
 

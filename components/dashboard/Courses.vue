@@ -6,22 +6,6 @@
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Courses & Faculty Management</h1>
         <p class="text-gray-600 dark:text-gray-400 mt-2">Manage educational programs, Bible studies, and teaching faculty</p>
       </div>
-      <div class="flex space-x-3">
-        <button 
-          @click="openModal"
-          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors duration-200"
-        >
-          <PlusIcon class="h-5 w-5 mr-2" />
-          Add Course
-        </button>
-        <button 
-          @click="openFacultyModal"
-          class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors duration-200"
-        >
-          <UserPlusIcon class="h-5 w-5 mr-2" />
-          Add Faculty&Mng Member
-        </button>
-      </div>
     </div>
 
     <!-- Tab Navigation -->
@@ -56,6 +40,15 @@
     <div v-if="activeTab === 'courses'" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Courses Table -->
       <div class="lg:col-span-2">
+        <div class="flex justify-end items-center mb-4">
+          <Button 
+          @click="openModal"
+          variant="primary"
+        >
+          <PlusIcon class="h-5 w-5 mr-2" />
+          Add Course
+        </Button>
+        </div>
         <Table
           :data="courses"
           :columns="courseColumns"
@@ -150,6 +143,15 @@
     <div v-if="activeTab === 'faculty'" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Faculty Table -->
       <div class="lg:col-span-2">
+        <div class="flex justify-end items-center mb-4">
+          <Button 
+            @click="openFacultyModal"
+            variant="primary"
+          >
+            <UserPlusIcon class="h-5 w-5 mr-2" />
+            Add Faculty&Mng Member
+          </Button>
+        </div>
         <Table
           :data="faculty"
           :columns="facultyColumns"
@@ -298,6 +300,7 @@ import {
   PencilIcon
 } from '@heroicons/vue/24/outline'
 import Table from '~/components/UI/Table.vue'
+import Button from '../UI/Button.vue'
 
 const isModalOpen = ref(false)
 

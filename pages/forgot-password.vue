@@ -12,8 +12,7 @@
       <form class="mt-8 space-y-6" @submit.prevent="handleForgotPassword">
         <div>
           <TextField
-            v-model="email"
-            type="email"
+            v-model="field"
             label="Email address"
             placeholder="Enter your email"
             required
@@ -39,21 +38,39 @@
 <script setup lang="ts">
 import TextField from '~/components/UI/TextField.vue'
 import Button from '~/components/UI/Button.vue'
+import { useToast } from '~/composables/useToast'
+import axios from 'axios'
 
-const email = ref('')
+const { addToast } = useToast()
+const field = ref('')
 const loading = ref(false)
+
+const config = useRuntimeConfig()
+const baseUrl = config.public.baseUrl
 
 const handleForgotPassword = async () => {
   loading.value = true
   try {
-    // TODO: Implement forgot password logic
-    console.log('Forgot password for:', email.value)
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    // Redirect to verify-otp or show success message
-    await navigateTo('/verify-otp')
-  } catch (error) {
+    const response = await axios.post(`${baseUrl}/auth/users/forgot-password/`, {
+      field: field.value
+    })
+    console.log('Forgot password response:', response.data)
+    if (response.data.success) {
+      // Store email for resend OTP
+      localStorage.setItem('resetEmail', field.value)
+      addToast(response.data.message, 'success')
+      // Redirect to verify-otp
+      await navigateTo('/verify-otp')
+    } else {
+      addToast(response.data.message, 'error')
+    }
+  } catch (error: any) {
     console.error('Forgot password error:', error)
+    if (error.response) {
+      addToast(error.response.data.message, 'error')
+    } else {
+      addToast('An error occurred. Please try again.', 'error')
+    }
   } finally {
     loading.value = false
   }

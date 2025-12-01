@@ -65,6 +65,12 @@ declare module '@heroicons/vue/24/outline' {
   export const LinkedinIcon: Component
   export const EnglishIcon: Component
   export const FrenchIcon: Component
+  export const SpanishIcon: Component
+  export const CheckIcon: Component
+  export const XMarkIcon: Component
+  export const ExclamationTriangleIcon: Component
+  export const InformationCircleIcon: Component
+  export const XCircleIcon: Component
 }
 
 declare module '@heroicons/vue/24/solid' {

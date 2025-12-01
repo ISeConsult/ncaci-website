@@ -1,6 +1,6 @@
 <!-- components/sections/DashboardOverview.vue -->
 <template>
-  <div cclass="relative z-10 flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div cclass="relative z-10 flex flex-col justify-center items-center">
     <div class="mb-8">
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h1>
       <p class="text-gray-600 dark:text-gray-400">Welcome back! Here's what's happening in your ministry.</p>

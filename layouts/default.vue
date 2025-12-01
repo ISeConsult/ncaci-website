@@ -4,10 +4,12 @@
       <slot />
     </main>
     <Footer />
+    <ToastContainer />
   </div>
 </template>
 
 <script setup lang="ts">
 // Navbar removed from default layout to be imported in individual pages
 import Footer from '../components/layouts/Footer.vue'
+import ToastContainer from '../components/UI/ToastContainer.vue'
 </script>

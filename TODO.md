@@ -1,11 +1,5 @@
-# Internationalization Fix for Navbar and Footer
+# TODO for Updating Toast Messages from Store Response
 
-## Tasks
-- [ ] Update Navbar.vue to use $t for navigation item names instead of hardcoded English strings.
-- [ ] Update Footer.vue to replace all hardcoded English strings with $t calls using existing translations.
-- [ ] Test the changes by running the app and switching languages.
-
-## Notes
-- Locale files already contain translations for navbar and footer.
-- Hero section already works correctly with $t.
-- Language switcher in Navbar.vue appears functional.
+- [x] Modify addUser method in stores/useUserStore.js to return the response object on success
+- [x] Modify updateUser method in stores/useUserStore.js to return the response object on success
+- [x] Update submitForm function in components/dashboard/Users.vue to capture the response from store methods and use response.data.message for success toast
