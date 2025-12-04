@@ -18,12 +18,12 @@ export const useActivityStore = defineStore('ActivityStore', () => {
   const activities = ref([])
   
   const config = useRuntimeConfig()
-const baseUrl = config.public.baseUrl
+  const baseUrl = config.public.baseUrl
 
   async function fetchActivities() {
     loading.value = true
     try {
-      const response = await axios.get(`${baseUrl}/auth/activities/`,{
+      const response = await axios.get(`${baseUrl}/dashboard/activities/`,{
          headers: {
           'Content-Type': 'application/json',
           'Authorization': decryptData(localStorage.getItem('authToken')),
@@ -31,7 +31,7 @@ const baseUrl = config.public.baseUrl
         }
       });
       if (response.data) {
-        activities.value = response.data.data
+        activities.value = response.data.message
         console.log('activities display:', activities.value);
       }
     } catch (error) {
@@ -44,18 +44,44 @@ const baseUrl = config.public.baseUrl
   async function addActivity(activityData) {
     loading.value = true
     try {
-      const response = await axios.post(`${baseUrl}/auth/activities/`, activityData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': decryptData(localStorage.getItem('authToken')),
-          'Accept': 'application/json'
-        }
-      });
+
+      let data = activityData;
+      let headers = {
+        'Authorization': decryptData(localStorage.getItem('authToken')),
+        'Accept': 'application/json'
+      };
+
+      // Check if we have files to upload
+      if (activityData.image && (activityData.image.file || activityData.image instanceof File)) {
+        const formData = new FormData();
+
+        // Append all fields to FormData
+        Object.keys(activityData).forEach(key => {
+          if (key === 'image' && activityData[key]) {
+            // Handle FileInput component output
+            if (activityData[key].file) {
+              formData.append(key, activityData[key].file);
+            } else if (activityData[key] instanceof File) {
+              formData.append(key, activityData[key]);
+            }
+          } else if (activityData[key] !== null && activityData[key] !== undefined) {
+            formData.append(key, activityData[key]);
+          }
+        });
+
+        data = formData;
+      } else {
+        delete headers['Content-Type'];
+      }
+
+      // Make the API request
+      const response = await axios.post(`${baseUrl}/dashboard/activities/`, data, {  headers });
       if (response.data) {
         await fetchActivities();
         console.log('Activity added:', response.data);
         return response;
       }
+
     } catch (error) {
       console.error("Error adding activity:", error);
       throw error;
@@ -67,13 +93,38 @@ const baseUrl = config.public.baseUrl
   async function updateActivity(activityId, activityData) {
     loading.value = true
     try {
-      const response = await axios.patch(`${baseUrl}/auth/activities/${activityId}/`, activityData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': decryptData(localStorage.getItem('authToken')),
-          'Accept': 'application/json'
-        }
-      });
+
+      let data = activityData;
+      let headers = {
+        'Authorization': decryptData(localStorage.getItem('authToken')),
+        'Accept': 'application/json'
+      };
+
+      // Check if we have files to upload
+      if (activityData.image && (activityData.image.file || activityData.image instanceof File)) {
+        const formData = new FormData();
+
+        // Append all fields to FormData
+        Object.keys(activityData).forEach(key => {
+          if (key === 'image' && activityData[key]) {
+            // Handle FileInput component output
+            if (activityData[key].file) {
+              formData.append(key, activityData[key].file);
+            } else if (activityData[key] instanceof File) {
+              formData.append(key, activityData[key]);
+            }
+          } else if (activityData[key] !== null && activityData[key] !== undefined) {
+            formData.append(key, activityData[key]);
+          }
+        });
+
+        data = formData;
+      } else {
+        delete headers['Content-Type'];
+      }
+
+      // Make the API request
+      const response = await axios.patch(`${baseUrl}/dashboard/activities/${activityId}/`, data, { headers });
       if (response.data) {
         await fetchActivities();
         console.log('Activity updated:', response.data);
@@ -90,7 +141,7 @@ const baseUrl = config.public.baseUrl
   async function deleteActivity(activityId) {
     loading.value = true
     try {
-      const response = await axios.delete(`${baseUrl}/auth/activities/${activityId}/`, {
+      const response = await axios.delete(`${baseUrl}/dashboard/activities/${activityId}/`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': decryptData(localStorage.getItem('authToken')),

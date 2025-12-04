@@ -14,16 +14,16 @@ const decryptData = (encryptedData) => {
 
 const loading = ref(false)
 
-export const useEventStore = defineStore('EventStore', () => {
-  const events = ref([])
+export const useNewsStore = defineStore('NewsStore', () => {
+  const news = ref([])
   
   const config = useRuntimeConfig()
 const baseUrl = config.public.baseUrl
 
-  async function fetchEvents() {
+  async function fetcNews() {
     loading.value = true
     try {
-      const response = await axios.get(`${baseUrl}/dashboard/events/`,{
+      const response = await axios.get(`${baseUrl}/dashboard/articles/`,{
          headers: {
           'Content-Type': 'application/json',
           'Authorization': decryptData(localStorage.getItem('authToken')),
@@ -31,40 +31,40 @@ const baseUrl = config.public.baseUrl
         }
       });
       if (response.data) {
-        events.value = response.data.data
-        console.log('events display:', events.value);
+        news.value = response.data.message
+        console.log('news display:', news.value);
       }
     } catch (error) {
-      console.error("Error fetching events:", error);
+      console.error("Error fetching news:", error);
     } finally {
       loading.value = false
     }
   };
 
-  async function addEvent(eventData) {
+  async function addNews(newsData) {
     loading.value = true
     try {
-      let data = eventData;
+      let data = newsData;
       let headers = {
         'Authorization': decryptData(localStorage.getItem('authToken')),
         'Accept': 'application/json'
       };
 
       // Check if we have files to upload
-      if (eventData.image && (eventData.image.file || eventData.image instanceof File)) {
+      if (newsData.article_image && (newsData.article_image.file || newsData.article_image instanceof File)) {
         const formData = new FormData();
 
         // Append all fields to FormData
-        Object.keys(eventData).forEach(key => {
-          if (key === 'image' && eventData[key]) {
+        Object.keys(newsData).forEach(key => {
+          if (key === 'article_image' && newsData[key]) {
             // Handle FileInput
-            if (eventData[key].file) {
-              formData.append(key, eventData[key].file);
-            } else if (eventData[key] instanceof File) {
-              formData.append(key, eventData[key]);
+            if (newsData[key].file) {
+              formData.append(key, newsData[key].file);
+            } else if (newsData[key] instanceof File) {
+              formData.append(key, newsData[key]);
             }
-          } else if (eventData[key] !== null && eventData[key] !== undefined) {
-            formData.append(key, eventData[key]);
+          } else if (newsData[key] !== null && newsData[key] !== undefined) {
+            formData.append(key, newsData[key]);
           }
         });
 
@@ -73,44 +73,44 @@ const baseUrl = config.public.baseUrl
         headers['Content-Type'] = 'application/json';
       }
 
-      const response = await axios.post(`${baseUrl}/dashboard/events/`, data, { headers });
+      const response = await axios.post(`${baseUrl}/dashboard/articles/`, data, { headers });
       if (response.data) {
-        await fetchEvents();
-        console.log('Event added:', response.data);
+        await fetcNews();
+        console.log('News added:', response.data);
         return response;
       }
     } catch (error) {
-      console.error("Error adding event:", error);
+      console.error("Error adding news:", error);
       throw error;
     } finally {
       loading.value = false
     }
   };
 
-  async function updateEvent(eventId, eventData) {
+  async function updateNews(newsId, newsData) {
     loading.value = true
     try {
-      let data = eventData;
+      let data = newsData;
       let headers = {
         'Authorization': decryptData(localStorage.getItem('authToken')),
         'Accept': 'application/json'
       };
 
       // Check if we have files to upload
-      if (eventData.image && (eventData.image.file || eventData.image instanceof File)) {
+      if (newsData.article_image && (newsData.article_image.file || newsData.article_image instanceof File)) {
         const formData = new FormData();
 
         // Append all fields to FormData
-        Object.keys(eventData).forEach(key => {
-          if (key === 'image' && eventData[key]) {
+        Object.keys(newsData).forEach(key => {
+          if (key === 'article_image' && newsData[key]) {
             // Handle FileInput component output
-            if (eventData[key].file) {
-              formData.append(key, eventData[key].file);
-            } else if (eventData[key] instanceof File) {
-              formData.append(key, eventData[key]);
+            if (newsData[key].file) {
+              formData.append(key, newsData[key].file);
+            } else if (newsData[key] instanceof File) {
+              formData.append(key, newsData[key]);
             }
-          } else if (eventData[key] !== null && eventData[key] !== undefined) {
-            formData.append(key, eventData[key]);
+          } else if (newsData[key] !== null && newsData[key] !== undefined) {
+            formData.append(key, newsData[key]);
           }
         });
 
@@ -120,24 +120,24 @@ const baseUrl = config.public.baseUrl
         headers['Content-Type'] = 'application/json';
       }
 
-      const response = await axios.patch(`${baseUrl}/dashboard/events/${eventId}/`, data, { headers });
+      const response = await axios.patch(`${baseUrl}/dashboard/articles/${newsId}/`, data, { headers });
       if (response.data) {
-        await fetchEvents();
-        console.log('Event updated:', response.data);
+        await fetcNews();
+        console.log('News updated:', response.data);
         return response;
       }
     } catch (error) {
-      console.error("Error updating event:", error);
+      console.error("Error updating news:", error);
       throw error;
     } finally {
       loading.value = false
     }
   };
 
-  async function deleteEvent(eventId) {
+  async function deleteNews(newsId) {
     loading.value = true
     try {
-      const response = await axios.delete(`${baseUrl}/dashboard/events/${eventId}/`, {
+      const response = await axios.delete(`${baseUrl}/dashboard/articles/${newsId}/`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': decryptData(localStorage.getItem('authToken')),
@@ -145,16 +145,16 @@ const baseUrl = config.public.baseUrl
         }
       });
       if (response.status === 200 || response.status === 204) {
-        await fetchEvents();
-        console.log('Event deleted');
+        await fetcNews();
+        console.log('News deleted');
       }
     } catch (error) {
-      console.error("Error deleting event:", error);
+      console.error("Error deleting news:", error);
       throw error;
     } finally {
       loading.value = false
     }
   };
 
-  return { events, loading, fetchEvents, addEvent, updateEvent, deleteEvent };
+  return { news, loading, fetcNews, addNews, updateNews, deleteNews };
 })

@@ -1,5 +1,8 @@
-# TODO for Updating Toast Messages from Store Response
-
-- [x] Modify addUser method in stores/useUserStore.js to return the response object on success
-- [x] Modify updateUser method in stores/useUserStore.js to return the response object on success
-- [x] Update submitForm function in components/dashboard/Users.vue to capture the response from store methods and use response.data.message for success toast
+- [ ] Import computed from vue
+- [ ] Define categoryDefinitions object with names, icons, colors for each category
+- [ ] Create leadershipCategories computed property to group leaders by category and map fields (avatar to image, phone to phone_number, add fullBiography)
+- [ ] Make summaryStats computed and dynamic based on leaders data
+- [ ] Define categoryOptions for the modal select
+- [ ] Update template to use leader.image instead of leader.avatar, leader.phone_number instead of leader.phone
+- [ ] Update modal Select to use categoryOptions
+- [ ] Implement submitForm to handle adding leader, including splitting specialties by comma

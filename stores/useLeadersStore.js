@@ -14,16 +14,16 @@ const decryptData = (encryptedData) => {
 
 const loading = ref(false)
 
-export const useEventStore = defineStore('EventStore', () => {
-  const events = ref([])
+export const useLeadersStore = defineStore('LeadersStore', () => {
+  const leaders = ref([])
   
   const config = useRuntimeConfig()
-const baseUrl = config.public.baseUrl
+    const baseUrl = config.public.baseUrl
 
-  async function fetchEvents() {
+  async function fetchLeaders() {
     loading.value = true
     try {
-      const response = await axios.get(`${baseUrl}/dashboard/events/`,{
+      const response = await axios.get(`${baseUrl}/dashboard/church-leaders/`,{
          headers: {
           'Content-Type': 'application/json',
           'Authorization': decryptData(localStorage.getItem('authToken')),
@@ -31,40 +31,40 @@ const baseUrl = config.public.baseUrl
         }
       });
       if (response.data) {
-        events.value = response.data.data
-        console.log('events display:', events.value);
+        leaders.value = response.data.data
+        console.log('events display:', leaders.value);
       }
     } catch (error) {
-      console.error("Error fetching events:", error);
+      console.error("Error fetching leaders:", error);
     } finally {
       loading.value = false
     }
   };
 
-  async function addEvent(eventData) {
+  async function addLeader(leaderData) {
     loading.value = true
     try {
-      let data = eventData;
+      let data = leaderData;
       let headers = {
         'Authorization': decryptData(localStorage.getItem('authToken')),
         'Accept': 'application/json'
       };
 
       // Check if we have files to upload
-      if (eventData.image && (eventData.image.file || eventData.image instanceof File)) {
+      if (leaderData.image && (leaderData.image.file || leaderData.image instanceof File)) {
         const formData = new FormData();
 
         // Append all fields to FormData
-        Object.keys(eventData).forEach(key => {
-          if (key === 'image' && eventData[key]) {
+        Object.keys(leaderData).forEach(key => {
+          if (key === 'image' && leaderData[key]) {
             // Handle FileInput
-            if (eventData[key].file) {
-              formData.append(key, eventData[key].file);
-            } else if (eventData[key] instanceof File) {
-              formData.append(key, eventData[key]);
+            if (leaderData[key].file) {
+              formData.append(key, leaderData[key].file);
+            } else if (leaderData[key] instanceof File) {
+              formData.append(key, leaderData[key]);
             }
-          } else if (eventData[key] !== null && eventData[key] !== undefined) {
-            formData.append(key, eventData[key]);
+          } else if (leaderData[key] !== null && leaderData[key] !== undefined) {
+            formData.append(key, leaderData[key]);
           }
         });
 
@@ -73,44 +73,44 @@ const baseUrl = config.public.baseUrl
         headers['Content-Type'] = 'application/json';
       }
 
-      const response = await axios.post(`${baseUrl}/dashboard/events/`, data, { headers });
+      const response = await axios.post(`${baseUrl}/dashboard/church-leaders/`, data, { headers });
       if (response.data) {
-        await fetchEvents();
-        console.log('Event added:', response.data);
+        await fetchLeaders();
+        console.log('Leader added:', response.data);
         return response;
       }
     } catch (error) {
-      console.error("Error adding event:", error);
+      console.error("Error adding leader:", error);
       throw error;
     } finally {
       loading.value = false
     }
   };
 
-  async function updateEvent(eventId, eventData) {
+  async function updateLeader(leaderId, leaderData) {
     loading.value = true
     try {
-      let data = eventData;
+      let data = leaderData;
       let headers = {
         'Authorization': decryptData(localStorage.getItem('authToken')),
         'Accept': 'application/json'
       };
 
       // Check if we have files to upload
-      if (eventData.image && (eventData.image.file || eventData.image instanceof File)) {
+      if (leaderData.image && (leaderData.image.file || leaderData.image instanceof File)) {
         const formData = new FormData();
 
         // Append all fields to FormData
-        Object.keys(eventData).forEach(key => {
-          if (key === 'image' && eventData[key]) {
+        Object.keys(leaderData).forEach(key => {
+          if (key === 'image' && leaderData[key]) {
             // Handle FileInput component output
-            if (eventData[key].file) {
-              formData.append(key, eventData[key].file);
-            } else if (eventData[key] instanceof File) {
-              formData.append(key, eventData[key]);
+            if (leaderData[key].file) {
+              formData.append(key, leaderData[key].file);
+            } else if (leaderData[key] instanceof File) {
+              formData.append(key, leaderData[key]);
             }
-          } else if (eventData[key] !== null && eventData[key] !== undefined) {
-            formData.append(key, eventData[key]);
+          } else if (leaderData[key] !== null && leaderData[key] !== undefined) {
+            formData.append(key, leaderData[key]);
           }
         });
 
@@ -120,24 +120,24 @@ const baseUrl = config.public.baseUrl
         headers['Content-Type'] = 'application/json';
       }
 
-      const response = await axios.patch(`${baseUrl}/dashboard/events/${eventId}/`, data, { headers });
+      const response = await axios.patch(`${baseUrl}/dashboard/church-leaders/${leaderId}/`, data, { headers });
       if (response.data) {
-        await fetchEvents();
-        console.log('Event updated:', response.data);
+        await fetchLeaders();
+        console.log('Leader updated:', response.data);
         return response;
       }
     } catch (error) {
-      console.error("Error updating event:", error);
+      console.error("Error updating leader:", error);
       throw error;
     } finally {
       loading.value = false
     }
   };
 
-  async function deleteEvent(eventId) {
+  async function deleteLeader(leaderId) {
     loading.value = true
     try {
-      const response = await axios.delete(`${baseUrl}/dashboard/events/${eventId}/`, {
+      const response = await axios.delete(`${baseUrl}/dashboard/church-leaders/${leaderId}/`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': decryptData(localStorage.getItem('authToken')),
@@ -145,16 +145,16 @@ const baseUrl = config.public.baseUrl
         }
       });
       if (response.status === 200 || response.status === 204) {
-        await fetchEvents();
-        console.log('Event deleted');
+        await fetchLeaders();
+        console.log('Leader deleted');
       }
     } catch (error) {
-      console.error("Error deleting event:", error);
+      console.error("Error deleting leader:", error);
       throw error;
     } finally {
       loading.value = false
     }
   };
 
-  return { events, loading, fetchEvents, addEvent, updateEvent, deleteEvent };
+  return { leaders, loading, fetchLeaders, addLeader, updateLeader, deleteLeader };
 })

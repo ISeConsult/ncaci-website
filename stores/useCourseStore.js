@@ -20,10 +20,10 @@ export const useCourseStore = defineStore('CourseStore', () => {
   const config = useRuntimeConfig()
 const baseUrl = config.public.baseUrl
 
-  async function fetchEvents() {
+  async function fetchCourses() {
     loading.value = true
     try {
-      const response = await axios.get(`${baseUrl}/auth/courses/`,{
+      const response = await axios.get(`${baseUrl}/dashboard/courses/`,{
          headers: {
           'Content-Type': 'application/json',
           'Authorization': decryptData(localStorage.getItem('authToken')),
@@ -31,7 +31,7 @@ const baseUrl = config.public.baseUrl
         }
       });
       if (response.data) {
-        courses.value = response.data.data
+        courses.value = response.data.message
         console.log('courses display:', courses.value);
       }
     } catch (error) {
@@ -44,7 +44,7 @@ const baseUrl = config.public.baseUrl
   async function addCourse(courseData) {
     loading.value = true
     try {
-      const response = await axios.post(`${baseUrl}/auth/courses/`, courseData, {
+      const response = await axios.post(`${baseUrl}/dashboard/courses/`, courseData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': decryptData(localStorage.getItem('authToken')),
@@ -52,7 +52,7 @@ const baseUrl = config.public.baseUrl
         }
       });
       if (response.data) {
-        await fetchEvents();
+        await fetchCourses();
         console.log('Course added:', response.data);
         return response;
       }
@@ -67,7 +67,7 @@ const baseUrl = config.public.baseUrl
   async function updateCourse(courseId, courseData) {
     loading.value = true
     try {
-      const response = await axios.patch(`${baseUrl}/auth/courses/${courseId}/`, courseData, {
+      const response = await axios.patch(`${baseUrl}/dashboard/courses/${courseId}/`, courseData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': decryptData(localStorage.getItem('authToken')),
@@ -75,7 +75,7 @@ const baseUrl = config.public.baseUrl
         }
       });
       if (response.data) {
-        await fetchEvents();
+        await fetchCourses();
         console.log('Course updated:', response.data);
         return response;
       }
@@ -90,7 +90,7 @@ const baseUrl = config.public.baseUrl
   async function deleteCourse(courseId) {
     loading.value = true
     try {
-      const response = await axios.delete(`${baseUrl}/auth/courses/${courseId}/`, {
+      const response = await axios.delete(`${baseUrl}/dashboard/courses/${courseId}/`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': decryptData(localStorage.getItem('authToken')),
@@ -98,7 +98,7 @@ const baseUrl = config.public.baseUrl
         }
       });
       if (response.status === 200 || response.status === 204) {
-        await fetchEvents();
+        await fetchCourses();
         console.log('Course deleted');
       }
     } catch (error) {
@@ -109,5 +109,5 @@ const baseUrl = config.public.baseUrl
     }
   };
   
-  return { courses, fetchEvents, loading, addCourse, updateCourse, deleteCourse };
+  return { courses, fetchCourses, loading, addCourse, updateCourse, deleteCourse };
 })
