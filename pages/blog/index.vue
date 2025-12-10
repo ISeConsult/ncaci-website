@@ -1,4 +1,6 @@
 <template>
+    <Navbar />
+    <Header :title="selectedBlog?.title || 'Blog'"/>
     <div class="bg-[#e5e6f8]">
         <div class="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid md:grid-cols-2 gap-8 section1-bg p-6">
@@ -15,7 +17,7 @@
                         <p class="text1 font-thin text-base" v-html="news[0]?.content"></p>
                     </div>
                     <div class="mt-8">
-                        <nuxt-link to="/" class="hover:text-blue-600 transition-colors duration-200">
+                        <nuxt-link :to="`/blog/${news[0]?.uid}`" class="hover:text-blue-600 transition-colors duration-200">
                             READ MORE
                         </nuxt-link>
                     </div>
@@ -35,7 +37,7 @@
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-left uppercase mb-4">
-                            <nuxt-link :to="`/blog-detailed?id=${item.id}`" class="hover:text-blue-600 transition-colors duration-200">
+                            <nuxt-link :to="`/blog/${item.uid}`" class="hover:text-blue-600 transition-colors duration-200">
                                 {{ item.title }}
                             </nuxt-link>
                         </h1>
@@ -57,6 +59,8 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { useNewsStore } from '~/stores/useNewsStore';
+import Navbar from '../components/layouts/Navbar.vue'
+import Header from '../components/blog/Header.vue';
 
 const NewsStore = useNewsStore();
 const { news } = storeToRefs(NewsStore);
@@ -67,57 +71,6 @@ const formatCategory = (category) => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
-
-// const blogs = [
-//     {
-//         id: 1,
-//         category: 'relationship',
-//         title: 'THE BEST WAY TO INSPIRE PEOPLE',
-//         author: 'michael addo',
-//         date: 'tuesday july 20, 2025',
-//         description: 'lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
-//     },
-//     {
-//         id: 2,
-//         category: 'love',
-//         title: 'HOW TO SHOW COMPASSION',
-//         author: 'michael addo',
-//         date: 'tuesday july 20, 2025',
-//         description: 'lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
-//     },
-//     {
-//         id: 3,
-//         category: 'Theology',
-//         title: 'THE BIBLICAL PURPOSE OF MONEY',
-//         author: 'michael addo',
-//         date: 'tuesday july 20, 2025',
-//         description: 'lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
-//     },
-//     {
-//         id: 4,
-//         category: 'discipleship',
-//         title: 'WHAT IT MEANS TO BE A DISCIPLE',
-//         author: 'michael addo',
-//         date: 'tuesday july 20, 2025',
-//         description: 'lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
-//     },
-//     {
-//         id: 5,
-//         category: 'belief',
-//         title: 'WHAT IT MEANS TO BELIEVE',
-//         author: 'michael addo',
-//         date: 'tuesday july 20, 2025',
-//         description: 'lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
-//     },
-//     {
-//         id: 6,
-//         category: 'Sermons',
-//         title: 'WATCH AND LISTEN TO OUR SERMONS',
-//         author: 'michael addo',
-//         date: 'tuesday july 20, 2025',
-//         description: 'lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?',
-//     }
-// ]
 
 
 onMounted(() => {

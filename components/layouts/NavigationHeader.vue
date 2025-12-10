@@ -196,8 +196,7 @@ const navigationItems = [
   { name: 'Registrations', key: 'registrations', route: '/admin/registrations', icon: ClipboardDocumentListIcon },
   { name: 'Executives', key: 'executives', icon: UsersIcon, children: [
     { name: 'Users', key: 'users', route: '/admin/users', icon: UsersIcon },
-    { name: 'Church Leaders', key: 'leaders', route: '/admin/leaders', icon: UsersIcon },
-    { name: 'Ministry Executive', key: 'executive', route: '/admin/executive', icon: UsersIcon }
+    { name: 'Church Leaders', key: 'leaders', route: '/admin/leaders', icon: UsersIcon }
   ] }
 ]
 </script>

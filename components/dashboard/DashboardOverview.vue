@@ -50,6 +50,11 @@ import RecentEvents from '@/components/shared/RecentEvents.vue'
 import LeadershipQuickAccess from '@/components/shared/LeadershipQuickAccess.vue'
 import { ref } from 'vue'
 import Table from '../UI/Table.vue'
+import { useDashboardStore } from '@/stores/useDashboardStore'
+import { storeToRefs } from 'pinia'
+
+const DashboardStore = useDashboardStore()
+const { loading, dashboard } = storeToRefs(DashboardStore)
 
 defineEmits(['navigate-to-leaders'])
 
@@ -173,4 +178,9 @@ const courseColumns = [
     sortable: true,
   }
 ]
+
+onMounted(() => {
+  DashboardStore.fetchDashboard()
+  console.log('Dashboard data on mount:', dashboard);
+})
 </script>

@@ -1,8 +1,6 @@
-- [ ] Import computed from vue
-- [ ] Define categoryDefinitions object with names, icons, colors for each category
-- [ ] Create leadershipCategories computed property to group leaders by category and map fields (avatar to image, phone to phone_number, add fullBiography)
-- [ ] Make summaryStats computed and dynamic based on leaders data
-- [ ] Define categoryOptions for the modal select
-- [ ] Update template to use leader.image instead of leader.avatar, leader.phone_number instead of leader.phone
-- [ ] Update modal Select to use categoryOptions
-- [ ] Implement submitForm to handle adding leader, including splitting specialties by comma
+- [x] Update tabs to 4 unique entries matching i18n keys and data categories (removed duplicate nationalMenFellowshipExecutive)
+- [x] Map template fields: selectedLeader.title → selectedLeader.position, selectedLeader.desc → selectedLeader.biography (with v-html)
+- [x] Remove unused computed properties (apostles, bishops, prophets) and districtLeaders array
+- [x] Update currentList to filter by category (executive_council, district_area_heads, men_fellowship, women_and_youth)
+- [x] Test the component to ensure data displays correctly and tabs filter properly
+- [x] Verify biography renders as HTML

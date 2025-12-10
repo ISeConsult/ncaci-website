@@ -32,11 +32,11 @@
     </div>
 
     <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 gap-8">
       <!-- Articles Section -->
-      <div class="xl:col-span-3">
+      <div class="">
         <!-- Article Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="article in paginatedArticles" :key="article.id"
                class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden group">
             
@@ -358,7 +358,7 @@ const newsStats = computed(() => [
 ])
 
 onMounted(() => {
-  NewsStore.fetcNews()
+  NewsStore.fetchNews()
   console.log('News loaded:', news.value)
 })
 </script>

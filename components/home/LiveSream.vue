@@ -11,24 +11,24 @@
                     <div class="flex items-center">
                         <div class="w-full space-y-6" >
                             <div class="flex items-center justify-between">
-                                <span class="text-xs font-thin text-center uppercase text-gray-100">{{ $t('liveStream.upcomingEvent') }}</span>
-                                <div class="flex flex-col items-start">
+                                <span class="text-xs font-thin text-center uppercase text-gray-100">{{ events[0]?.status }} event</span>
+                                <!-- <div class="flex flex-col items-start">
                                     <h1 class="text-4xl font-bold text-center uppercase text-gray-100 mb-2">{{ $t('liveStream.day') }}</h1>
                                     <p class="text-xs font-thin text-center uppercase text-gray-100">{{ $t('liveStream.month') }}</p>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="mt-4">
-                                <h1 class="text-2xl font-bold text-left uppercase text-gray-100 mb-2">{{ $t('liveStream.eventTitle') }}</h1>
+                                <h1 class="text-2xl font-bold text-left uppercase text-gray-100 mb-2">{{ events[0]?.title }}</h1>
                             </div>
                             <div class="mt-4">
-                                <p class="text-xs font-thin text-left uppercase text-gray-100">{{ $t('liveStream.description') }}</p>
+                                <p class="text-xs font-thin text-left uppercase text-gray-100">{{ events[0]?.description }}</p>
                             </div>
                             <div class="mt-6 flex items-start gap-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 text-gray-100">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
                                 <div>
-                                    <p class="text-xs font-thin text-left uppercase text-gray-100">{{ $t('liveStream.time1') }}<br/>{{ $t('liveStream.time2') }}</p>
+                                    <p class="text-xs font-thin text-left uppercase text-gray-100">{{ events[0]?.start_date }}, {{ events[0]?.start_time }}<br/>{{ events[0]?.end_date }}, {{ events[0]?.end_time }}</p>
                                 </div>
                             </div>
                             <div class="mt-6 flex items-start gap-4">
@@ -38,7 +38,7 @@
                                 </svg>
 
                                 <div>
-                                    <p class="text-xs font-thin text-left uppercase text-gray-100">{{ $t('liveStream.location1') }}<br/>{{ $t('liveStream.location2') }}</p>
+                                    <p class="text-xs font-thin text-left uppercase text-gray-100">{{ events[0]?.location }}</p>
                                 </div>
                             </div>
                             <div class="mt-16 flex items-center gap-5">
@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <div class="lg:col-span-2 hidden md:block h-[500px]">
-                    <img src="/images/live-stream.jpg" alt="live stream" class="w-full h-full object-cover">
+                    <img :src="events[0]?.image" alt="live stream" class="w-full h-full object-cover">
                 </div>
             </div>
         </div>
@@ -114,6 +114,12 @@
 import Modal from '../UI/Modal.vue';
 import TextField from '../UI/TextField.vue';
 import Select from '../UI/Select.vue';
+import { ref } from 'vue';
+import { useEventStore } from '@/stores/useEventStore';
+import { storeToRefs } from 'pinia';
+
+const EventStore = useEventStore();
+const { events } = storeToRefs(EventStore);
 
 const showSocial = ref(false)
 
@@ -133,6 +139,10 @@ const openModal = () => {
 const closeModal = () => {
     isModalOpen.value = false
 }
+
+onMounted(() => {
+    EventStore.fetchEventByStatusUpcoming();
+});
 </script>
 
 <style scoped>

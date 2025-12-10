@@ -41,6 +41,27 @@ const baseUrl = config.public.baseUrl
     }
   };
 
+  async function fetchEventByStatusUpcoming() {
+    loading.value = true
+    try {
+      const response = await axios.get(`${baseUrl}/dashboard/events/`,{
+         headers: {
+          'Content-Type': 'application/json',
+          'Authorization': decryptData(localStorage.getItem('authToken')),
+          'Accept': 'application/json'
+        }
+      });
+      if (response.data) {
+        events.value = response.data.data.filter(event => event.status === 'upcoming');
+        console.log('Filtered upcoming events:', events.value);
+      }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    } finally {
+      loading.value = false
+    }
+  };
+
   async function addEvent(eventData) {
     loading.value = true
     try {
@@ -156,5 +177,5 @@ const baseUrl = config.public.baseUrl
     }
   };
 
-  return { events, loading, fetchEvents, addEvent, updateEvent, deleteEvent };
+  return { events, loading, fetchEvents, addEvent, updateEvent, deleteEvent, fetchEventByStatusUpcoming };
 })

@@ -19,10 +19,7 @@
     </div>
 
     <!-- Users Table -->
-    <div v-if="loading" class="space-y-4">
-      <Skeleton v-for="i in 5" :key="i" variant="table" height="h-12" class="w-full" />
-    </div>
-    <Table v-else :columns="columns" :data="users" :rows="users" title="Users" :searchable="true" :search-placeholder="'Search users...'" :items-per-page="10" :pagination="true" class="text-nowrap">
+    <Table :columns="columns" :data="users" :rows="users" title="Users" :searchable="true" :search-placeholder="'Search users...'" :items-per-page="10" :pagination="true" class="text-nowrap">
       <template #actions="{ item }">
         <button @click="openModal(item)" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 p-1 rounded">
           <PencilIcon class="h-4 w-4" />

@@ -20,7 +20,7 @@ export const useNewsStore = defineStore('NewsStore', () => {
   const config = useRuntimeConfig()
 const baseUrl = config.public.baseUrl
 
-  async function fetcNews() {
+  async function fetchNews() {
     loading.value = true
     try {
       const response = await axios.get(`${baseUrl}/dashboard/articles/`,{
@@ -156,5 +156,5 @@ const baseUrl = config.public.baseUrl
     }
   };
 
-  return { news, loading, fetcNews, addNews, updateNews, deleteNews };
+  return { news, loading, fetchNews, addNews, updateNews, deleteNews };
 })
