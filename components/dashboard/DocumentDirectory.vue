@@ -73,7 +73,7 @@
           </div>
 
           <!-- Document List/Grid -->
-          <div class="p-6">
+          <div v-if="filteredDocuments && filteredDocuments.length > 0" class="p-6">
             <!-- List View -->
             <div v-if="viewMode === 'list'" class="grid md:grid-cols-2 gap-8">
               <div
@@ -172,6 +172,16 @@
                 Upload First Document
               </button>
             </div>
+          </div>
+
+          <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 col-span-5">
+              <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p class="text-gray-500 text-lg font-medium">No Documents found</p>
+              <p class="text-gray-400 text-sm mt-1">
+                  There are no documents to display at the moment.
+              </p>
           </div>
         </div>
       </div>

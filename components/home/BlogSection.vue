@@ -7,7 +7,7 @@
             </div>
 
             <div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full mt-8">
+                <div v-if="news && news.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full mt-8">
                     <div v-for="blog in news.slice(0, 4)" :key="blog.title" class="blog-card flex items-start space-x-4 bg-[#ffeded] bg-opacity-80 p-6">
                         <div class="p-6">
                             <div class="flex mb-10">
@@ -15,7 +15,7 @@
                             </div>
                             <div>
                                 <Nuxt-link :to="`/blog/${blog.uid}`" class="text-2xl font-bold text-left uppercase mb-4 hover:text-blue-600 transition-colors duration-200">
-                                    <h2 class="text-2xl font-bold uppercase text-black mb-2">{{ blog.title }}</h2>
+                                    <h2 class="text-xl font-bold uppercase text-black mb-2 hover:text-blue-600">{{ blog.title }}</h2>
                                 </Nuxt-link>
                             </div>
                             <div>
@@ -23,10 +23,19 @@
                             </div>
                             <div class="mt-6">
                                 <p class="text-xs font-semibold text-left capitalize text-black mb-1">by {{ blog.author }}</p>
-                                <!-- <p class="text-xs font-semibold text-left capitalize text-black">{{ blog.date }}</p> -->
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 w-full">
+                    <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="text-gray-500 text-lg font-medium">No Blogs found</p>
+                    <p class="text-gray-400 text-sm mt-1">
+                        There are no blogs to display at the moment.
+                    </p>
                 </div>
             </div>
         </div>

@@ -23,7 +23,7 @@
             </div>
             <div class="grid grid-cols-1 mt-8 w-full">
                 <h1 class="text-md font-bold text-left uppercase text1 mb-2 text-nowrap">{{ $t('nibalt.academic.courses') }}</h1>
-                <div v-for="(item, index) in courses.filter((course) => course.duration === '1_year')" :key="index" class="">
+                <div v-if="courses && courses.length > 0" v-for="(item, index) in courses.filter((course) => course.duration === '1_year')" :key="index" class="">
                     <div class="mb-4 bg-[#eaecfc] w-full p-6 cursor-pointer" @click="selectedCoursesIndex = selectedCoursesIndex === index ? null : index">
                         <h1 class="text-lg text-wrap md:text-nowrap font-bold text-left uppercase text-[#535995] mb-1">{{ item.title }}</h1>
                         <p v-if="selectedCoursesIndex === index" class="text-sm text-gray-700 mt-2">{{ item.description }}</p>
@@ -71,6 +71,16 @@
                         </div>
                     </div>
                 </div>
+
+                <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 col-span-5">
+                    <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="text-gray-500 text-lg font-medium">No Courses found</p>
+                    <p class="text-gray-400 text-sm mt-1">
+                        There are no courses to display at the moment.
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -84,7 +94,7 @@
             </div>
             <div class="grid grid-cols-1 mt-8 w-full">
                 <h1 class="text-md font-bold text-left uppercase text1 mb-2 text-nowrap">{{ $t('nibalt.academic.courses') }}</h1>
-                <div v-for="(item, index) in courses.filter((course) => course.duration === '2_years')" :key="index" class="">
+                <div v-if="courses && courses.length > 0" v-for="(item, index) in courses.filter((course) => course.duration === '2_years')" :key="index" class="">
                     <div class="mb-4 bg-[#eaecfc] w-full p-6 cursor-pointer" @click="selectedCourseIndex = selectedCourseIndex === index ? null : index">
                         <h1 class="text-lg text-wrap md:text-nowrap font-bold text-left uppercase text-[#535995] mb-1">{{ item.title }}</h1>
                         <p v-if="selectedCourseIndex === index" class="text-sm text-gray-700 mt-2">{{ item.description }}</p>
@@ -131,6 +141,16 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 col-span-5">
+                    <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="text-gray-500 text-lg font-medium">No Courses found</p>
+                    <p class="text-gray-400 text-sm mt-1">
+                        There are no courses to display at the moment.
+                    </p>
                 </div>
             </div>
         </div>

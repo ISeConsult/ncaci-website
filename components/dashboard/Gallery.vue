@@ -15,7 +15,7 @@
         </div>
 
         <!-- Display gallery images -->
-        <div class="mx-auto w-full px-4 py-6 sm:px-6 lg:w-full lg:px-8">
+        <div v-if="gallaries && gallaries.length > 0" class="mx-auto w-full px-4 py-6 sm:px-6 lg:w-full lg:px-8">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 <div v-for="items in gallaries" :key="items.id" class="group relative aspect-square w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
                     <img :src="items.image" alt="gallery" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer">
@@ -24,6 +24,16 @@
                     </button>
                 </div>
             </div>
+        </div>
+
+        <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 col-span-5">
+            <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p class="text-gray-500 text-lg font-medium">No Gallery found</p>
+            <p class="text-gray-400 text-sm mt-1">
+                There are no galleries to display at the moment.
+            </p>
         </div>
     </div>
 </template>

@@ -32,10 +32,10 @@
     <!--Files-->
     <div class="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full">
-            <div v-for="dir in filteredDiretorates" :key="dir.title" class="directorate-card bg-white border rounded-lg p-4 text-center hover:shadow-lg transition-shadow relative overflow-hidden">
-                <h3 class="text-lg text-black font-semibold mb-2">{{ dir.title }}</h3>
-                <p class="text-sm text-gray-600">{{ dir.type.toUpperCase() }}</p>
-                <div class="download-slide bg-blue-500 flex cursor-pointer items-center justify-center p-2 transform translate-y-full hover:translate-y-0 transition-transform duration-300 rounded-b-lg">
+            <div v-for="dir in filteredDiretorates" :key="dir.name" class="directorate-card bg-white border rounded-lg p-4 text-center hover:shadow-lg transition-shadow relative overflow-hidden" v-if="filteredDiretorate && filteredDiretorate.length > 0">
+                <h3 class="text-lg text-black font-semibold mb-2">{{ dir.name }}</h3>
+                <p class="text-sm text-gray-600">{{ dir.file_type.toUpperCase() }}</p>
+                <div @click="downloadFile(dir.file)" class="download-slide bg-blue-500 flex cursor-pointer items-center justify-center p-2 transform translate-y-full hover:translate-y-0 transition-transform duration-300 rounded-b-lg">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" class="size-6 text-white">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m-6 3.75 3 3m0 0 3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
@@ -43,6 +43,16 @@
                     </span>
                     <p class="text-white mt-1">download</p>
                 </div>
+            </div>
+
+            <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 col-span-2 md:col-span-3 lg:col-span-5">
+                <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p class="text-gray-500 text-lg font-medium">No Documents found</p>
+                <p class="text-gray-400 text-sm mt-1">
+                    There are no documents to display at the moment.
+                </p>
             </div>
         </div>
     </div>
@@ -52,71 +62,12 @@
 import Navbar from '../components/layouts/Navbar.vue'
 import DirectorateHeader from '../components/media/DirectorateHeader.vue'
 import DirectorateFilter from '../components/media/DirectorateFilter.vue'
+import { ref, computed, onMounted } from 'vue'
+import { useDocumentStore } from '../stores/useDocumentStore';
+import { storeToRefs } from 'pinia';
 
-import { ref, computed } from 'vue'
-
-const diretorates = ref([
-    {
-        title: 'offering book',
-        type: 'pdf',
-    },
-    {
-        title: 'history',
-        type: 'word',
-    },
-    {
-        title: 'vision and mission',
-        type: 'word',
-    },
-    {
-        title: 'bylaws',
-        type: 'pdf',
-    },
-    {
-        title: 'annual report',
-        type: 'pdf',
-    },
-    {
-        title: 'constitution',
-        type: 'word',
-    },
-    {
-        title: 'policies',
-        type: 'pdf',
-    },
-    {
-        title: 'events',
-        type: 'word',
-    },
-    {
-        title: 'gallery',
-        type: 'png',
-    },
-    {
-        title: 'leadership',
-        type: 'word',
-    },
-    {
-        title: 'ministries',
-        type: 'pdf',
-    },
-    {
-        title: 'contact',
-        type: 'excel',
-    },
-    {
-        title: 'about',
-        type: 'pdf',
-    },
-    {
-        title: 'partners',
-        type: 'word',
-    },
-    {
-        title: 'nibalt',
-        type: 'pdf',
-    }
-])
+const DocumentStore = useDocumentStore();
+const { documents } = storeToRefs(DocumentStore);
 
 const filter = [
     {
@@ -145,10 +96,24 @@ const selectedFilter = ref('all')
 
 const filteredDiretorates = computed(() => {
     if (selectedFilter.value === 'all') {
-        return diretorates.value
+        return documents.value
     }
-    return diretorates.value.filter(dir => dir.type === selectedFilter.value)
+    return documents.value.filter(dir => dir.file_type === selectedFilter.value)
 })
+
+const downloadFile = (url) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = '';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+onMounted(() => {
+    DocumentStore.fetchDocuments();
+});
 </script>
 
 <style scoped>

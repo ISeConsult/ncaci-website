@@ -15,7 +15,7 @@
           <div class="p-6 border-b border-gray-200 dark:border-gray-700">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Upcoming Events</h3>
           </div>
-          <div class="p-6">
+          <div v-if="events && events.length > 0" class="p-6">
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
               <div
                 v-for="event in paginatedEvents"
@@ -94,6 +94,16 @@
             <div class="flex justify-center mt-8">
               <Pagination :current-page="currentPage" :total-pages="totalPages" :total-items="events.length" :items-per-page="itemsPerPage" @update:currentPage="onPageChange" />
             </div>
+          </div>
+
+          <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 col-span-5">
+              <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p class="text-gray-500 text-lg font-medium">No Events found</p>
+              <p class="text-gray-400 text-sm mt-1">
+                  There are no events to display at the moment.
+              </p>
           </div>
         </div>
       </div>

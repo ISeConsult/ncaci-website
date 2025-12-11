@@ -36,7 +36,7 @@
       <!-- Articles Section -->
       <div class="">
         <!-- Article Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-if="paginatedArticles && paginatedArticles.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="article in paginatedArticles" :key="article.id"
                class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden group">
             
@@ -88,6 +88,18 @@
             </div>
           </div>
         </div>
+
+        <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 col-span-5">
+            <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p class="text-gray-500 text-lg font-medium">No Articles found</p>
+            <p class="text-gray-400 text-sm mt-1">
+                There are no articles to display at the moment.
+            </p>
+        </div>
+
+        <!-- Pagination -->
         <div class="flex justify-center mt-8">
         <Pagination :current-page="currentPage" :total-pages="totalPages" :total-items="(news.value || []).length" :items-per-page="itemsPerPage" @update:currentPage="handlePageChange" />
         </div>

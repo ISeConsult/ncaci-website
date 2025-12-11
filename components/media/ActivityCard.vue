@@ -5,18 +5,6 @@
     <div class="flex flex-col justify-center items-center py-12 w-full">
       <!-- Events header -->
       <div class="grid grid-cols-1 lg:grid-cols-7 gap-8 w-full">
-        <!-- Filters -->
-        <div class="lg:col-span-1 section1-bg">
-          <ul class="flex flex-row lg:flex-col flex-wrap gap-2 lg:gap-0">
-            <li
-              v-for="item in filter"
-              :key="item.title"
-              class="cursor-pointer border-b border-blue-500 py-2 capitalize text1 pl-4 w-full"
-            >
-              {{ item.title }}
-            </li>
-          </ul>
-        </div>
         <!-- Intro text -->
         <div class="lg:col-span-6 flex justify-center items-center">
           <p
@@ -38,6 +26,7 @@
       v-for="item in paginatedActivities"
       :key="item.title"
       class="w-full"
+      v-if="paginatedActivities && paginatedActivities.length > 0"
     >
       <div
         class="grid grid-cols-1 lg:grid-cols-6 gap-6 mb-6"
@@ -185,6 +174,16 @@
       </div>
     </div>
 
+    <div v-else class="flex flex-col justify-center items-center mt-12 mb-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 w-full">
+      <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <p class="text-gray-500 text-lg font-medium">No Event found</p>
+      <p class="text-gray-400 text-sm mt-1">
+        There are no events to display at the moment.
+      </p>
+    </div>
+
     <!-- Pagination -->
     <div class="flex justify-center items-center pb-6">
       <Pagination
@@ -202,6 +201,33 @@
 <script setup>
 import { ref, computed } from 'vue'
 import Pagination from '~/components/UI/Pagination.vue'
+import { useEventStore } from '~/stores/useEventStore'
+import { storeToRefs } from 'pinia'
+
+const EventStore = useEventStore()
+const { events } = storeToRefs(EventStore)
+
+const activities = computed(() => {
+  if (!Array.isArray(events.value)) return []
+  return events.value.map(event => {
+    const startDate = new Date(event.start_date)
+    const endDate = new Date(event.end_date)
+    const dateStr = startDate.toDateString() === endDate.toDateString()
+      ? startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      : `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+    const startTime = event.start_time.slice(0, 5) // HH:MM
+    const endTime = event.end_time.slice(0, 5)
+    const timeStr = `${startTime} - ${endTime}`
+    const speakers = event.speakers.split(',').map(s => ({ name: s.trim() }))
+    return {
+      ...event,
+      date: dateStr,
+      time: timeStr,
+      desc: event.description,
+      speakers
+    }
+  })
+})
 
 const currentPage = ref(1)
 const itemsPerPage = ref(3)
@@ -211,7 +237,7 @@ const totalPages = computed(() => Math.ceil(activities.length / itemsPerPage.val
 const paginatedActivities = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value
   const end = start + itemsPerPage.value
-  return activities.slice(start, end)
+  return activities.value.slice(start, end)
 })
 
 const filter = [
@@ -238,97 +264,11 @@ const filter = [
 ]
 
 
-const activities = [
-    {
-        title: 'founders day',
-        desc: 'all districts and locals',
-        location: 'Williams Street, East Legon, House 115, Accra - Ghana',
-        date: '9th - 10th Sept, 2025',
-        time: '9:00 AM - 3:00 PM',
-        image: '/images/gala1.jpg',
-        speakers: [
-            {
-                name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        }   
-    ]
-    },
-    {
-        title: 'founders day',
-        desc: 'all districts and locals',
-        location: 'Williams Street, East Legon, House 115, Accra - Ghana',
-        date: '9th - 10th Sept, 2025',
-        time: '9:00 AM - 3:00 PM',
-        image: '/images/gala2.jpg',
-        speakers: [
-            {
-                name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        }   
-    ]
-    },
-    {
-        title: 'founders day',
-        desc: 'all districts and locals',
-        location: 'Williams Street, East Legon, House 115, Accra - Ghana',
-        date: '9th - 10th Sept, 2025',
-        time: '9:00 AM - 3:00 PM',
-        image: '/images/gala3.jpg',
-        speakers: [
-            {
-                name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        }   
-    ]
-    },
-    {
-        title: 'founders day',
-        desc: 'all districts and locals',
-        location: 'Williams Street, East Legon, House 115, Accra - Ghana',
-        date: '9th - 10th Sept, 2025',
-        time: '9:00 AM - 3:00 PM',
-        image: '/images/gala4.jpg',
-        speakers: [
-            {
-                name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        },
-        {
-            name: 'Rev. Dr. Michael Addo',
-        }   
-    ]
-    }
-]
 
+
+onMounted(() => {
+    EventStore.fetchEvents()
+})
 </script>
 
 <style scoped>

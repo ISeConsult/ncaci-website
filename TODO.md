@@ -1,6 +1,13 @@
-- [x] Update tabs to 4 unique entries matching i18n keys and data categories (removed duplicate nationalMenFellowshipExecutive)
-- [x] Map template fields: selectedLeader.title → selectedLeader.position, selectedLeader.desc → selectedLeader.biography (with v-html)
-- [x] Remove unused computed properties (apostles, bishops, prophets) and districtLeaders array
-- [x] Update currentList to filter by category (executive_council, district_area_heads, men_fellowship, women_and_youth)
-- [x] Test the component to ensure data displays correctly and tabs filter properly
-- [x] Verify biography renders as HTML
+# TODO List for Integrating Response Data into Directorate Template
+
+## Completed Tasks
+- [x] Import `onMounted` from 'vue' in pages/directorate.vue
+- [x] Fix computed property `filteredDiretorates` to use `documents.value` instead of `diretorates.value`
+- [x] Update computed property to filter by `dir.file_type` instead of `dir.type`
+- [x] Update template to display `dir.name` instead of `dir.title`
+- [x] Update template to display `dir.file_type.toUpperCase()` instead of `dir.type.toUpperCase()`
+- [x] Add `@click="downloadFile(dir.file)"` to the download div
+- [x] Add `downloadFile` function to open file URL in new tab
+
+## Summary
+The template has been successfully integrated with the response data. The page now correctly displays documents from the store, allows filtering by file type, and enables downloading by clicking the download button.
