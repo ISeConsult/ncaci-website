@@ -38,11 +38,6 @@ jobs:
           output_location: ".output/public" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env:
-          NUXT_PUBLIC_API_BASE_URL: "cmsapi.thencacint.org/"
-          BASE_URL: "cmsapi.thencacint.org/"
-          NUXT_BASE_URL: "cmsapi.thencacint.org/"
-          PUBLIC_BASE_URL: "cmsapi.thencacint.org/"
-          NUXT_PUBLIC_BASE_URL: "cmsapi.thencacint.org/"
           NODE_OPTIONS: "--max_old_space_size=4096"
       
   close_pull_request_job:
@@ -56,6 +51,7 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AMBITIOUS_OCEAN_08901AC10 }}
           action: "close"
+
 
 
 
