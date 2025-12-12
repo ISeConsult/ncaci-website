@@ -8,26 +8,10 @@
         <p class="text-gray-600 dark:text-gray-400">Discover ways to serve, grow, and connect in our community</p>
       </div>
       <div class="flex gap-3">
-        <button @click="openModal" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center font-medium shadow-md">
+        <Button @click="openModal(null)">
           <PlusIcon class="h-5 w-5 mr-2" />
           New Activity
-        </button>
-      </div>
-    </div>
-
-    <!-- Summary Stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-      <div v-for="stat in activityStats" :key="stat.title" 
-           class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-4">
-        <div class="flex items-center">
-          <div :class="['p-2 rounded-lg', stat.bgColor]">
-            <component :is="stat.icon" :class="['h-5 w-5', stat.color]" />
-          </div>
-          <div class="ml-3">
-            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ stat.value }}</p>
-            <p class="text-xs font-medium text-gray-600 dark:text-gray-400">{{ stat.title }}</p>
-          </div>
-        </div>
+        </Button>
       </div>
     </div>
 
@@ -46,7 +30,7 @@
     </div>
 
     <!-- Activities Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+    <div v-if="filteredActivities && filteredActivities.length > 0" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
       <div v-for="activity in paginatedActivities" :key="activity.id"
            class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden group">
 
@@ -82,15 +66,25 @@
 
           <!-- Action Buttons -->
           <div class="flex justify-end mt-4 pt-3 border-t border-gray-100 dark:border-gray-600 space-x-2">
-            <button class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium transition-colors duration-200">
+            <button @click="openModal(activity)" class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium transition-colors duration-200">
               Edit
             </button>
-            <button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium transition-colors duration-200">
+            <button @click="openDeleteModal(activity)" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 text-sm font-medium transition-colors duration-200">
               Delete
             </button>
           </div>
         </div>
       </div>
+    </div>
+
+    <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 col-span-5">
+        <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="text-gray-500 text-lg font-medium">No Activities found</p>
+        <p class="text-gray-400 text-sm mt-1">
+            There are no activities to display at the moment.
+        </p>
     </div>
 
     <!-- Pagination -->
@@ -99,13 +93,13 @@
     </div>
 
     <!-- New Activity Modal -->
-    <Modal v-model:is-open="isModalOpen" size="3xl" title="Create New Activity" @close="closeModal">
-      <form @submit.prevent="submitForm">
+    <Modal v-model:is-open="isModalOpen" size="3xl" :title="isEditing ? 'Edit Activity' : 'Create New Activity'" @close="closeModal">
+      <form @submit.prevent="submitForm" enctype="multipart/form-data">
         <div class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Image URL -->
             <FileInput
-              v-model="newActivity.image"
+              v-model="formData.image"
               accept="image/*"
               accept-text="Image files only, up to 10MB each"
               label="Image URL"
@@ -114,7 +108,7 @@
 
             <!-- Title -->
             <TextField
-              v-model="newActivity.title"
+              v-model="formData.title"
               label="Activity Title"
               placeholder="Enter activity title"
               required
@@ -123,7 +117,7 @@
 
             <!-- Description -->
             <Textarea
-              v-model="newActivity.description"
+              v-model="formData.description"
               label="Description"
               placeholder="Enter activity description"
               required
@@ -131,17 +125,10 @@
               class="md:col-span-2"
             />
 
-            <!-- Schedule -->
-            <TextField
-              v-model="newActivity.schedule"
-              label="Schedule"
-              placeholder="e.g., Every Sunday 9:30 AM"
-            />
-
             <!-- Category -->
             <Select
-              v-model="newActivity.category"
-              :options="activityCategories"
+              v-model="formData.category"
+              :options="activitYList"
               label="Category"
               placeholder="Select a category"
               required
@@ -149,14 +136,14 @@
 
             <!-- Location -->
             <TextField
-              v-model="newActivity.location"
+              v-model="formData.location"
               label="Location"
               placeholder="Enter location"
             />
 
             <!-- Coordinator -->
             <TextField
-              v-model="newActivity.coordinator"
+              v-model="formData.co_ordinator"
               label="Coordinator"
               placeholder="Enter coordinator name"
             />
@@ -166,21 +153,46 @@
 
       <template #footer>
         <div class="flex justify-end space-x-3">
-          <button
+          <Button
             @click="closeModal"
             type="button"
-            class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            variant="secondary"
           >
             Cancel
           </button>
-          <button
+          <Button
             @click="submitForm"
+            :loading="loading"
             type="button"
-            :disabled="!newActivity.title || !newActivity.description || !newActivity.category"
-            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            :disabled="!formData.title || !formData.description || !formData.category"
           >
             Create Activity
-          </button>
+          </Button>
+        </div>
+      </template>
+    </Modal>
+
+    <!-- Delete confirmation modal -->
+    <Modal v-model:is-open="isDeleteModalOpen" size="md" title="Confirm Delete" @close="cancelDelete">
+      <p class="text-gray-700 dark:text-gray-300">
+        Are you sure you want to delete the activity "{{ activityToDelete?.title }}"? This action cannot be undone.
+      </p>
+      <template #footer>
+        <div class="flex justify-end space-x-3">
+          <Button
+            @click="cancelDelete"
+            type="button"
+            variant="secondary"
+          >
+            Cancel
+          </Button>
+          <Button
+            @click="confirmDelete"
+            type="button"
+            variant="danger"
+          >
+            Delete
+          </Button>
         </div>
       </template>
     </Modal>
@@ -188,219 +200,76 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import Pagination from '../UI/Pagination.vue'
 import Modal from '../UI/Modal.vue'
 import TextField from '../UI/TextField.vue'
 import Textarea from '../UI/Textarea.vue'
 import Select from '../UI/Select.vue'
 import {
-  UsersIcon,
   CalendarIcon,
   PlusIcon,
   MapPinIcon,
-  UserIcon,
-  ClockIcon,
-  HandRaisedIcon,
+  UserIcon
 } from '@heroicons/vue/24/outline'
 import FileInput from '../UI/FileInput.vue'
+import { useActivityStore } from '@/stores/useActivityStore';
+import { storeToRefs } from 'pinia';
+import { useToast } from '~/composables/useToast'
+import Button from '../UI/Button.vue';
 
+const ActivityStore = useActivityStore();
+const { activities, loading } = storeToRefs(ActivityStore);
+
+const { addToast } = useToast()
+
+const isEditing = ref(false)
+const editingActivity = ref(null)
+const activityToDelete = ref(null)
 const currentPage = ref(1)
 const itemsPerPage = 6
 const isModalOpen = ref(false)
 const selectedCategory = ref('All Activities')
-const newActivity = ref({
+const isDeleteModalOpen = ref(false)
+
+
+const formData = ref({
   title: '',
   description: '',
-  schedule: '',
-  category: '',
+  category: null,
   location: '',
-  coordinator: '',
+  co_ordinator: '',
   image: ''
 })
-const totalPages = computed(() => Math.ceil(filteredActivities.value.length / itemsPerPage))
-
-const handlePageChange = (page) => {
-  currentPage.value = page
-}
-
-const openModal = () => {
-  isModalOpen.value = true
-}
-
-const closeModal = () => {
-  isModalOpen.value = false
-  resetForm()
-}
-
-const resetForm = () => {
-  newActivity.value = {
-    title: '',
-    description: '',
-    schedule: '',
-    category: '',
-    location: '',
-    coordinator: '',
-    image: ''
-  }
-}
-
-const submitForm = () => {
-  if (newActivity.value.title && newActivity.value.description && newActivity.value.category) {
-    const newId = Math.max(...activities.map(a => a.id)) + 1
-    activities.push({
-      id: newId,
-      ...newActivity.value
-    })
-    closeModal()
-  }
-}
-
-
-
-
-// Activity statistics
-const activityStats = [
-  {
-    title: 'Active Programs',
-    value: '18',
-    icon: CalendarIcon,
-    color: 'text-green-600',
-    bgColor: 'bg-green-100 dark:bg-green-900/30'
-  },
-  {
-    title: 'Total Participants',
-    value: '847',
-    icon: UsersIcon,
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-100 dark:bg-blue-900/30'
-  },
-  {
-    title: 'Weekly Events',
-    value: '12',
-    icon: ClockIcon,
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-100 dark:bg-purple-900/30'
-  },
-  {
-    title: 'Volunteers',
-    value: '156',
-    icon: HandRaisedIcon,
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-100 dark:bg-orange-900/30'
-  }
-]
 
 // Activity categories
 const activityCategories = [
   'All Activities', 'Worship', 'Education', 'Fellowship', 'Outreach', 'Youth', 'Seniors'
 ]
 
-// Activities data
-const activities = [
-  {
-    id: 1,
-    title: 'Sunday School',
-    description: 'Comprehensive Bible study and spiritual education program designed for all ages, from children to adults, fostering spiritual growth and biblical understanding.',
-    schedule: 'Every Sunday 9:30 AM',
-    category: 'Education',
-    location: 'Fellowship Hall',
-    coordinator: 'Sister Rebecca Martinez',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=300&fit=crop',
-  },
-  {
-    id: 2,
-    title: 'Prayer Chain Ministry',
-    description: 'Powerful intercessory prayer network connecting members to pray for community needs, personal requests, and global concerns with dedicated prayer warriors.',
-    schedule: 'Daily Prayer Times',
-    category: 'Worship',
-    location: 'Prayer Room & Online',
-    coordinator: 'Elder Michael Davis',
-    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=300&fit=crop',
-  },
-  {
-    id: 3,
-    title: 'Community Food Pantry',
-    description: 'Vital community food assistance program serving local families in need, providing nutritious meals and groceries with dignity and compassion.',
-    schedule: 'Saturdays 10:00 AM',
-    category: 'Outreach',
-    location: 'Community Center',
-    coordinator: 'Brother James Wilson',
-    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=300&fit=crop',
-  },
-  {
-    id: 4,
-    title: 'Worship Music Ministry',
-    description: 'Dynamic worship team and choir training program developing musical talents for Sunday services, special events, and community performances.',
-    schedule: 'Wednesdays 7:00 PM',
-    category: 'Worship',
-    location: 'Sanctuary',
-    coordinator: 'Minister of Music',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=300&fit=crop',
-  },
-  {
-    id: 5,
-    title: 'Marriage & Family Counseling',
-    description: 'Professional pre-marital counseling and ongoing relationship support helping couples build strong, faith-centered marriages and families.',
-    schedule: 'By Appointment',
-    category: 'Fellowship',
-    location: 'Counseling Office',
-    coordinator: 'Rev. Mary Johnson',
-    image: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600&h=300&fit=crop',
-  },
-  {
-    id: 6,
-    title: 'Golden Years Ministry',
-    description: 'Enriching activities and support programs specifically designed for our senior members, including social gatherings, health seminars, and spiritual fellowship.',
-    schedule: 'Second Saturday Monthly',
-    category: 'Seniors',
-    location: 'Senior Center',
-    coordinator: 'Deacon Mark Thompson',
-    image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=600&h=300&fit=crop'
-  },
-  {
-    id: 7,
-    title: 'Youth Leadership Academy',
-    description: 'Comprehensive leadership development program for teenagers, equipping them with skills, confidence, and biblical wisdom for future ministry and community leadership.',
-    schedule: 'Fridays 6:30 PM',
-    category: 'Youth',
-    location: 'Youth Center',
-    coordinator: 'Youth Pastor Lisa White',
-    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&h=300&fit=crop',
-  },
-  {
-    id: 8,
-    title: 'Community Garden Project',
-    description: 'Sustainable gardening initiative teaching agricultural skills while providing fresh produce for our food pantry and local community members.',
-    schedule: 'Saturdays 8:00 AM',
-    category: 'Outreach',
-    location: 'Church Grounds',
-    coordinator: 'Brother Paul Anderson',
-    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=300&fit=crop',
-  },
-  {
-    id: 9,
-    title: 'Bible Study Fellowship',
-    description: 'In-depth weekly Bible study sessions exploring Scripture through verse-by-verse teaching, group discussions, and practical application for daily life.',
-    schedule: 'Thursdays 7:00 PM',
-    category: 'Education',
-    location: 'Main Hall',
-    coordinator: 'Pastor John Smith',
-    image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=300&fit=crop',
-  }
+const activitYList = [
+  { label: 'Worship', value: 'worship' },
+  { label: 'Education', value: 'education' },
+  { label: 'Fellowship', value: 'fellowship' },
+  { label: 'Outreach', value: 'outreach' },
+  { label: 'Youth', value: 'youth' },
+  { label: 'Seniors', value: 'seniors' },
 ]
 
 // Computed property for filtered activities
 const filteredActivities = computed(() => {
-  let filtered = activities
+  let filtered = activities.value
 
   // Filter by category
   if (selectedCategory.value !== 'All Activities') {
-    filtered = filtered.filter(activity => activity.category === selectedCategory.value)
+    filtered = filtered.filter(activity => activity.category.toLowerCase() === selectedCategory.value.toLowerCase())
   }
 
   return filtered
 })
+
+// Computed property for total pages
+const totalPages = computed(() => Math.ceil(filteredActivities.value.length / itemsPerPage))
 
 // Computed property for paginated activities
 const paginatedActivities = computed(() => {
@@ -408,6 +277,87 @@ const paginatedActivities = computed(() => {
   const end = start + itemsPerPage
   return filteredActivities.value.slice(start, end)
 })
+
+const handlePageChange = (page) => {
+  currentPage.value = page
+}
+
+const openModal = (activity = null) => {
+  isEditing.value = !!activity
+  editingActivity.value = activity
+
+  formData.value = isEditing.value ? { ...activity } : {
+    title: '',
+    description: '',
+    category: null,
+    location: '',
+    co_ordinator: '',
+    image: ''
+  }
+
+  isModalOpen.value = true
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+  isEditing.value = false
+  editingActivity.value = null
+
+  resetForm()
+}
+
+const resetForm = () => {
+  formData.value = {
+    title: '',
+    description: '',
+    category: null,
+    location: '',
+    co_ordinator: '',
+    image: ''
+  }
+}
+
+const submitForm = async () => {
+  try {
+    let response;
+    if (isEditing.value) {
+      response = await ActivityStore.updateActivity(editingActivity.value.uid, formData.value)
+    } else {
+      response = await ActivityStore.addActivity(formData.value)
+    }
+    addToast(response.data.message || 'Activity added successfully', 'success')
+    closeModal()
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    addToast(error.response.data.message || 'Error adding activity', 'error')
+  }
+}
+
+const openDeleteModal = (activity) => {
+  activityToDelete.value = activity
+  isDeleteModalOpen.value = true
+}
+
+const confirmDelete = async () => {
+  try {
+    await ActivityStore.deleteActivity(activityToDelete.value.uid)
+    isDeleteModalOpen.value = false
+    activityToDelete.value = null
+    addToast('Activity deleted successfully', 'success')
+  } catch (error) {
+    console.error('Error deleting user:', error)
+    addToast(error.response.data.message, 'error')
+  }
+}
+
+const cancelDelete = () => {
+  isDeleteModalOpen.value = false
+  activityToDelete.value = null
+}
+onMounted(() => {
+  ActivityStore.fetchActivities();
+  console.log('Activities fetched:', activities);
+});
 
 </script>
 

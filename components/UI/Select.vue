@@ -17,6 +17,7 @@
     <!-- Select Trigger -->
     <div ref="selectRef" class="relative">
       <button
+        type="button"
         :id="id"
         :disabled="disabled"
         :class="[
@@ -119,6 +120,7 @@
 
               <!-- Group options -->
               <button
+                type="button"
                 v-for="option in group.options"
                 :key="option.value"
                 :disabled="option.disabled"
@@ -153,6 +155,7 @@
           <!-- Ungrouped options -->
           <template v-else>
             <button
+              type="button"
               v-for="option in filteredOptions"
               :key="option.value"
               :disabled="option.disabled"

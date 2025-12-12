@@ -1,29 +1,14 @@
 <template>
   <div class="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Events (Unfiltered) -->
-    <div class="grid grid-cols-1 md:grid-cols-7 lg:grid-cols-7 gap-4">
-        <!-- Filter Section -->
-        <div class="lg:col-span-1 md:col-span-2">
-            <ul class="flex items-center justify-center md:items-start md:justify-start md:flex-col flex-row md:space-y-4 space-x-4 md:space-x-0">
-            <li 
-                v-for="item in filter" 
-                :key="item.title" 
-                class="cursor-pointer border-b md:border-b border-blue-500 py-2 capitalize"
-                :class="{'text-[#FF4949] font-bold': selectedFilter === item.value}"
-                @click="selectedFilter = item.value"
-            >
-                {{ item.title }}
-            </li>
-            </ul>
-        </div>
-
+    <div class="w-full">
         <!-- Events Section (Slider) -->
-        <div class="lg:col-span-6 md:col-span-5">
+        <div class="w-full" v-if="activities && activities.length > 0">
           <div
             class="flex space-x-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
           >
             <div
-              v-for="item in events"
+              v-for="item in activities"
               :key="item.title"
               class="group relative flex-shrink-0 w-64 h-60 overflow-hidden rounded-lg shadow-lg snap-start"
             >
@@ -44,15 +29,25 @@
             </div>
           </div>
         </div>
+
+        <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 w-full">
+          <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p class="text-gray-500 text-lg font-medium">No Activities found</p>
+          <p class="text-gray-400 text-sm mt-1">
+            There are no activities to display at the moment.
+          </p>
+        </div>
     </div>
 
     <!-- Gallery (Filtered) -->
-    <div 
+    <div v-if="gallaries && gallaries.length > 0"
       id="gallery" 
       class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-12"
     >
       <div 
-        v-for="(item, index) in filteredGallery" 
+        v-for="(item, index) in gallaries" 
         :key="item.image + index" 
         class="group aspect-square w-full overflow-hidden rounded-lg shadow-md"
       >
@@ -63,6 +58,22 @@
           @click="openModal(item.image, index)"
         />
       </div>
+    </div>
+
+    <!-- No Galleries Found -->
+    <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 w-full">
+      <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <p class="text-gray-500 text-lg font-medium">No images found</p>
+      <p class="text-gray-400 text-sm mt-1">
+        <span v-if="selectedFilter !== 'all'">
+          No {{ selectedFilter }} images available
+        </span>
+        <span v-else>
+          No images in the gallery yet 
+        </span>
+      </p>
     </div>
 
 
@@ -97,34 +108,20 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useGallaryStore } from '@/stores/useGallaryStore';
+import { storeToRefs } from 'pinia';
+
+const GallaryStore = useGallaryStore()
+const { gallaries, loading } = storeToRefs(GallaryStore);
+
+const ActivityStore = useActivityStore()
+const { activities } = storeToRefs(ActivityStore);
 
 const filter = [
   { title: 'all', value: 'all' },
   { title: 'upcoming', value: 'upcoming' },
   { title: 'past', value: 'past' },
   { title: 'ongoing', value: 'ongoing' },
-]
-
-const events = [
-  { title: 'worship conference', image: '/images/event1.jpg', category: 'upcoming' },
-  { title: 'christian fellowship', image: '/images/event2.jpg', category: 'upcoming' },
-  { title: 'women fellowship', image: '/images/event3.jpg', category: 'past' },
-  { title: 'Good news fellowship', image: '/images/event4.jpg', category: 'past' },
-  { title: 'christian fellowship', image: '/images/event2.jpg', category: 'upcoming' },
-  { title: 'women fellowship', image: '/images/event3.jpg', category: 'past' },
-]
-
-const gallery = [
-  { category: 'upcoming', image: '/images/gala1.jpg' },
-  { category: 'upcoming', image: '/images/gala2.jpg' },
-  { category: 'past', image: '/images/gala3.jpg' },
-  { category: 'past', image: '/images/gala4.jpg' },
-  { category: 'ongoing', image: '/images/gala5.jpg' },
-  { category: 'ongoing', image: '/images/gala6.jpg' },
-  { category: 'upcoming', image: '/images/gala7.jpg' },
-  { category: 'past', image: '/images/gala8.jpg' },
-  { category: 'ongoing', image: '/images/gala9.jpg' },
-  { category: 'past', image: '/images/gala10.jpg' },
 ]
 
 const selectedFilter = ref('all')
@@ -135,9 +132,9 @@ const currentIndex = ref(0)
 // Filter applied to gallery instead
 const filteredGallery = computed(() => {
   if (selectedFilter.value === 'all') {
-    return gallery
+    return gallaries
   }
-  return gallery.filter(item => item.category === selectedFilter.value)
+  return gallaries.filter(item => item.category === selectedFilter.value)
 })
 
 const openModal = (image, index = -1) => {
@@ -156,7 +153,7 @@ const nextImage = () => {
   if (currentIndex.value < filteredGallery.value.length - 1) {
     currentIndex.value++
   } else {
-    currentIndex.value = 0 // Loop to start
+    currentIndex.value = 0
   }
   currentImage.value = filteredGallery.value[currentIndex.value].image
 }
@@ -165,10 +162,15 @@ const prevImage = () => {
   if (currentIndex.value > 0) {
     currentIndex.value--
   } else {
-    currentIndex.value = filteredGallery.value.length - 1 // Loop to end
+    currentIndex.value = filteredGallery.value.length - 1
   }
   currentImage.value = filteredGallery.value[currentIndex.value].image
 }
+
+onMounted(() => {
+  GallaryStore.fetchGallaries();
+  ActivityStore.fetchActivities();
+});
 </script>
 
 
@@ -177,7 +179,7 @@ const prevImage = () => {
   display: none;
 }
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE/Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;  
 }
 </style>

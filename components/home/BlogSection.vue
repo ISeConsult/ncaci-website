@@ -7,24 +7,35 @@
             </div>
 
             <div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full mt-8">
-                    <div v-for="blog in blogs" :key="blog.title" class="blog-card flex items-start space-x-4 bg-[#ffeded] bg-opacity-80 p-6">
+                <div v-if="news && news.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full mt-8">
+                    <div v-for="blog in news.slice(0, 4)" :key="blog.title" class="blog-card flex items-start space-x-4 bg-[#ffeded] bg-opacity-80 p-6">
                         <div class="p-6">
                             <div class="flex mb-10">
-                                <p class="text-sm font-bold text-left uppercase text-[#FF4949]">{{ blog.category }}</p>
+                                <p class="text-sm font-bold text-left uppercase text-[#FF4949]">{{ formatCategory(blog.category) }}</p>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-bold uppercase text-black mb-2">{{ blog.title }}</h2>
+                                <Nuxt-link :to="`/blog/${blog.uid}`" class="text-2xl font-bold text-left uppercase mb-4 hover:text-blue-600 transition-colors duration-200">
+                                    <h2 class="text-xl font-bold uppercase text-black mb-2 hover:text-blue-600">{{ blog.title }}</h2>
+                                </Nuxt-link>
                             </div>
                             <div>
-                                <p class="text-black font-normal text-sm">{{ blog.description }}</p>
+                                <p class="text-black font-normal text-sm truncate" v-html="blog.content"></p>
                             </div>
                             <div class="mt-6">
                                 <p class="text-xs font-semibold text-left capitalize text-black mb-1">by {{ blog.author }}</p>
-                                <p class="text-xs font-semibold text-left capitalize text-black">{{ blog.date }}</p>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 w-full">
+                    <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="text-gray-500 text-lg font-medium">No Blogs found</p>
+                    <p class="text-gray-400 text-sm mt-1">
+                        There are no blogs to display at the moment.
+                    </p>
                 </div>
             </div>
         </div>
@@ -34,73 +45,25 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
+import { useNewsStore } from '@/stores/useNewsStore';
+import { storeToRefs } from 'pinia';
+
+const NewsStore = useNewsStore();
+const { news } = storeToRefs(NewsStore);
 
 const { locale } = useI18n();
 
-const blogs = computed(() => {
-  if (locale.value === 'en') {
-    return [
-      {
-        "category": "relationship",
-        "title": "How to be a better husband",
-        "author": "michael addo",
-        "date": "tuesday july 20, 2025",
-        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
-      },
-      {
-        "category": "love",
-        "title": "Children of God",
-        "author": "michael addo",
-        "date": "tuesday july 20, 2025",
-        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
-      },
-      {
-        "category": "Theology",
-        "title": "biblic teaching",
-        "author": "michael addo",
-        "date": "tuesday july 20, 2025",
-        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
-      },
-      {
-        "category": "Sermons",
-        "title": "watch and listen to our sermons",
-        "author": "michael addo",
-        "date": "tuesday july 20, 2025",
-        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
-      }
-    ];
-  } else {
-    return [
-      {
-        "category": "relation",
-        "title": "Comment être un meilleur mari",
-        "author": "michael addo",
-        "date": "mardi juillet 20, 2025",
-        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
-      },
-      {
-        "category": "amour",
-        "title": "Enfants de Dieu",
-        "author": "michael addo",
-        "date": "mardi juillet 20, 2025",
-        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
-      },
-      {
-        "category": "Théologie",
-        "title": "enseignement biblique",
-        "author": "michael addo",
-        "date": "mardi juillet 20, 2025",
-        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
-      },
-      {
-        "category": "Sermons",
-        "title": "regarder et écouter nos sermons",
-        "author": "michael addo",
-        "date": "mardi juillet 20, 2025",
-        "description": "lorem1 ipsum dolor sit amet consectetur adipisicing elit. Vel, magni?"
-      }
-    ];
-  }
+// Function to format category
+const formatCategory = (category) => {
+  return category
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+onMounted(() => {
+  NewsStore.fetchNews();
+  console.log('News loaded:', news);
 });
 </script>
 

@@ -13,19 +13,19 @@
           <!-- Navigation Items -->
           <div class="hidden lg:flex space-x-2">
             <div v-for="item in navigationItems" :key="item.name" class="relative">
-              <button
+              <NuxtLink
                 v-if="!item.children"
-                @click="$emit('section-change', item.key)"
+                :to="item.route"
                 :class="[
                   'flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors',
-                  activeSection === item.key
-                    ? ''
-                    : 'text1'
+                  isActiveRoute(item.route)
+                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                    : 'text1 hover:bg-gray-100 dark:hover:bg-gray-700'
                 ]"
               >
                 <component :is="item.icon" class="mr-2 h-5 w-5" />
                 {{ item.name }}
-              </button>
+              </NuxtLink>
               <div v-else>
                 <button
                   @click="toggleDropdown(item.key)"
@@ -41,15 +41,20 @@
                   <ChevronDownIcon class="ml-1 h-4 w-4" />
                 </button>
                 <div v-if="openDropdown === item.key" class="absolute mt-3 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10">
-                  <button
+                  <NuxtLink
                     v-for="child in item.children"
                     :key="child.name"
-                    @click="$emit('section-change', child.key); openDropdown = null"
-                    class="block px-4 py-4 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left"
+                    :to="child.route"
+                    :class="[
+                      'block px-4 py-4 text-sm w-full text-left transition-colors',
+                      isActiveRoute(child.route)
+                        ? 'bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    ]"
                   >
-                    <component class="mr-2 h-4 w-4" />
+                    <component :is="child.icon" class="mr-2 h-4 w-4" />
                     {{ child.name }}
-                  </button>
+                  </NuxtLink>
                 </div>
               </div>
             </div>
@@ -131,7 +136,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import {
   HomeIcon,
   CalendarIcon,
@@ -146,6 +151,8 @@ import {
 } from '@heroicons/vue/24/outline'
 import ColorModeSelector from '../ColorModeSelector.vue'
 
+const route = useRoute()
+
 defineProps({
   activeSection: {
     type: String,
@@ -154,7 +161,6 @@ defineProps({
 })
 
 defineEmits(['section-change'])
-
 
 const mobileMenuOpen = ref(false)
 const openDropdown = ref(null)
@@ -168,22 +174,29 @@ const toggleMobileSubmenu = (key) => {
   openMobileSubmenu.value = openMobileSubmenu.value === key ? null : key
 }
 
+const isActiveRoute = (routePath) => {
+  return route.path === routePath
+}
+
+const isActiveParent = (children) => {
+  return children.some(child => route.path === child.route)
+}
+
 const navigationItems = [
-  { name: 'Dashboard', key: 'overview', icon: HomeIcon },
+  { name: 'Dashboard', key: 'overview', route: '/admin/overview', icon: HomeIcon },
   { name: 'Events & Activities', key: 'event', icon: CalendarIcon, children: [
-    { name: 'Events', key: 'events' },
-    { name: 'Activities', key: 'activities' },
-    { name: 'Gallery', key: 'gallery' }
+    { name: 'Events', key: 'events', route: '/admin/events', icon: CalendarIcon },
+    { name: 'Activities', key: 'activities', route: '/admin/activities', icon: CalendarIcon },
+    { name: 'Gallery', key: 'gallery', route: '/admin/gallery', icon: CalendarIcon }
   ]},
-  { name: 'Courses', key: 'courses', icon: UsersIcon },
-  { name: 'News', key: 'news', icon: NewspaperIcon },
-  { name: 'Documents', key: 'directories', icon: FolderIcon },
-  { name: 'Contacts', key: 'contacts', icon: PhoneIcon },
-  { name: 'Registrations', key: 'registrations', icon: ClipboardDocumentListIcon },
+  { name: 'Courses', key: 'courses', route: '/admin/courses', icon: UsersIcon },
+  { name: 'News', key: 'news', route: '/admin/news', icon: NewspaperIcon },
+  { name: 'Documents', key: 'directories', route: '/admin/directories', icon: FolderIcon },
+  { name: 'Contacts', key: 'contacts', route: '/admin/contacts', icon: PhoneIcon },
+  { name: 'Registrations', key: 'registrations', route: '/admin/registrations', icon: ClipboardDocumentListIcon },
   { name: 'Executives', key: 'executives', icon: UsersIcon, children: [
-    { name: 'Users', key: 'users' },
-    { name: 'Church Leaders', key: 'leaders' },
-    { name: 'Ministry Executive', key: 'executive' }
+    { name: 'Users', key: 'users', route: '/admin/users', icon: UsersIcon },
+    { name: 'Church Leaders', key: 'leaders', route: '/admin/leaders', icon: UsersIcon }
   ] }
 ]
 </script>

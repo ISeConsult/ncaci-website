@@ -1,19 +1,19 @@
 <template>
     <div class="bg-[#e5e6f8]">
         <div class="flex flex-col justify-center items-center  mx-auto max-w-7xl py-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="md:col-span-2">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="col-span-1 lg:col-span-2">
                     <h1 class="text-md font-bold text-left mb-2 uppercase text-black">{{ $t('contact.formTitle') }}</h1>
                     <form @submit.prevent="handleSubmit" class="w-full space-y-4">
                         <TextField
-                            v-model="form.name"
+                            v-model="formData.name"
                             :label="$t('contact.name')"
                             :placeholder="$t('contact.namePlaceholder')"
                             required
                         />
 
                         <TextField
-                            v-model="form.email"
+                            v-model="formData.email"
                             type="email"
                             :label="$t('contact.email')"
                             :placeholder="$t('contact.emailPlaceholder')"
@@ -21,26 +21,35 @@
                         />
 
                         <TextField
-                            v-model="form.subject"
+                            v-model="formData.phone"
+                            :label="$t('contact.phone')"
+                            :placeholder="$t('contact.emailPlaceholder')"
+                            required
+                        />
+
+                        <TextField
+                            v-model="formData.subject"
                             :label="$t('contact.subject')"
                             :placeholder="$t('contact.subjectPlaceholder')"
                             required
                         />
 
                         <Textarea
-                            v-model="form.message"
+                            v-model="formData.message"
                             :label="$t('contact.message')"
                             :placeholder="$t('contact.messagePlaceholder')"
                             rows="5"
                             required
                         />
 
-                        <button
+                        <Button
                             type="submit"
                             class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-200"
+                            :loading="loading"
+                            @click="handleSubmit"
                         >
                         {{ $t('contact.sendMessage') }}
-                    </button>
+                    </Button>
                 </form>
                 </div>
                 <div>
@@ -83,19 +92,52 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
 import TextField from '../components/UI/TextField.vue'
 import Textarea from '../components/UI/Textarea.vue'
+import { useContactStore } from '@/stores/useContactStore'
+import { useToast } from '@/composables/useToast'
+import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
+import Button from '../components/UI/Button.vue'
 
-const form = reactive({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+const ContactStore = useContactStore()
+const { contacts, loading } = storeToRefs(ContactStore)
+const isEditing = ref(false)
+const editingContact = ref(null)
+const { addToast } = useToast()
+
+const formData = ref({
+  name: '',
+  email: '',
+  phone: '',
+  subject: '',
+  message: ''
 })
 
-const handleSubmit = () => {
-    console.log('Form submitted:', form)
+const clearFields = () => {
+  formData.value = {
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: ''
+  }
+}
+
+const handleSubmit = async () => {
+  try {
+    let response;
+    if (isEditing.value) {
+      response = await ContactStore.updateContact(editingContact.value.uid, formData.value)
+    } else {
+      response = await ContactStore.addContact(formData.value)
+    }
+    addToast(response.data.message || 'Contact added successfully', 'success')
+    clearFields()
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    addToast(error.response.data.message || 'Error adding contact', 'error')
+  }
 }
 </script>
 

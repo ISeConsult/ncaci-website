@@ -6,22 +6,6 @@
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Courses & Faculty Management</h1>
         <p class="text-gray-600 dark:text-gray-400 mt-2">Manage educational programs, Bible studies, and teaching faculty</p>
       </div>
-      <div class="flex space-x-3">
-        <button 
-          @click="openModal"
-          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors duration-200"
-        >
-          <PlusIcon class="h-5 w-5 mr-2" />
-          Add Course
-        </button>
-        <button 
-          @click="openFacultyModal"
-          class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors duration-200"
-        >
-          <UserPlusIcon class="h-5 w-5 mr-2" />
-          Add Faculty&Mng Member
-        </button>
-      </div>
     </div>
 
     <!-- Tab Navigation -->
@@ -36,7 +20,7 @@
               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
           ]"
         >
-          Courses & Programs ({{ courses.length }})
+          Courses & Programs ({{ courses?.length }})
         </button>
         <button 
           @click="activeTab = 'faculty'"
@@ -47,7 +31,7 @@
               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
           ]"
         >
-          Faculty & Management Members ({{ faculty.length }})
+          Faculty & Management Members ({{ staffs?.length }})
         </button>
       </nav>
     </div>
@@ -56,6 +40,15 @@
     <div v-if="activeTab === 'courses'" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Courses Table -->
       <div class="lg:col-span-2">
+        <div class="flex justify-end items-center mb-4">
+          <Button 
+          @click="openModal(null)"
+          variant="primary"
+        >
+          <PlusIcon class="h-5 w-5 mr-2" />
+          Add Course
+        </Button>
+        </div>
         <Table
           :data="courses"
           :columns="courseColumns"
@@ -71,19 +64,14 @@
         >
           <template #actions="{ item }">
             <button
-              class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 p-1 rounded"
-              :title="'View classes for ' + item?.title"
-            >
-              <EyeIcon class="h-4 w-4" />
-            </button>
-            <button
-              @click="viewFacultyCourses(item)"
+              @click="openModal(item)"
               class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 p-1 rounded"
               :title="'View courses for ' + item?.title"
             >
               <PencilIcon class="h-4 w-4" />
             </button>
             <button
+              @click="openDeleteModal(item)"
               class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 p-1 rounded"
               :title="'Delete ' + item?.title"
             >
@@ -106,10 +94,6 @@
               <span class="text-gray-600 dark:text-gray-400">Total Courses</span>
               <span class="font-bold text-2xl text-blue-600 dark:text-blue-400">{{ courses.length }}</span>
             </div>
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600 dark:text-gray-400">Faculty Members</span>
-              <span class="font-bold text-2xl text-orange-600 dark:text-orange-400">{{ faculty.length }}</span>
-            </div>
           </div>
         </div>
 
@@ -126,23 +110,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Upcoming Classes -->
-        <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-xl shadow-sm p-6 border border-green-200 dark:border-green-800">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-            <ClockIcon class="h-5 w-5 mr-2 text-green-500" />
-            Today's Classes
-          </h3>
-          <div class="space-y-3">
-            <div v-for="upcoming in getTodaysClasses()" :key="upcoming.id" class="flex items-center p-3 bg-white dark:bg-green-800/20 rounded-lg">
-              <div class="flex-1">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">{{ upcoming?.title }}</p>
-                <p class="text-xs text-gray-600 dark:text-gray-400">{{ upcoming.time }} • {{ upcoming.location }}</p>
-              </div>
-              <span class="text-xs text-green-600 dark:text-green-400 font-medium">{{ upcoming.time }}</span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -150,8 +117,17 @@
     <div v-if="activeTab === 'faculty'" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Faculty Table -->
       <div class="lg:col-span-2">
+        <div class="flex justify-end items-center mb-4">
+          <Button 
+            @click="openFacultyModal(null)"
+            variant="primary"
+          >
+            <UserPlusIcon class="h-5 w-5 mr-2" />
+            Add Faculty & Mng Member
+          </Button>
+        </div>
         <Table
-          :data="faculty"
+          :data="staffs"
           :columns="facultyColumns"
           title="Faculty & Management"
           :searchable="true"
@@ -160,22 +136,19 @@
           :items-per-page="10"
           empty-state-title="No faculty members found"
           empty-state-description="Start by adding your first faculty member to get started."
+          :loading="loading"
+          class="text-nowrap"
         >
           <template #actions="{ item }">
             <button
-              class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 p-1 rounded"
-              :title="'View classes for ' + item?.name"
-            >
-              <EyeIcon class="h-4 w-4" />
-            </button>
-            <button
-              @click="viewFacultyCourses(item)"
+              @click="openFacultyModal(item)"
               class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 p-1 rounded"
               :title="'View courses for ' + item?.name"
             >
               <PencilIcon class="h-4 w-4" />
             </button>
             <button
+              @click="openDeleteModalStaff(item)"
               class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 p-1 rounded"
               :title="'Delete ' + item?.name"
             >
@@ -191,34 +164,12 @@
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
           <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
             <BuildingLibraryIcon class="h-5 w-5 mr-2 text-blue-500" />
-            Departments
+            Roles
           </h3>
           <div class="space-y-3">
-            <div v-for="dept in getDepartments()" :key="dept.name" class="flex justify-between items-center p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200">
+            <div v-for="dept in getRoles()" :key="dept.name" class="flex justify-between items-center p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200">
               <span class="text-gray-700 dark:text-gray-300 font-medium">{{ dept.name }}</span>
               <span class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold">{{ dept.count }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Faculty Experience -->
-        <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl shadow-sm p-6 border border-purple-200 dark:border-purple-800">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-            <StarIcon class="h-5 w-5 mr-2 text-purple-500" />
-            Experience Levels
-          </h3>
-          <div class="space-y-3">
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600 dark:text-gray-400">Senior Faculty</span>
-              <span class="font-bold text-purple-600 dark:text-purple-400">{{ getSeniorFaculty() }}</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600 dark:text-gray-400">Mid-Level</span>
-              <span class="font-bold text-purple-600 dark:text-purple-400">{{ getMidLevelFaculty() }}</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600 dark:text-gray-400">New Faculty</span>
-              <span class="font-bold text-purple-600 dark:text-purple-400">{{ getNewFaculty() }}</span>
             </div>
           </div>
         </div>
@@ -226,50 +177,97 @@
     </div>
 
     <!-- Create New Course Modal -->
-    <Modal v-model:is-open="isModalOpen" size="3xl" title="Create New Course" @close="closeModal">
+    <Modal v-model:is-open="isModalOpen" size="3xl" :title=" isEditing ? 'Edit Course' : 'Create New Course'" @close="closeModal">
       <form @submit.prevent="submitCourse">
         <div class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField v-model="newCourse.title" label="Title" required />
-            <TextField v-model="newCourse.instructor" label="Instructor" required />
+            <TextField v-model="formData.title" label="Title" required />
+            <TextField v-model="formData.instructor" label="Instructor" required />
           </div>
-          <Select v-model="newCourse.category" label="Category" :options="courseCategories" searchable clearable required />
+          <Select v-model="formData.category" label="Category" :options="courseCategories" searchable clearable required />
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <DatePicker placeholder="Start Date" v-model="newCourse.startDate" label="Start Date" required />
-            <DatePicker placeholder="End Date" v-model="newCourse.endDate" label="End Date" required />
+            <DatePicker placeholder="Start Date" v-model="formData.start_date" label="Start Date" required />
+            <DatePicker placeholder="End Date" v-model="formData.end_date" label="End Date" required />
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField v-model="newCourse.schedule" label="Schedule" required />
-            <TextField v-model="newCourse.duration" label="Duration" required />
+            <Select v-model="formData.duration" label="Duration" :options="durations" searchable clearable required />
           </div>
-          <Textarea v-model="newCourse.description" label="Description" required />
+          <Textarea v-model="formData.description" label="Description" required />
         </div>
       </form>
       <template #footer>
         <div class="flex justify-end space-x-2 pt-4">
-          <button type="button" @click="closeModal" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-700">Cancel</button>
-          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Create</button>
+          <Button type="button" @click="closeModal" variant="secondary">Cancel</Button>
+          <Button type="button" @click="submitCourse" :loading="loading" >{{ isEditing ? 'Update' : 'Create' }}</Button>
         </div>
       </template>
     </Modal>
 
     <!--Add faculty&mng member modal -->
-    <Modal v-model:is-open="isFacultyModalOpen" size="3xl" title="Add Faculty & Management Member" @close="closeFacultyModal">
-      <form @submit.prevent="submitFaculty">
+    <Modal v-model:is-open="isFacultyModalOpen" size="3xl" :title="isEditingStaff ? 'Edit Faculty Member' : 'Add New Faculty Member'" @close="closeFacultyModal">
+      <form @submit.prevent="submitStaff">
         <FileInput v-model="newFaculty.image" label="Image" accept="image/*" />
         <div class="space-y-4 md:space-y-0 grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
           <TextField v-model="newFaculty.name" label="Name" required />
           <TextField v-model="newFaculty.position" label="Position" required />
-          <TextField v-model="newFaculty.email" label="Email" type="email" required />
-          <TextField v-model="newFaculty.phone" label="Phone" required />
         </div>
-        <Select class="mb-4" v-model="newFaculty.category" label="Category" clearable :options="['Faculty', 'Management Member']" required />
+        <Select class="mb-4" v-model="newFaculty.role" label="Role" clearable :options="[{ label: 'Faculty', value: 'faculty' }, { label: 'Management', value: 'management_member' }]" required />
         <Textarea v-model="newFaculty.biography" label="Biography" required />
       </form>
       <template #footer>
         <div class="flex justify-end space-x-2 pt-4">
-          <button type="button" @click="closeFacultyModal" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-700">Cancel</button>
-          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Create</button>
+          <Button type="button" @click="closeFacultyModal" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-700">Cancel</Button>
+          <Button type="submit" :loading="staffLoading" @click="submitStaff">{{ isEditingStaff ? 'Update' : 'Create' }}</Button>
+        </div>
+      </template>
+    </Modal>
+
+    <!-- Delete confirmation modal -->
+    <Modal v-model:is-open="isDeleteModalOpen" size="md" title="Confirm Delete" @close="cancelDelete">
+      <p class="text-gray-700 dark:text-gray-300">
+        Are you sure you want to delete the course "{{ courseToDelete?.title }}"? This action cannot be undone.
+      </p>
+      <template #footer>
+        <div class="flex justify-end space-x-3">
+          <Button
+            @click="cancelDelete"
+            type="button"
+            variant="secondary"
+          >
+            Cancel
+          </Button>
+          <Button
+            @click="confirmDelete"
+            type="button"
+            variant="danger"
+          >
+            Delete
+          </Button>
+        </div>
+      </template>
+    </Modal>
+
+    <!-- Delete confirmation modal for staff -->
+    <Modal v-model:is-open="isDeleteModalOpen" size="md" title="Confirm Delete" @close="cancelDeleteStaff">
+      <p class="text-gray-700 dark:text-gray-300">
+        Are you sure you want to delete the staff member "{{ staffToDelete?.name }}"? This action cannot be undone.
+      </p>
+      <template #footer>
+        <div class="flex justify-end space-x-3">
+          <Button
+            @click="cancelDeleteStaff"
+            type="button"
+            variant="secondary"
+          >
+            Cancel
+          </Button>
+          <Button
+            @click="confirmStaffDelete"
+            type="button"
+            variant="danger"
+          >
+            Delete
+          </Button>
         </div>
       </template>
     </Modal>
@@ -287,160 +285,205 @@ import FileInput from '../UI/FileInput.vue'
 import {
   PlusIcon,
   UserPlusIcon,
-  EyeIcon,
   ChartBarIcon,
   TagIcon,
-  ClockIcon,
   BuildingLibraryIcon,
-  StarIcon,
-  BriefcaseIcon,
   TrashIcon,
   PencilIcon
 } from '@heroicons/vue/24/outline'
 import Table from '~/components/UI/Table.vue'
+import Button from '../UI/Button.vue'
+import { useCourseStore } from '~/stores/useCourseStore'
+import { storeToRefs } from 'pinia'
+import { useToast } from '~/composables/useToast'
+import { useStaffStore } from '~/stores/useStaffStore'
+
+const CourseStore = useCourseStore()
+const { courses, loading } = storeToRefs(CourseStore)
+
+const StaffStore = useStaffStore()
+const { staffs, loading: staffLoading } = storeToRefs(StaffStore)
 
 const isModalOpen = ref(false)
+const isDeleteModalOpen = ref(false)
+const courseToDelete = ref(null)
+const isEditing = ref(false)
+const editingCourse = ref(null)
 
-const openModal = () => {
+const  isEditingStaff = ref(false)
+const editingStaff = ref(null)
+const staffToDelete = ref(null)
+const isFacultyModalOpen = ref(false)
+
+const { addToast } = useToast()
+
+const openModal = (course = null) => {
+  isEditing.value = !!course
+  editingCourse.value = course
+
+  formData.value = isEditing.value ? { ...course } : {
+    title: '',
+    category: null,
+    description: '',
+    instructor: '',
+    start_date: null,
+    end_date: null,
+    duration: ''
+  }
+
   isModalOpen.value = true
 }
 
 const closeModal = () => {
   isModalOpen.value = false
+  isEditing.value = false
+  editingCourse.value = null
+
+  formData.value = {
+    title: '',
+    category: null,
+    description: '',
+    instructor: '',
+    start_date: null,
+    end_date: null,
+    duration: ''
+  }
 }
 
-const isFacultyModalOpen = ref(false)
+const openFacultyModal = (staff = null) => {
+  isEditingStaff.value = !!staff
+  editingStaff.value = staff
 
-const openFacultyModal = () => {
+  newFaculty.value = isEditingStaff.value ? { ...staff } : {
+    name: '',
+    position: '',
+    biography: '',
+    image: null,
+    role: null
+  }
   isFacultyModalOpen.value = true
 }
 
 const closeFacultyModal = () => {
   isFacultyModalOpen.value = false
+  isEditingStaff.value = false
+  editingStaff.value = null
+
+  newFaculty.value = {
+    name: '',
+    position: '',
+    biography: '',
+    image: null,
+    role: null
+  }
 }
 
 const newFaculty = ref({
   name: '',
   position: '',
-  email: '',
-  phone: '',
   biography: '',
-  image: '',
-  category: ''
+  image: null,
+  role: null
 })
 
-const newCourse = ref({
+const formData = ref({
   title: '',
-  category: '',
+  category: null,
   description: '',
   instructor: '',
-  startDate: '',
-  endDate: '',
-  schedule: '',
+  start_date: null,
+  end_date: null,
   duration: ''
 })
 
-const courseCategories = ref(['Bible Study', 'Writing', 'Leadership', 'Other'])
+const courseCategories = [
+  { label: 'Bible Studies', value: 'bible_study' },
+  { label: 'Leadership Training', value: 'leadership' },
+  { label: 'Writing', value: 'writing' },
+  { label: 'Other', value: 'other' }
+]
 
-const submitCourse = () => {
-  // Add course logic here
+const durations = [
+  { label: '6 Months', value: '6_months' },
+  { label: '1 Year', value: '1_year' },
+  { label: '2 Years', value: '2_years' }
+]
+
+const submitCourse = async () => {
+  try {
+    let response;
+    if (isEditing.value) {
+      response = await CourseStore.updateCourse(editingCourse.value.uid, formData.value)
+    } else {
+      response = await CourseStore.addCourse(formData.value)
+    }
+    addToast(response.data.message || isEditing.value ? 'Course updated successfully' : 'Course added successfully', 'success')
+    closeModal()
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    addToast(error.response.data.message || 'Error adding course', 'error')
+  }
 }
 
-// Sample data
-const courses = ref([
-  {
-    id: 1,
-    title: 'Introduction to Biblical Studies',
-    category: 'Bible Study',
-    instructor: 'Dr. John Smith',
-    description: 'A foundational course on understanding the Bible.',
-    duration: '1 Year',
-    schedule: 'Mondays 6-8 PM',
-    startDate: '2025-10-01',
-    endDate: '2025-11-26',
-  },
-  {
-    id: 2,
-    title: 'Advanced Biblical Studies',
-    category: 'Bible Study',
-    instructor: 'Dr. Jane Doe',
-    description: 'Advanced topics in Biblical Studies.',
-    duration: '2 Years',
-    schedule: 'Tuesdays 6-8 PM',
-    startDate: '2025-10-01',
-    endDate: '2025-11-26'
-  },
-  {
-    id: 3,
-    title: 'Biblical Literature',
-    category: 'Bible Study',
-    instructor: 'Dr. John Smith',
-    description: 'An in-depth study of biblical literature.',
-    duration: '1 Year',
-    schedule: 'Wednesdays 6-8 PM',
-    startDate: '2025-10-01',
-    endDate: '2025-11-26'
-  },
-  {
-    id: 4,
-    title: 'Biblical Interpretation',
-    category: 'Bible Study',
-    instructor: 'Dr. Jane Doe',
-    description: 'A critical analysis of biblical texts.',
-    duration: '2 Years',
-    schedule: 'Thursdays 6-8 PM',
-    startDate: '2025-10-01',
-    endDate: '2025-11-26'
+const submitStaff = async () => {
+  try {
+    let response;
+    if (isEditingStaff.value) {
+      response = await StaffStore.updateStaff(editingStaff.value.uid, newFaculty.value)
+    } else {
+      response = await StaffStore.addStaff(newFaculty.value)
+    }
+    addToast(response.data.message || isEditingStaff.value ? 'Staff member updated successfully' : 'Staff member added successfully', 'success')
+    closeFacultyModal()
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    addToast(error.response.data.message || 'Error adding staff member', 'error')
   }
-])
+}
 
-const faculty = ref([
-  {
-    id: 1,
-    name: 'Dr. John Smith',
-    title: 'Pastor',
-    department: 'Biblical Studies',
-    desc: 'A seasoned pastor with a passion for Biblical Studies.',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150',
-    position: 'Senior Pastor',
-  },
-  {
-    id: 2,
-    name: 'Dr. Jane Doe',
-    title: 'Professor',
-    department: 'Biblical Studies',
-    desc: 'A knowledgeable professor specializing in Biblical Studies.',
-    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150',
-    position: 'Professor',
-  },
-  {
-    id: 3,
-    name: 'Dr. John Smith',
-    title: 'Pastor',
-    department: 'Biblical Studies',
-    desc: 'A seasoned pastor with a passion for Biblical Studies.',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150',
-    position: 'Senior Pastor',
-  },
-  {
-    id: 4,
-    name: 'Dr. Jane Doe',
-    title: 'Professor',
-    department: 'Biblical Studies',
-    desc: 'A knowledgeable professor specializing in Biblical Studies.',
-    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150',
-    position: 'Professor',
-  },
-  {
-    id: 5,
-    name: 'Dr. John Smith',
-    title: 'Pastor',
-    department: 'Biblical Studies',
-    desc: 'A seasoned pastor with a passion for Biblical Studies.',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150',
-    position: 'Senior Pastor',
+const openDeleteModal = (course) => {
+  courseToDelete.value = course
+  isDeleteModalOpen.value = true
+}
+
+const openDeleteModalStaff = (staff) => {
+  staffToDelete.value = staff
+  isDeleteModalOpen.value = true
+} 
+
+const confirmDelete = async () => {
+  try {
+    await CourseStore.deleteCourse(courseToDelete.value.uid)
+    isDeleteModalOpen.value = false
+    courseToDelete.value = null
+    addToast('Course deleted successfully', 'success')
+  } catch (error) {
+    console.error('Error deleting course:', error)
+    addToast(error.response.data.message, 'error')
   }
-])
+}
+
+const confirmStaffDelete = async () => {
+  try {
+    await StaffStore.deleteStaff(staffToDelete.value.uid)
+    isDeleteModalOpen.value = false
+    staffToDelete.value = null
+    addToast('Staff member deleted successfully', 'success')
+  } catch (error) {
+    console.error('Error deleting staff member:', error)
+    addToast(error.response.data.message, 'error')
+  }
+}
+
+const cancelDelete = () => {
+  isDeleteModalOpen.value = false
+  courseToDelete.value = null
+}
+
+const cancelDeleteStaff = () => {
+  isDeleteModalOpen.value = false
+  staffToDelete.value = null
+}
 
 // Course table columns
 const courseColumns = [
@@ -461,17 +504,12 @@ const courseColumns = [
     sortable: true,
   },
   {
-    key: 'schedule',
-    label: 'Schedule',
-    sortable: true,
-  },
-  {
-    key: 'startDate',
+    key: 'start_date',
     label: 'Start Date',
     sortable: true,
   },
   {
-    key: 'endDate',
+    key: 'end_date',
     label: 'End Date',
     sortable: true,
   },
@@ -491,36 +529,25 @@ const facultyColumns = [
     cellClass: () => 'font-medium text-gray-900 dark:text-white'
   },
   {
-    key: 'title',
-    label: 'Title',
-    sortable: true
-  },
-  {
-    key: 'department',
-    label: 'Department',
+    key: 'role',
+    label: 'Role',
     sortable: true
   },
   {
     key: 'position',
     label: 'Position',
     sortable: true
+  },
+  {
+    key: 'biography',
+    label: 'Biography',
+    sortable: false,
+    cellClass: () => 'max-w-sm truncate'
   }
 ]
 
 // State
 const activeTab = ref('courses')
-const showAddCourseModal = ref(false)
-const showAddFacultyModal = ref(false)
-
-const getFacultyCourseCount = (facultyId) => {
-  return courses.value.filter(course => course.instructorId === facultyId).length
-}
-
-const getFacultyStudentCount = (facultyId) => {
-  return courses.value
-    .filter(course => course.instructor === facultyId)
-    .reduce((total, course) => total + course.enrolled, 0)
-}
 
 const getCourseCategories = () => {
   const categories = {}
@@ -530,54 +557,20 @@ const getCourseCategories = () => {
   return Object.entries(categories).map(([name, count]) => ({ name, count }))
 }
 
-const getTodaysClasses = () => {
-  // Placeholder: Implement logic to filter classes for today
-  return courses.value.filter(course => course.schedule.includes('Monday')).map(course => ({
-    id: course.id,
-    title: course.title,
-    time: course.schedule,
-    location: course.location
-  }))
-}
-
-const getDepartments = () => {
-  const departments = {}
-  faculty.value.forEach(member => {
-    departments[member.department] = (departments[member.department] || 0) + 1
+const getRoles = () => {
+  const roles = {}
+  staffs.value.forEach(staff => {
+    roles[staff.role] = (roles[staff.role] || 0) + 1
   })
-  return Object.entries(departments).map(([name, count]) => ({ name, count }))
+  return Object.entries(roles).map(([name, count]) => ({ name, count }))
 }
 
-const getSeniorFaculty = () => {
-  return faculty.value.filter(member => member.experience >= 10).length
-}
-
-const getMidLevelFaculty = () => {
-  return faculty.value.filter(member => member.experience >= 5 && member.experience < 10).length
-}
-
-const getNewFaculty = () => {
-  return faculty.value.filter(member => member.experience < 5).length
-}
-
-
-
-
-
-
-
-
-
-
-const viewEnrollments = (course) => {
-  // Placeholder: Implement enrollment viewing logic
-  console.log(`Viewing enrollments for course: ${course.title}`)
-}
-
-const viewFacultyCourses = (faculty) => {
-  // Placeholder: Implement faculty courses viewing logic
-  console.log(`Viewing courses for faculty: ${faculty.name}`)
-}
+onMounted(() => {
+  CourseStore.fetchCourses()
+  StaffStore.fetchStaffs()
+  console.log('Courses loaded:', courses)
+  console.log('Staffs loaded:', staffs)
+})
 
 </script>
 

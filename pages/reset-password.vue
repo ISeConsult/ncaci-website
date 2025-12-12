@@ -19,7 +19,7 @@
             required
           />
           <TextField
-            v-model="confirmPassword"
+            v-model="confirm_password"
             type="password"
             label="Confirm new password"
             placeholder="Confirm new password"
@@ -44,29 +44,47 @@
 </template>
 
 <script setup lang="ts">
-const password = ref('')
-const confirmPassword = ref('')
-const loading = ref(false)
 import TextField from '~/components/UI/TextField.vue'
 import Button from '~/components/UI/Button.vue'
+import { useToast } from '~/composables/useToast'
+import axios from 'axios'
+
+const { addToast } = useToast()
+const password = ref('')
+const confirm_password = ref('')
+const loading = ref(false)
+
+const config = useRuntimeConfig()
+const baseUrl = config.public.baseUrl
 
 const handleResetPassword = async () => {
-  if (password.value !== confirmPassword.value) {
-    // TODO: Show error message
-    console.error('Passwords do not match')
+  if (password.value !== confirm_password.value) {
+    addToast('Passwords do not match', 'error')
     return
   }
 
   loading.value = true
   try {
-    // TODO: Implement reset password logic
-    console.log('Resetting password')
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    // Redirect to login
-    await navigateTo('/login')
-  } catch (error) {
+    const response = await axios.post(`${baseUrl}/auth/users/update-password/`, {
+      password: password.value,
+      confirm_password: confirm_password.value,
+      field: localStorage.getItem('resetEmail')
+    })
+    console.log('Reset password response:', response.data)
+    if (response.data.success) {
+      addToast(response.data.message, 'success')
+      // Redirect to login
+      await navigateTo('/login')
+    } else {
+      addToast(response.data.message, 'error')
+    }
+  } catch (error: any) {
     console.error('Reset password error:', error)
+    if (error.response) {
+      addToast(error.response.data.message, 'error')
+    } else {
+      addToast('An error occurred. Please try again.', 'error')
+    }
   } finally {
     loading.value = false
   }

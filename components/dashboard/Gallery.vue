@@ -1,33 +1,39 @@
 <template>
     <div>
-        <div class="mx-auto max-w-4xl">
-            <FileInput v-model="files" accept="image/*" :multiple="true" />
+        <div class="mx-auto w-full px-4 py-6 sm:px-6 lg:w-full lg:px-8">
+            <form class="mb-6">
+                <FileInput v-model="formData.image" accept="image/*" label="Upload Images" class="w-full" />
+                <Button
+                    type="button"
+                    @click="GallaryStore.addGallary(formData)"
+                    :loading="loading"
+                    class="mt-4"
+                    >
+                        Upload Image
+                </Button>
+            </form>
         </div>
 
-        <!-- Image Gallery -->
-        <div v-if="files.length > 0" class="mt-8 px-4">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Uploaded Images</h3>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                <div
-                    v-for="file in files"
-                    :key="file.id"
-                    class="relative group"
-                >
-                    <NuxtImg
-                        :src="getPreviewUrl(file)"
-                        :alt="file.name"
-                        class="w-full h-48 object-cover rounded-lg shadow-md"
-                        loading="lazy"
-                    />
-                    <button
-                        @click="removeFile(file.id)"
-                        class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                        title="Remove image"
-                    >
-                        <XMarkIcon class="h-4 w-4" />
+        <!-- Display gallery images -->
+        <div v-if="gallaries && gallaries.length > 0" class="mx-auto w-full px-4 py-6 sm:px-6 lg:w-full lg:px-8">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <div v-for="items in gallaries" :key="items.id" class="group relative aspect-square w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                    <img :src="items.image" alt="gallery" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer">
+                    <button @click="GallaryStore.deleteGallary(items.uid)" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-red-500 text-white p-1 rounded-full hover:bg-red-600">
+                        <TrashIcon class="h-4 w-4" />
                     </button>
                 </div>
             </div>
+        </div>
+
+        <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 col-span-5">
+            <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p class="text-gray-500 text-lg font-medium">No Gallery found</p>
+            <p class="text-gray-400 text-sm mt-1">
+                There are no galleries to display at the moment.
+            </p>
         </div>
     </div>
 </template>
@@ -35,20 +41,25 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import FileInput from '../UI/FileInput.vue';
-import { XMarkIcon } from '@heroicons/vue/24/outline'
+import { useGallaryStore } from '~/stores/useGallaryStore';
+import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
+import Button from '../UI/Button.vue';
+import { TrashIcon } from '@heroicons/vue/24/outline';
 
-const files = ref<any[]>([]);
+const GallaryStore = useGallaryStore();
+const { gallaries, loading } = storeToRefs(GallaryStore);
 
-const getPreviewUrl = (file: any) => {
-  if (file.url) return file.url;
-  if (file.file) return URL.createObjectURL(file.file);
-  return '';
-};
+const formData = ref({
+  image: null,
+});
 
-const removeFile = (id: string) => {
-  files.value = files.value.filter(f => f.id !== id);
-};
-    
+
+
+onMounted(() => {
+  GallaryStore.fetchGallaries();
+  console.log('gallary store data:', gallaries);
+});
 </script>
 
 <style scoped>

@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@nuxt/image',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@pinia/nuxt',
   ],
   i18n: {
     locales: [
@@ -20,6 +21,13 @@ export default defineNuxtConfig({
       redirectOn: 'root',
       alwaysRedirect: false,
       fallbackLocale: 'en'
+    }
+  },
+  //Public key
+  runtimeConfig: {
+    public: {
+      baseUrl: process.env.NUXT_PUBLIC_API_BASE_URL,
+      // secretKey: process.env.NUXT_PUBLIC_SECRET_KEY
     }
   },
   tailwindcss: {

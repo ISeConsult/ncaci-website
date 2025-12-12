@@ -8,20 +8,15 @@
         <p class="text-gray-600 dark:text-gray-400">Access important church documents, forms, and resources</p>
       </div>
       <div class="md:flex space-y-4 md:space-y-0 gap-3">
-        <div class="relative">
-          <input v-model="searchQuery" type="text" placeholder="Search documents..." 
-                 class="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white px-4 py-2.5 pl-10 rounded-lg focus:outline-none w-64">
-          <MagnifyingGlassIcon class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
-        </div>
-        <button @click="openModal" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg flex items-center font-medium shadow-md">
+        <Button @click="openModal(null)">
           <PlusIcon class="h-5 w-5 mr-2" />
           Upload Document
-        </button>
+        </Button>
       </div>
     </div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
       <div v-for="stat in documentStats" :key="stat.title" 
            class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-4">
         <div class="flex items-center">
@@ -37,73 +32,8 @@
     </div>
 
     <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
-      <!-- Sidebar -->
-      <div class="xl:col-span-1 space-y-6">
-        <!-- Categories/Folders -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-            <FolderIcon class="h-5 w-5 mr-2 text-blue-600" />
-            Categories
-          </h3>
-          <div class="space-y-2">
-            <button v-for="folder in documentFolders" :key="folder.name" 
-                    @click="selectedCategory = folder.name"
-                    :class="[
-                      'w-full text-left px-3 py-3 rounded-lg group',
-                      selectedCategory === folder.name 
-                        ? 'bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-600' 
-                        : 'hover:bg-gray-50 dark:hover:bg-gray-700'
-                    ]">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <component :is="folder.icon" :class="[
-                    'h-5 w-5 mr-3',
-                    selectedCategory === folder.name ? 'text-blue-600' : 'text-gray-500'
-                  ]" />
-                  <div>
-                    <p :class="[
-                      'text-sm font-medium',
-                      selectedCategory === folder.name 
-                        ? 'text-blue-900 dark:text-blue-100' 
-                        : 'text-gray-900 dark:text-white'
-                    ]">{{ folder.name }}</p>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">{{ folder.count }} files</p>
-                  </div>
-                </div>
-                <span :class="[
-                  'px-2 py-1 rounded-full text-xs font-medium',
-                  selectedCategory === folder.name 
-                    ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300'
-                    : 'bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300'
-                ]">
-                  {{ folder.count }}
-                </span>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        <!-- Recent Activity -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-            <ClockIcon class="h-5 w-5 mr-2 text-purple-600" />
-            Recent Activity
-          </h3>
-          <div class="space-y-3">
-            <div v-for="activity in recentActivity" :key="activity.id" class="flex items-start gap-3">
-              <div :class="['w-2 h-2 rounded-full mt-2 flex-shrink-0', activity.color]"></div>
-              <div>
-                <p class="text-sm text-gray-900 dark:text-white font-medium">{{ activity.action }}</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">{{ activity.time }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Main Document Area -->
-      <div class="xl:col-span-3">
+    <div class="gap-8">
+      <div class="">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
           <!-- Document Header -->
           <div class="p-6 border-b border-gray-200 dark:border-gray-700">
@@ -138,79 +68,64 @@
                     <Squares2X2Icon class="h-4 w-4 text-gray-600 dark:text-gray-400" />
                   </button>
                 </div>
-                <!-- Sort Dropdown -->
-                <div class="relative">
-                  <select v-model="sortBy" 
-                          class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-2.5 pr-8 rounded-lg text-sm appearance-none focus:outline-none">
-                    <option value="name">Sort by Name</option>
-                    <option value="date">Sort by Date</option>
-                    <option value="size">Sort by Size</option>
-                    <option value="type">Sort by Type</option>
-                  </select>
-                  <ChevronDownIcon class="absolute right-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-gray-500 pointer-events-none" />
-                </div>
               </div>
             </div>
           </div>
 
           <!-- Document List/Grid -->
-          <div class="p-6">
+          <div v-if="filteredDocuments && filteredDocuments.length > 0" class="p-6">
             <!-- List View -->
-            <div v-if="viewMode === 'list'" class="space-y-3">
-  <div
-    v-for="doc in paginatedDocuments"
-    :key="doc.id"
-    class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 group"
-  >
-    <!-- Left side -->
-    <div class="flex items-start sm:items-center flex-1 w-full">
-      <div :class="['p-3 rounded-lg mr-4 mb-2 sm:mb-0', getDocumentTypeColor(doc.type).bgColor]">
-        <component
-          :is="getDocumentIcon(doc.type)"
-          :class="['h-6 w-6', getDocumentTypeColor(doc.type).textColor]"
-        />
-      </div>
+            <div v-if="viewMode === 'list'" class="grid md:grid-cols-2 gap-8">
+              <div
+                v-for="doc in paginatedDocuments"
+                :key="doc.id"
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 group"
+              >
+                <!-- Left side -->
+                <div class="flex items-start sm:items-center flex-1 w-full">
+                  <div :class="['p-3 rounded-lg mr-4 mb-2 sm:mb-0', getDocumentTypeColor(doc.type).bgColor]">
+                    <component
+                      :is="getDocumentIcon(doc.type)"
+                      :class="['h-6 w-6', getDocumentTypeColor(doc.type).textColor]"
+                    />
+                  </div>
 
-      <div class="flex-1 min-w-0">
-        <!-- Document name -->
-        <p class="font-medium text-gray-900 dark:text-white truncate">
-          {{ doc.name }}
-        </p>
+                  <div class="flex-1 min-w-0">
+                    <!-- Document name -->
+                    <p class="font-medium text-gray-900 dark:text-white truncate mb-2">
+                      {{ doc.name }}
+                    </p>
 
-        <!-- Meta info -->
-        <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
-          <span>{{ doc.size }}</span>
-          <span>{{ doc.modified }}</span>
-          <span>{{ doc.author }}</span>
-        </div>
+                    <!-- Tags -->
+                    <div class="flex items-center gap-2 text-xs mt-2 sm:mt-0">
+                      <span
+                        :class="['px-2 py-1 rounded-full font-medium', getDocumentTypeColor(doc.type).badge]"
+                      >
+                        {{ doc.file_type?.toUpperCase() || 'UNKNOWN' }}
+                      </span>
+                      <span
+                        v-if="doc.isNew"
+                        class="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-1 rounded-full font-medium"
+                      >
+                        NEW
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-        <!-- Tags -->
-        <div class="flex items-center gap-2 text-xs mt-2 sm:mt-0">
-          <span
-            :class="['px-2 py-1 rounded-full font-medium', getDocumentTypeColor(doc.type).badge]"
-          >
-            {{ doc.type.toUpperCase() }}
-          </span>
-          <span
-            v-if="doc.isNew"
-            class="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-1 rounded-full font-medium"
-          >
-            NEW
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Right side -->
-    <div class="flex items-center gap-2 mt-3 sm:mt-0 sm:ml-4">
-      <button
-        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 text-blue-600 dark:text-blue-400"
-      >
-        <ArrowDownTrayIcon class="h-4 w-4" />
-      </button>
-    </div>
-  </div>
-</div>
+                <!-- Right side -->
+                <div class="flex items-center gap-2 mt-3 sm:mt-0 sm:ml-4">
+                  <button class="text-red-600 dark:text-red-400 hover:text-red-700" @click="openDeleteModal(doc)">
+                    <TrashIcon class="h-4 w-4" />
+                  </button>
+                  <button
+                    class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 text-blue-600 dark:text-blue-400"
+                  >
+                    <ArrowDownTrayIcon class="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
 
 
             <!-- Grid View -->
@@ -225,19 +140,20 @@
                   </div>
                   <div class="flex-1">
                     <h4 class="font-medium text-gray-900 dark:text-white text-sm mb-2 line-clamp-2">{{ doc.name }}</h4>
-                    <div class="text-xs text-gray-600 dark:text-gray-400 space-y-1 mb-3">
-                      <div>{{ doc.size }}</div>
-                      <div>{{ doc.modified }}</div>
-                      <div>{{ doc.author }}</div>
-                    </div>
                   </div>
                   <div class="flex items-center justify-between">
                     <span :class="['px-2 py-1 rounded-full text-xs font-medium', getDocumentTypeColor(doc.type).badge]">
-                      {{ doc.type.toUpperCase() }}
+                      {{ doc.file_type?.toUpperCase() || 'UNKNOWN' }}
                     </span>
-                    <button class="text-blue-600 dark:text-blue-400 hover:text-blue-700">
-                      <ArrowDownTrayIcon class="h-4 w-4" />
-                    </button>
+                    <!-- Delete Button -->
+                    <div class="flex items-center gap-2">
+                      <button class="text-red-600 dark:text-red-400 hover:text-red-700" @click="openDeleteModal(doc)">
+                        <TrashIcon class="h-4 w-4" />
+                      </button>
+                      <button class="text-blue-600 dark:text-blue-400 hover:text-blue-700">
+                        <ArrowDownTrayIcon class="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -257,6 +173,16 @@
               </button>
             </div>
           </div>
+
+          <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 col-span-5">
+              <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p class="text-gray-500 text-lg font-medium">No Documents found</p>
+              <p class="text-gray-400 text-sm mt-1">
+                  There are no documents to display at the moment.
+              </p>
+          </div>
         </div>
       </div>
     </div>
@@ -265,13 +191,28 @@
       <form @submit.prevent="submitForm">
         <div class="space-y-4 grid grid-cols-1 gap-4">
           <TextField label="Document Name" v-model="formData.name" />
+          <TextField label="File Type" v-model="formData.file_type" />
           <FileInput v-model="formData.file" accept=".pdf, .doc, .docx, .xls, .xlsx" label="File" />
         </div>
       </form>
       <template #footer>
         <div class="flex justify-end space-x-2">
           <Button type="button" @click="closeModal" variant="secondary">Cancel</Button>
-          <Button type="submit" variant="primary">Upload</Button>
+          <Button type="submit" variant="primary" :loading="loading" @click="submitForm">Upload</Button>
+        </div>
+      </template>
+    </Modal>
+
+    <Modal v-model:is-open="isDeleteModalOpen" size="md" @close="cancelDelete" title="Confirm Deletion">
+      <div class="py-4">
+        <p class="text-gray-700 dark:text-gray-300">
+          Are you sure you want to delete the document "<strong>{{ documentToDelete?.name }}</strong>"? This action cannot be undone.
+        </p>
+      </div>
+      <template #footer>
+        <div class="flex justify-end space-x-2">
+          <Button type="button" @click="cancelDelete" variant="secondary">Cancel</Button>
+          <Button type="button" variant="danger" :loading="loading" @click="confirmDelete">Delete</Button>
         </div>
       </template>
     </Modal>
@@ -293,37 +234,57 @@ import {
   DocumentTextIcon,
   DocumentIcon,
   PhotoIcon,
-  MagnifyingGlassIcon,
-  HeartIcon,
-  ShareIcon,
-  ClockIcon,
-  ChevronDownIcon,
-  CommandLineIcon,
   PresentationChartLineIcon,
   TableCellsIcon,
-  BookOpenIcon,
-  CalendarIcon,
-  ScaleIcon,
-  AcademicCapIcon,
-  ArchiveBoxIcon
+  ArchiveBoxIcon,
+  TrashIcon
 } from '@heroicons/vue/24/outline'
-
 import Pagination from '../UI/Pagination.vue'
+import { useDocumentStore } from '../../stores/useDocumentStore'
+import { storeToRefs } from 'pinia'
+import { useToast } from '~/composables/useToast'
+
+const DocumentStore = useDocumentStore();
+const { documents, loading } = storeToRefs(DocumentStore);
+
+const { addToast } = useToast()
 
 // Reactive state
 const searchQuery = ref('')
 const selectedCategory = ref('')
 const viewMode = ref('list')
-const sortBy = ref('name')
 
 const isModalOpen = ref(false)
+const isEditing = ref(false)
+const editingDocument = ref(null)
+const documentToDelete = ref(null)
+const isDeleteModalOpen = ref(false)
 
-const openModal = () => {
+const openModal = (document = null) => {
+  isEditing.value = !!document
+  editingDocument.value = document
+
+  formData.value = isEditing.value
+    ? { ...document }
+    : {
+        name: '',
+        type: '',
+        file: null
+      }
+
   isModalOpen.value = true
 }
 
 const closeModal = () => {
   isModalOpen.value = false
+  isEditing.value = false
+  editingDocument.value = null
+
+  formData.value = {
+    name: '',
+    type: '',
+    file: null
+  }
 }
 
 const currentPage = ref(1)
@@ -333,189 +294,75 @@ const totalPages = computed(() => Math.ceil(filteredDocuments.value.length / ite
 
 const formData = ref({
   name: '',
+  type: '',
   file: null
 })
+
+const submitForm = async () => {
+  try {
+    let response;
+    if (isEditing.value) {
+      response = await DocumentStore.updateDocument(editingDocument.value.uid, formData.value)
+    } else {
+      response = await DocumentStore.addDocument(formData.value)
+    }
+    addToast(response.data.message || 'Document added successfully', 'success')
+    closeModal()
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    addToast(error.response.data.message || 'Error adding document', 'error')
+  }
+}
+
+const openDeleteModal = (document) => {
+  documentToDelete.value = document
+  isDeleteModalOpen.value = true
+}
+
+const confirmDelete = async () => {
+  try {
+    await DocumentStore.deleteDocument(documentToDelete.value.uid)
+    isDeleteModalOpen.value = false
+    documentToDelete.value = null
+    addToast('Document deleted successfully', 'success')
+  } catch (error) {
+    console.error('Error deleting document:', error)
+    addToast(error.response.data.message, 'error')
+  }
+}
+
+const cancelDelete = () => {
+  isDeleteModalOpen.value = false
+  documentToDelete.value = null
+}
 
 // Document statistics
 const documentStats = [
   {
     title: 'Total Documents',
-    value: '284',
+    value: documents.value.length,
     icon: DocumentIcon,
     color: 'text-blue-600',
     bgColor: 'bg-blue-100 dark:bg-blue-900/30'
   },
   {
-    title: 'Categories',
-    value: '8',
+    title: 'Total File Types',
+    value: documents.value.reduce((types, doc) => {
+      if (!types.includes(doc.file_type)) {
+        types.push(doc.file_type)
+      }
+      return types
+    }, []).length.toString(),
     icon: FolderIcon,
     color: 'text-green-600',
     bgColor: 'bg-green-100 dark:bg-green-900/30'
-  },
-  {
-    title: 'This Month',
-    value: '23',
-    icon: CalendarIcon,
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-100 dark:bg-purple-900/30'
-  },
-  {
-    title: 'Storage Used',
-    value: '2.4GB',
-    icon: ArchiveBoxIcon,
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-100 dark:bg-orange-900/30'
   }
 ]
 
-// Document folders with enhanced data
-const documentFolders = [
-  { name: 'Bylaws & Constitution', count: 1, icon: ScaleIcon, category: 'legal' },
-  { name: 'Financial Reports', count: 3, icon: PresentationChartLineIcon, category: 'financial' },
-  { name: 'Ministry Guidelines', count: 2, icon: BookOpenIcon, category: 'ministry' },
-  { name: 'Event Documents', count: 6, icon: CalendarIcon, category: 'events' },
-  { name: 'Training Materials', count: 4, icon: AcademicCapIcon, category: 'training' },
-  { name: 'Forms & Applications', count: 3, icon: DocumentTextIcon, category: 'forms' },
-  { name: 'Meeting Minutes', count: 8, icon: TableCellsIcon, category: 'meetings' },
-  { name: 'Archived Documents', count: 1, icon: ArchiveBoxIcon, category: 'archive' }
-]
-
-
-// Recent activity
-const recentActivity = [
-  {
-    id: 1,
-    action: 'Annual Budget 2025.pdf uploaded',
-    time: '2 hours ago',
-    color: 'bg-green-500'
-  },
-  {
-    id: 2,
-    action: 'Board meeting minutes updated',
-    time: '5 hours ago',
-    color: 'bg-blue-500'
-  },
-  {
-    id: 3,
-    action: 'Youth ministry form shared',
-    time: '1 day ago',
-    color: 'bg-purple-500'
-  },
-  {
-    id: 4,
-    action: '12 documents archived',
-    time: '2 days ago',
-    color: 'bg-orange-500'
-  }
-]
-
-// Enhanced documents data
-const documents = [
-  { 
-    id: 1, 
-    name: 'Annual Financial Report 2024.pdf', 
-    type: 'pdf', 
-    size: '2.4 MB', 
-    modified: '2 days ago',
-    author: 'Elder David Brown',
-    category: 'Financial Reports',
-    isNew: true
-  },
-  { 
-    id: 2, 
-    name: 'Church Constitution & Bylaws.docx', 
-    type: 'word', 
-    size: '1.8 MB', 
-    modified: '1 week ago',
-    author: 'Legal Committee',
-    category: 'Bylaws & Constitution',
-    isNew: false
-  },
-  { 
-    id: 3, 
-    name: 'Event Planning Master Checklist.xlsx', 
-    type: 'excel', 
-    size: '456 KB', 
-    modified: '3 days ago',
-    author: 'Event Committee',
-    category: 'Event Documents',
-    isNew: false
-  },
-  { 
-    id: 4, 
-    name: 'Leadership Training Presentation.pptx', 
-    type: 'powerpoint', 
-    size: '5.2 MB', 
-    modified: '5 days ago',
-    author: 'Pastor John Smith',
-    category: 'Training Materials',
-    isNew: false
-  },
-  { 
-    id: 5, 
-    name: 'Community Outreach Photos 2024.zip', 
-    type: 'archive', 
-    size: '15.8 MB', 
-    modified: '1 day ago',
-    author: 'Media Team',
-    category: 'Event Documents',
-    isNew: true
-  },
-  { 
-    id: 6, 
-    name: 'New Member Application Form.pdf', 
-    type: 'pdf', 
-    size: '234 KB', 
-    modified: '4 days ago',
-    author: 'Membership Committee',
-    category: 'Forms & Applications',
-    isNew: false
-  },
-  { 
-    id: 7, 
-    name: 'Board Meeting Minutes - February.docx', 
-    type: 'word', 
-    size: '1.2 MB', 
-    modified: '6 days ago',
-    author: 'Board Secretary',
-    category: 'Meeting Minutes',
-    isNew: false
-  },
-  { 
-    id: 8, 
-    name: 'Youth Ministry Budget Proposal.xlsx', 
-    type: 'excel', 
-    size: '678 KB', 
-    modified: '1 week ago',
-    author: 'Youth Pastor Lisa White',
-    category: 'Financial Reports',
-    isNew: false
-  },
-  { 
-    id: 9, 
-    name: 'Volunteer Training Manual.pdf', 
-    type: 'pdf', 
-    size: '3.1 MB', 
-    modified: '2 weeks ago',
-    author: 'Training Department',
-    category: 'Training Materials',
-    isNew: false
-  },
-  { 
-    id: 10, 
-    name: 'Mission Trip Registration Form.docx', 
-    type: 'word', 
-    size: '445 KB', 
-    modified: '3 days ago',
-    author: 'Mission Committee',
-    category: 'Forms & Applications',
-    isNew: true
-  }
-]
 
 // Computed property for filtered documents
 const filteredDocuments = computed(() => {
-  let filtered = documents
+  let filtered = documents.value
 
   // Filter by category
   if (selectedCategory.value) {
@@ -525,26 +372,12 @@ const filteredDocuments = computed(() => {
   // Filter by search query
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
-    filtered = filtered.filter(doc => 
+    filtered = filtered.filter(doc =>
       doc.name.toLowerCase().includes(query) ||
       doc.author.toLowerCase().includes(query) ||
       doc.category.toLowerCase().includes(query)
     )
   }
-
-  // Sort documents
-  filtered.sort((a, b) => {
-    switch (sortBy.value) {
-      case 'name':
-        return a.name.localeCompare(b.name)
-      case 'size':
-        return parseFloat(a.size) - parseFloat(b.size)
-      case 'type':
-        return a.type.localeCompare(b.type)
-      default:
-        return new Date(b.modified) - new Date(a.modified)
-    }
-  })
 
   return filtered
 })
@@ -617,6 +450,11 @@ const getDocumentTypeColor = (type) => {
   }
   return colors[type] || colors.pdf
 }
+
+onMounted(() => {
+  DocumentStore.fetchDocuments();
+  console.log('Documents loaded:', documents);
+})
 </script>
 
 <style scoped>

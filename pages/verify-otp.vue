@@ -12,7 +12,7 @@
       <form class="mt-8 space-y-6" @submit.prevent="handleVerifyOtp">
         <div>
           <TextField
-            v-model="otp"
+            v-model="field"
             type="text"
             label="Verification code"
             placeholder="Enter 6-digit code"
@@ -46,41 +46,71 @@
 <script setup lang="ts">
 import TextField from '~/components/UI/TextField.vue'
 import Button from '~/components/UI/Button.vue'
+import { useToast } from '~/composables/useToast'
+import axios from 'axios'
 
-const otp = ref('')
+const { addToast } = useToast()
+const field = ref('')
 const loading = ref(false)
+const resendLoading = ref(false)
+
+const config = useRuntimeConfig()
+const baseUrl = config.public.baseUrl
 
 const handleVerifyOtp = async () => {
-  if (otp.value.length !== 6) {
-    // TODO: Show error message
-    console.error('OTP must be 6 digits')
+  if (field.value.length !== 6) {
+    addToast('OTP must be 6 digits', 'error')
     return
   }
 
   loading.value = true
   try {
-    // TODO: Implement OTP verification logic
-    console.log('Verifying OTP:', otp.value)
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    // Redirect to reset password
-    await navigateTo('/reset-password')
-  } catch (error) {
+    const response = await axios.post(`${baseUrl}/auth/users/verify-otp/`, {
+      otp: field.value,
+      field: localStorage.getItem('resetEmail')
+    })
+    console.log('Verify OTP response:', response.data)
+    if (response.data.success) {
+      addToast(response.data.message, 'success')
+      // Redirect to reset password
+      await navigateTo('/reset-password')
+    } else {
+      addToast(response.data.message, 'error')
+    }
+  } catch (error: any) {
     console.error('OTP verification error:', error)
+    if (error.response) {
+      addToast(error.response.data.message, 'error')
+    } else {
+      addToast('An error occurred. Please try again.', 'error')
+    }
   } finally {
     loading.value = false
   }
 }
 
 const resendOtp = async () => {
+  resendLoading.value = true
   try {
-    // TODO: Implement resend OTP logic
-    console.log('Resending OTP')
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    // TODO: Show success message
-  } catch (error) {
+    const response = await axios.post(`${baseUrl}/auth/users/forgot-password/`, {
+      // Assuming email is stored in localStorage or sessionStorage from previous step
+      field: localStorage.getItem('resetEmail')
+    })
+    console.log('Resend OTP response:', response.data)
+    if (response.data.success) {
+      addToast('OTP sent successfully', 'success')
+    } else {
+      addToast(response.data.message, 'error')
+    }
+  } catch (error: any) {
     console.error('Resend OTP error:', error)
+    if (error.response) {
+      addToast(error.response.data.message, 'error')
+    } else {
+      addToast('An error occurred. Please try again.', 'error')
+    }
+  } finally {
+    resendLoading.value = false
   }
 }
 </script>

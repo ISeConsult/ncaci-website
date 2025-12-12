@@ -1,11 +1,13 @@
-# Internationalization Fix for Navbar and Footer
+# TODO List for Integrating Response Data into Directorate Template
 
-## Tasks
-- [ ] Update Navbar.vue to use $t for navigation item names instead of hardcoded English strings.
-- [ ] Update Footer.vue to replace all hardcoded English strings with $t calls using existing translations.
-- [ ] Test the changes by running the app and switching languages.
+## Completed Tasks
+- [x] Import `onMounted` from 'vue' in pages/directorate.vue
+- [x] Fix computed property `filteredDiretorates` to use `documents.value` instead of `diretorates.value`
+- [x] Update computed property to filter by `dir.file_type` instead of `dir.type`
+- [x] Update template to display `dir.name` instead of `dir.title`
+- [x] Update template to display `dir.file_type.toUpperCase()` instead of `dir.type.toUpperCase()`
+- [x] Add `@click="downloadFile(dir.file)"` to the download div
+- [x] Add `downloadFile` function to open file URL in new tab
 
-## Notes
-- Locale files already contain translations for navbar and footer.
-- Hero section already works correctly with $t.
-- Language switcher in Navbar.vue appears functional.
+## Summary
+The template has been successfully integrated with the response data. The page now correctly displays documents from the store, allows filtering by file type, and enables downloading by clicking the download button.

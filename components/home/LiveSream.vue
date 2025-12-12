@@ -6,29 +6,29 @@
                 <h1 class="text-lg md:text-4xl font-bold text-center uppercase text1 mb-2 max-w-md">{{ $t('liveStream.title') }}</h1>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-8">
+            <div v-if="events && events.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-8">
                 <div class="col-span-1 bg-[#0110FA] p-6">
                     <div class="flex items-center">
                         <div class="w-full space-y-6" >
                             <div class="flex items-center justify-between">
-                                <span class="text-xs font-thin text-center uppercase text-gray-100">{{ $t('liveStream.upcomingEvent') }}</span>
-                                <div class="flex flex-col items-start">
+                                <span class="text-xs font-thin text-center uppercase text-gray-100">{{ events[0]?.status }} event</span>
+                                <!-- <div class="flex flex-col items-start">
                                     <h1 class="text-4xl font-bold text-center uppercase text-gray-100 mb-2">{{ $t('liveStream.day') }}</h1>
                                     <p class="text-xs font-thin text-center uppercase text-gray-100">{{ $t('liveStream.month') }}</p>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="mt-4">
-                                <h1 class="text-2xl font-bold text-left uppercase text-gray-100 mb-2">{{ $t('liveStream.eventTitle') }}</h1>
+                                <h1 class="text-2xl font-bold text-left uppercase text-gray-100 mb-2">{{ events[0]?.title }}</h1>
                             </div>
                             <div class="mt-4">
-                                <p class="text-xs font-thin text-left uppercase text-gray-100">{{ $t('liveStream.description') }}</p>
+                                <p class="text-xs font-thin text-left uppercase text-gray-100">{{ events[0]?.description }}</p>
                             </div>
                             <div class="mt-6 flex items-start gap-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 text-gray-100">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
                                 <div>
-                                    <p class="text-xs font-thin text-left uppercase text-gray-100">{{ $t('liveStream.time1') }}<br/>{{ $t('liveStream.time2') }}</p>
+                                    <p class="text-xs font-thin text-left uppercase text-gray-100">{{ events[0]?.start_date }}, {{ events[0]?.start_time }}<br/>{{ events[0]?.end_date }}, {{ events[0]?.end_time }}</p>
                                 </div>
                             </div>
                             <div class="mt-6 flex items-start gap-4">
@@ -38,7 +38,7 @@
                                 </svg>
 
                                 <div>
-                                    <p class="text-xs font-thin text-left uppercase text-gray-100">{{ $t('liveStream.location1') }}<br/>{{ $t('liveStream.location2') }}</p>
+                                    <p class="text-xs font-thin text-left uppercase text-gray-100">{{ events[0]?.location }}</p>
                                 </div>
                             </div>
                             <div class="mt-16 flex items-center gap-5">
@@ -83,29 +83,53 @@
                     </div>
                 </div>
                 <div class="lg:col-span-2 hidden md:block h-[500px]">
-                    <img src="/images/live-stream.jpg" alt="live stream" class="w-full h-full object-cover">
+                    <img :src="events[0]?.image" alt="live stream" class="w-full h-full object-cover">
                 </div>
+            </div>
+
+            <div v-else class="flex flex-col justify-center items-center mt-12 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 w-full">
+                <svg class="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p class="text-gray-500 text-lg font-medium">No Events found</p>
+                <p class="text-gray-400 text-sm mt-1">
+                    There are no events to display at the moment.
+                </p>
             </div>
         </div>
 
 
         <Modal v-model:is-open="isModalOpen" :title="$t('liveStream.modalTitle')" size="2xl" @close="closeModal">
-            <div class="grid grid-cols-2 gap-4">
-                <div class="col-span-2">
-                    <div class="mb-4">
-                        <TextField v-model="formData.name" :label="$t('liveStream.name')" required />
-                    </div>
-                    <div class="mb-4">
-                        <TextField v-model="formData.email" :label="$t('liveStream.email')" required />
-                    </div>
-                    <div class="mb-4">
-                        <TextField v-model="formData.phone" :label="$t('liveStream.phone')" required />
-                    </div>
-                    <div class="mb-4">
-                        <Select v-model="formData.genda" :label="$t('liveStream.genda')" :options="[$t('liveStream.male'), $t('liveStream.female')]" clearable required />
-                    </div>
-                </div>
-            </div>
+            <form class="space-y-6">
+                <TextField
+                    v-model="formData.name"
+                    label="Full Name"
+                    placeholder="Enter your full name"
+                    required
+                />
+                <TextField
+                    v-model="formData.email"
+                    type="email"
+                    label="Email Address"
+                    placeholder="Enter your email address"
+                    required
+                />
+                <TextField
+                    v-model="formData.phone"
+                    type="tel"
+                    label="Phone Number"
+                    placeholder="Enter your phone number"
+                    required
+                />
+            </form>
+            <template #footer>
+                <Button variant="secondary" @click="closeModal">
+                    Cancel
+                </Button>
+                <Button @click="submitForm" :loading="loading">
+                    Submit
+                </Button>
+            </template>
         </Modal>
     </div>
 </template>
@@ -113,18 +137,59 @@
 <script setup>
 import Modal from '../UI/Modal.vue';
 import TextField from '../UI/TextField.vue';
-import Select from '../UI/Select.vue';
+import { ref } from 'vue';
+import { useEventStore } from '@/stores/useEventStore';
+import { storeToRefs } from 'pinia';
+import Button from '../UI/Button.vue'
+import { useToast } from '@/composables/useToast'
+import { useEventRegisterStore } from '@/stores/useEventRegisterStore';
+
+const EventStore = useEventStore();
+const { events } = storeToRefs(EventStore);
+
+const EventRegisterStore = useEventRegisterStore();
+const { loading } = storeToRefs(EventRegisterStore);
 
 const showSocial = ref(false)
+const { addToast } = useToast()
+
+const isEditing = ref(false)
+const editingEvent = ref(null)
 
 const isModalOpen = ref(false)
 
 const formData = ref({
+    event: events.value.length > 0 ? events.value[0].id : null,
     name: '',
     email: '',
     phone: '',
-    genda: ''
 })
+
+const clearFields = () => {
+    formData.value = {
+        event: events.value.length > 0 ? events.value[0].id : null,
+        name: '',
+        email: '',
+        phone: '',
+    }
+}
+
+const submitForm = async () => {
+  try {
+    let response;
+    if (isEditing.value) {
+      response = await EventRegisterStore.updateEvent(editingEvent.value.uid, formData.value)
+    } else {
+      response = await EventRegisterStore.addEvent(formData.value)
+    }
+    addToast(response.data.message || 'Event Register successfully', 'success')
+    clearFields()
+    closeModal()
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    addToast(error.response.data.message || 'Error adding event', 'error')
+  }
+}
 
 const openModal = () => {
     isModalOpen.value = true
@@ -133,6 +198,10 @@ const openModal = () => {
 const closeModal = () => {
     isModalOpen.value = false
 }
+
+onMounted(() => {
+    EventStore.fetchEventByStatusUpcoming();
+});
 </script>
 
 <style scoped>

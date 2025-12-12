@@ -80,10 +80,11 @@
                 'text-gray-400': !day.isCurrentMonth,
                 'bg-blue-100 text-blue-700': day.isToday && !day.isSelected,
                 'bg-blue-600 text-white': day.isSelected,
-                'hover:bg-gray-100': day.isCurrentMonth && !day.isSelected
+                'hover:bg-gray-100': day.isCurrentMonth && !day.isSelected,
+                'opacity-50 cursor-not-allowed': isDateDisabled(day.date)
               }
             ]"
-            @click="selectDate(day.date)"
+            @click="!isDateDisabled(day.date) && selectDate(day.date)"
           >
             {{ day.date.getDate() }}
           </div>
@@ -97,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import {
   CalendarIcon,
   ChevronLeftIcon,
@@ -105,7 +106,7 @@ import {
 } from '@heroicons/vue/24/outline'
 
 interface Props {
-  modelValue?: Date | string | null
+  modelValue?: string | null 
   placeholder?: string
   disabled?: boolean
   error?: string
@@ -119,7 +120,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: Date | null): void
+  (e: 'update:modelValue', value: string | null): void
 }>()
 
 const id = computed(() => `datepicker-${Math.random().toString(36).substr(2, 9)}`)
@@ -127,7 +128,21 @@ const showCalendar = ref(false)
 const currentDate = ref(new Date())
 const selectedDate = ref<Date | null>(null)
 
-// Format date for display
+// Helper function to format date as YYYY-MM-DD
+const formatDateToYYYYMMDD = (date: Date): string => {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+// Helper function to parse YYYY-MM-DD to Date
+const parseYYYYMMDD = (dateStr: string): Date => {
+  const [year, month, day] = dateStr.split('-').map(Number)
+  return new Date(year, month - 1, day)
+}
+
+// Format date for display (localized format)
 const formattedDate = computed(() => {
   if (!selectedDate.value) return ''
   return selectedDate.value.toLocaleDateString('en-US', {
@@ -177,6 +192,13 @@ const calendarDays = computed(() => {
   return days
 })
 
+// Check if date is disabled based on min/max constraints
+const isDateDisabled = (date: Date): boolean => {
+  if (props.minDate && date < props.minDate) return true
+  if (props.maxDate && date > props.maxDate) return true
+  return false
+}
+
 // Methods
 const toggleCalendar = () => {
   if (props.disabled) return
@@ -193,7 +215,8 @@ const nextMonth = () => {
 
 const selectDate = (date: Date) => {
   selectedDate.value = date
-  emit('update:modelValue', date)
+  // Emit in YYYY-MM-DD format
+  emit('update:modelValue', formatDateToYYYYMMDD(date))
   showCalendar.value = false
 }
 
@@ -205,11 +228,25 @@ const handleClickOutside = (event: MouseEvent) => {
 }
 
 // Initialize from modelValue
-onMounted(() => {
+const initializeFromModelValue = () => {
   if (props.modelValue) {
-    selectedDate.value = new Date(props.modelValue)
-    currentDate.value = new Date(props.modelValue)
+    try {
+      selectedDate.value = parseYYYYMMDD(props.modelValue)
+      currentDate.value = new Date(selectedDate.value)
+    } catch (error) {
+      console.error('Invalid date format. Expected YYYY-MM-DD:', props.modelValue)
+      selectedDate.value = null
+    }
+  } else {
+    selectedDate.value = null
   }
+}
+
+// Watch for changes in modelValue
+watch(() => props.modelValue, initializeFromModelValue)
+
+onMounted(() => {
+  initializeFromModelValue()
   document.addEventListener('click', handleClickOutside)
 })
 
