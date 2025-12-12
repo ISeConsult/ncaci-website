@@ -100,22 +100,36 @@
 
 
         <Modal v-model:is-open="isModalOpen" :title="$t('liveStream.modalTitle')" size="2xl" @close="closeModal">
-            <div class="grid grid-cols-2 gap-4">
-                <div class="col-span-2">
-                    <div class="mb-4">
-                        <TextField v-model="formData.name" :label="$t('liveStream.name')" required />
-                    </div>
-                    <div class="mb-4">
-                        <TextField v-model="formData.email" :label="$t('liveStream.email')" required />
-                    </div>
-                    <div class="mb-4">
-                        <TextField v-model="formData.phone" :label="$t('liveStream.phone')" required />
-                    </div>
-                    <div class="mb-4">
-                        <Select v-model="formData.genda" :label="$t('liveStream.genda')" :options="[$t('liveStream.male'), $t('liveStream.female')]" clearable required />
-                    </div>
-                </div>
-            </div>
+            <form class="space-y-6">
+                <TextField
+                    v-model="formData.name"
+                    label="Full Name"
+                    placeholder="Enter your full name"
+                    required
+                />
+                <TextField
+                    v-model="formData.email"
+                    type="email"
+                    label="Email Address"
+                    placeholder="Enter your email address"
+                    required
+                />
+                <TextField
+                    v-model="formData.phone"
+                    type="tel"
+                    label="Phone Number"
+                    placeholder="Enter your phone number"
+                    required
+                />
+            </form>
+            <template #footer>
+                <Button variant="secondary" @click="closeModal">
+                    Cancel
+                </Button>
+                <Button @click="submitForm" :loading="loading">
+                    Submit
+                </Button>
+            </template>
         </Modal>
     </div>
 </template>
@@ -123,24 +137,59 @@
 <script setup>
 import Modal from '../UI/Modal.vue';
 import TextField from '../UI/TextField.vue';
-import Select from '../UI/Select.vue';
 import { ref } from 'vue';
 import { useEventStore } from '@/stores/useEventStore';
 import { storeToRefs } from 'pinia';
+import Button from '../UI/Button.vue'
+import { useToast } from '@/composables/useToast'
+import { useEventRegisterStore } from '@/stores/useEventRegisterStore';
 
 const EventStore = useEventStore();
 const { events } = storeToRefs(EventStore);
 
+const EventRegisterStore = useEventRegisterStore();
+const { loading } = storeToRefs(EventRegisterStore);
+
 const showSocial = ref(false)
+const { addToast } = useToast()
+
+const isEditing = ref(false)
+const editingEvent = ref(null)
 
 const isModalOpen = ref(false)
 
 const formData = ref({
+    event: events.value.length > 0 ? events.value[0].id : null,
     name: '',
     email: '',
     phone: '',
-    genda: ''
 })
+
+const clearFields = () => {
+    formData.value = {
+        event: events.value.length > 0 ? events.value[0].id : null,
+        name: '',
+        email: '',
+        phone: '',
+    }
+}
+
+const submitForm = async () => {
+  try {
+    let response;
+    if (isEditing.value) {
+      response = await EventRegisterStore.updateEvent(editingEvent.value.uid, formData.value)
+    } else {
+      response = await EventRegisterStore.addEvent(formData.value)
+    }
+    addToast(response.data.message || 'Event Register successfully', 'success')
+    clearFields()
+    closeModal()
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    addToast(error.response.data.message || 'Error adding event', 'error')
+  }
+}
 
 const openModal = () => {
     isModalOpen.value = true

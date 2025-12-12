@@ -36,10 +36,10 @@
                 </div>
                 <div class="md:space-y-0 grid md:grid-cols-2 gap-4">
                     <TextField v-model="formData.phone" :label="$t('cta.phone')" :placeholder="$t('cta.phonePlaceholder')" required />
-                    <DatePicker v-model="formData.birthDate" :label="$t('cta.birthDate')" :placeholder="$t('cta.birthDatePlaceholder')" required />
+                    <DatePicker v-model="formData.birth_date" :label="$t('cta.birthDate')" :placeholder="$t('cta.birthDatePlaceholder')" required />
                 </div>
                 <div class="md:space-y-0 grid md:grid-cols-2 gap-4">
-                    <Select v-model="formData.course" searchable clearable :label="$t('cta.course')" :placeholder="$t('cta.coursePlaceholder')" :options="courses" required />
+                    <Select v-model="formData.course" searchable clearable :label="$t('cta.course')" :placeholder="$t('cta.coursePlaceholder')" :options="courses.map(course => ({ label: course.title, value: course.id }))" required />
                     <Select v-model="formData.duration" clearable :label="$t('cta.duration')" :placeholder="$t('cta.durationPlaceholder')" :options="durations" required />
                 </div>
                 <Textarea v-model="formData.description" :placeholder="$t('cta.descriptionPlaceholder')" :label="$t('cta.descriptionLabel')" required />
@@ -49,7 +49,7 @@
             <Button variant="secondary" @click="closeModal">
                 {{ $t('cta.cancel') }}
             </Button>
-            <Button @click="submitForm">
+            <Button @click="submitForm" :loading="loading">
                 {{ $t('cta.submit') }}
             </Button>
         </template>
@@ -65,17 +65,46 @@ import Textarea from '../UI/Textarea.vue';
 import Select from '../UI/Select.vue';
 import DatePicker from '../UI/DatePicker.vue';
 import { useI18n } from 'vue-i18n'
+import { ref } from 'vue';
+import { useToast } from '@/composables/useToast'
+import { useCoursesStore } from '@/stores/useCoursesStore';
+import { storeToRefs } from 'pinia';
+import { useCourseStore } from '@/stores/useCourseStore';
+
+const CoursesStore = useCoursesStore()
+const { loading } = storeToRefs(CoursesStore);
+
+const CourseStore = useCourseStore()
+const { courses } = storeToRefs(CourseStore);
+
+const { addToast } = useToast()
 
 const { t } = useI18n()
 
 const isModalOpen = ref(false)
+
+const isEditing = ref(false)
+const editingCourse = ref(null)
+
+const clearFields = () => {
+    formData.value = {
+        name: '',
+        email: '',
+        phone: '',
+        skills: '',
+        birth_date: '',
+        duration: '',
+        course: '',
+        description: '',
+    }
+}
 
 const formData = ref({
     name: '',
     email: '',
     phone: '',
     skills: '',
-    birthDate: '',
+    birth_date: '',
     duration: '',
     course: '',
     description: '',
@@ -89,18 +118,31 @@ const closeModal = () => {
     isModalOpen.value = false
 }
 
-const courses = [
-    t('cta.Theology'), t('cta.Christology'), t('cta.Biobiology'), t('cta.Evangelization'), t('cta.History'), t('cta.Communication')
-]
-
-
 const durations = [
-    t('cta.oneYear'), t('cta.twoYears')
+    { label: t('cta.oneYear'), value: '1_year' },
+    { label: t('cta.twoYears'), value: '2_years' }
 ]
 
-const submitForm = () => {
-    console.log(formData.value)
+const submitForm = async () => {
+  try {
+    let response;
+    if (isEditing.value) {
+      response = await CoursesStore.updateCourse(editingCourse.value.uid, formData.value)
+    } else {
+      response = await CoursesStore.addCourse(formData.value)
+    }
+    addToast(response.data.message || 'Course added successfully', 'success')
+    clearFields()
+    closeModal()
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    addToast(error.response.data.message || 'Error adding course', 'error')
+  }
 }
+
+onMounted(() => {
+    CourseStore.fetchCourses()
+})
 </script>
 
 <style scoped>

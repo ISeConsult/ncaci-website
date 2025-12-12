@@ -6,16 +6,10 @@
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Contact Responses</h1>
         <p class="text-gray-600 dark:text-gray-400 mt-2">Manage inquiries and messages from church website visitors</p>
       </div>
-      <div class="flex space-x-3">
-        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors duration-200">
-          <PlusIcon class="h-5 w-5 mr-2" />
-          Export Data
-        </button>
-      </div>
     </div>
 
     <!-- Contact Messages Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <div
         v-for="contact in paginatedContacts"
         :key="contact.id"
@@ -47,8 +41,8 @@
             </div>
           </div>
           <div class="text-right">
-            <p class="text-xs text-gray-500 dark:text-gray-400">{{ formatDate(contact.submittedAt) }}</p>
-            <p class="text-xs text-gray-400 dark:text-gray-500">{{ formatTime(contact.submittedAt) }}</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">{{ formatDate(contact.submitted_at) }}</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500">{{ formatTime(contact.submitted_at) }}</p>
           </div>
         </div>
 
@@ -96,7 +90,7 @@
               <h2 class="text-2xl font-bold">{{ selectedContact.name }}</h2>
               <p class="text-blue-100">{{ selectedContact.email }}</p>
               <div class="flex items-center space-x-4 mt-2 text-blue-100">
-                <span>{{ formatDate(selectedContact.submittedAt) }}</span>
+                <span>{{ formatDate(selectedContact.submitted_at) }}</span>
               </div>
             </div>
             <button 
@@ -139,11 +133,14 @@
 import { ref, computed } from 'vue'
 import { 
   EnvelopeIcon, 
-  PlusIcon, 
   XMarkIcon
 } from '@heroicons/vue/24/outline'
-
 import Pagination from '../UI/Pagination.vue'
+import { useContactStore } from '@/stores/useContactStore'
+import { storeToRefs } from 'pinia'
+
+const ContactStore = useContactStore()
+const { contacts, loading } = storeToRefs(ContactStore)
 
 const selectedContact = ref(null)
 
@@ -159,56 +156,8 @@ const onPageChange = (page) => {
 const paginatedContacts = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
-  return contacts.slice(start, end)
+  return contacts.value.slice(start, end)
 })
-
-// Data
-const contacts = [
-  {
-    id: 1,
-    name: 'Sarah Johnson',
-    email: 'sarah.johnson@gmail.com',
-    message: 'Dear Pastor,\n\nI hope this message finds you well. I am writing to request prayers for my family during this difficult time. My husband has been battling a serious illness, and we are also facing financial challenges. I believe in the power of prayer and would appreciate if the church could remember us in your prayers.\n\nI visited your church last Sunday and felt so welcomed. The message about God\'s faithfulness really spoke to my heart. I would love to become more involved in the church community.\n\nThank you for your time and prayers.\n\nBlessings,\nSarah',
-    submittedAt: new Date('2025-01-15T10:30:00'),
-  },
-  {
-    id: 2,
-    name: 'Michael Thompson',
-    email: 'mthompson@yahoo.com',
-    message: 'Hello,\n\nI recently joined the church and am very passionate about working with young people. I have experience in youth mentoring and would like to know how I can get involved with the youth ministry.\n\nI have a background in education and have been working with teenagers for the past 5 years. I believe God is calling me to serve in this area.\n\nPlease let me know what opportunities are available and what the requirements are for leadership positions.\n\nThank you!',
-    submittedAt: new Date('2025-01-12T14:20:00'),
-  },
-  {
-    id: 3,
-    name: 'Grace Asante',
-    email: 'grace.asante@hotmail.com',
-    message: 'Good day,\n\nI would like to register for the upcoming Annual Convention. Could you please send me the registration forms and payment details?\n\nAlso, I need information about accommodation options for out-of-town attendees.\n\nThank you.',
-    submittedAt: new Date('2025-01-10T16:45:00'),
-  },
-  {
-    id: 4,
-    name: 'David Mensah',
-    email: 'david.mensah@gmail.com',
-    message: 'Dear Church Leadership,\n\nMy wife and I are going through a difficult time in our marriage and would like to request counseling sessions. We have heard about the church\'s marriage ministry and would appreciate guidance.\n\nWe are not currently members but attended the Marriage Enrichment Seminar last year and found it very helpful.\n\nPlease let us know about availability and scheduling.\n\nThank you and God bless.',
-    submittedAt: new Date('2025-01-14T11:20:00'),
-  },
-  {
-    id: 5,
-    name: 'Jennifer Osei',
-    email: 'jennifer.osei@company.com',
-    subject: 'Community Outreach Program Volunteering',
-    message: 'Hello,\n\nI am interested in volunteering for the upcoming community outreach programs. I work in healthcare and would love to contribute to the medical mission activities.\n\nI am available on weekends and can help with health screenings, basic medical care, or health education.\n\nPlease let me know how I can get involved.\n\nThank you!',
-    submittedAt: new Date('2025-01-11T08:30:00'),
-  },
-  {
-    id: 6,
-    name: 'Robert Addai',
-    email: 'robert.addai@email.com',
-    subject: 'Service Times and Location Update',
-    message: 'Hi,\n\nI used to attend the church a few years ago and would like to visit again. Have the service times changed? Also, are you still meeting at the same location?\n\nI have moved back to Accra and looking forward to reconnecting with the church family.\n\nThanks!',
-    submittedAt: new Date('2025-01-09T19:15:00'),
-  }
-]
 
 
 const getInitials = (name) => {
@@ -216,20 +165,31 @@ const getInitials = (name) => {
 }
 
 const formatDate = (date) => {
-  return new Intl.DateTimeFormat('en-US', { 
-    year: 'numeric', 
-    month: 'short', 
-    day: 'numeric' 
-  }).format(date)
+  if (!date) return 'N/A';
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return 'Invalid Date';
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  }).format(d);
 }
 
 const formatTime = (date) => {
-  return new Intl.DateTimeFormat('en-US', { 
-    hour: '2-digit', 
-    minute: '2-digit' 
-  }).format(date)
+  if (!date) return 'N/A';
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return 'Invalid Time';
+  return new Intl.DateTimeFormat('en-US', {
+    hour: '2-digit',
+    minute: '2-digit'
+  }).format(d);
 }
 
+
+onMounted(() => {
+  ContactStore.fetchContacts()
+  console.log('Contacts loaded:', contacts)
+})
 </script>
 
 <style scoped>

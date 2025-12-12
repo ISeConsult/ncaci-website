@@ -96,11 +96,11 @@
           <TextField v-model="formData.skills" :label="$t('ministry.skills')" :placeholder="$t('ministry.skillsPlaceholder')" required />
           <div>
             <label class="block text-gray-900 dark:text-gray-200 mb-1">{{ $t('ministry.birthDate') }}</label>
-            <DatePicker v-model="formData.birthDate" :label="$t('ministry.birthDate')" :placeholder="$t('ministry.birthDatePlaceholder')" required />
+            <DatePicker v-model="formData.birth_date" :label="$t('ministry.birthDate')" :placeholder="$t('ministry.birthDatePlaceholder')" required />
           </div>
-          <Select v-model="formData.ministry" clearable :label="$t('ministry.ministry')" :placeholder="$t('ministry.ministryPlaceholder')" :options="ministries.map(ministry => ministry.name)" required />
+          <Select v-model="formData.ministry" clearable :label="$t('ministry.ministry')" :placeholder="$t('ministry.ministryPlaceholder')" :options="ministryCategories" required />
 
-          <Select v-model="formData.genda" clearable :label="$t('ministry.genda')" :placeholder="$t('ministry.gendaPlaceholder')" :options="gendas" required />
+          <Select v-model="formData.gender" clearable :label="$t('ministry.genda')" :placeholder="$t('ministry.gendaPlaceholder')" :options="gendas" required />
         </div>
         <div class="mt-4">
           <Textarea v-model="formData.description" :placeholder="$t('ministry.descriptionPlaceholder')" :label="$t('ministry.description')" required />
@@ -109,7 +109,7 @@
       <template #footer>
         <div class="flex justify-end space-x-2 pt-4">
           <Button type="button" @click="closeModal" variant="secondary">{{ $t('ministry.cancel') }}</Button>
-          <Button type="submit" variant="primary">{{ $t('ministry.register') }}</Button>
+          <Button type="submit" variant="primary" :loading="loading" @click="submitForm">{{ $t('ministry.register') }}</Button>
         </div>
       </template>
     </Modal>
@@ -126,6 +126,17 @@ import Modal from "../UI/Modal.vue";
 import DatePicker from "../UI/DatePicker.vue";
 import Select from "../UI/Select.vue";
 import Button from "../UI/Button.vue";
+import { useMinistryStore } from '../../stores/useMinistryStore';
+import { storeToRefs } from 'pinia';
+import { useToast } from '@/composables/useToast';
+
+const MinistryStore = useMinistryStore();
+const { loading } = storeToRefs(MinistryStore);
+const isEditing = ref(false);
+const editingMinistry = ref<any>(null);
+
+const { addToast } = useToast()
+
 
 const { t } = useI18n();
 
@@ -145,24 +156,86 @@ const toggleCard = (index: number) => {
   activeCard.value = activeCard.value === index ? null : index;
 };
 
-const gendas = [
-  t('ministry.male'),
-  t('ministry.female')
+const gendas = [{
+  label: t('ministry.male'),
+  value: 'male'
+},
+{
+  label: t('ministry.female'),
+  value: 'female'
+}
+]
+
+const ministryCategories = [{
+  label: t('ministry.music.name'),
+  value: 'music_fellowship'
+},
+{
+  label: t('ministry.youth.name'),
+  value: 'youth_fellowship'
+},
+{
+  label: t('ministry.mens.name'),
+  value: 'mens_fellowship'
+},
+{
+  label: t('ministry.womens.name'),
+  value: 'womens_fellowship'
+},
+{
+  label: t('ministry.children.name'),
+  value: 'children_fellowship'
+},
+{
+  label: t('ministry.evangelism.name'),
+  value: 'evangelism_fellowship'  
+},
+{
+  label: t('ministry.other'),
+  value: 'other'
+}
 ]
 
 const formData = ref({
   name: '',
   email: '',
   phone: '',
-  birthDate: '',
+  birth_date: '',
   skills: '',
   ministry: '',
-  genda: '',
+  gender: '',
   description: ''
 })
 
-const submitForm = () => {
-  console.log(formData.value)
+const clearFields = () => {
+  formData.value = {
+    name: '',
+    email: '',
+    phone: '',
+    birth_date: '',
+    skills: '',
+    ministry: '',
+    gender: '',
+    description: ''
+  }
+}
+
+
+const submitForm = async () => {
+  try {
+    let response;
+    if (isEditing.value) {
+      response = await MinistryStore.updateMinistry(editingMinistry.value.uid, formData.value)
+    } else {
+      response = await MinistryStore.addMinistry(formData.value)
+    }
+    addToast(response.data.message || 'Ministry added successfully', 'success')
+    clearFields()
+    closeModal()
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    addToast(error.response.data.message || 'Error adding course', 'error')
+  }
 }
 
 
