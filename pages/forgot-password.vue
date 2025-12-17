@@ -40,13 +40,21 @@ import TextField from '~/components/UI/TextField.vue'
 import Button from '~/components/UI/Button.vue'
 import { useToast } from '~/composables/useToast'
 import axios from 'axios'
+import CryptoJS from 'crypto-js';
 
 const { addToast } = useToast()
 const field = ref('')
 const loading = ref(false)
 
+// Secret key for encryption
+const SECRET_KEY = 'your-secret-key-here';
+
 const config = useRuntimeConfig()
 const baseUrl = config.public.baseUrl
+
+const encryptData = (data: string) => {
+  return CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
+};
 
 const handleForgotPassword = async () => {
   loading.value = true
@@ -57,7 +65,7 @@ const handleForgotPassword = async () => {
     console.log('Forgot password response:', response.data)
     if (response.data.success) {
       // Store email for resend OTP
-      localStorage.setItem('resetEmail', field.value)
+      localStorage.setItem('resetEmail', encryptData(field.value))
       addToast(response.data.message, 'success')
       // Redirect to verify-otp
       await navigateTo('/verify-otp')

@@ -102,7 +102,6 @@ const resendOtp = async () => {
   resendLoading.value = true
   try {
     const response = await axios.post(`${baseUrl}/auth/users/forgot-password/`, {
-      // Assuming email is stored in localStorage or sessionStorage from previous step
       field: decryptData(localStorage.getItem('resetEmail'))
     })
     console.log('Resend OTP response:', response.data)
