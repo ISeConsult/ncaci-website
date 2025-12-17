@@ -93,8 +93,8 @@
                 column.cellClass ? column.cellClass(item) : ''
               ]"
             >
-              <slot :name="`cell-${column.key}`" :item="item" :value="item[column.key]">
-                {{ formatCellValue(item[column.key], column) }}
+              <slot :name="`cell-${column.key}`" :item="item" :value="getNestedValue(item, column.key)">
+                {{ formatCellValue(getNestedValue(item, column.key), column) }}
               </slot>
             </td>
             <td v-if="$slots.actions" class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -213,9 +213,9 @@ const filteredAndSortedData = computed(() => {
 
   if (sortKey.value) {
     filtered = filtered.sort((a, b) => {
-      const aValue = a[sortKey.value]
-      const bValue = b[sortKey.value]
-      
+      const aValue = getNestedValue(a, sortKey.value)
+      const bValue = getNestedValue(b, sortKey.value)
+
       if (sortDirection.value === 'asc') {
         return aValue > bValue ? 1 : -1
       } else {
@@ -265,6 +265,10 @@ const sort = (key: string) => {
 const getSortIcon = (key: string) => {
   if (sortKey.value !== key) return ArrowsUpDownIcon
   return sortDirection.value === 'asc' ? ChevronUpIcon : ChevronDownIcon
+}
+
+const getNestedValue = (obj: any, path: string) => {
+  return path.split('.').reduce((current, key) => current?.[key], obj)
 }
 
 const formatCellValue = (value: any, column: TableColumn) => {

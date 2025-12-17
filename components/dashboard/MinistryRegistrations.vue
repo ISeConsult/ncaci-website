@@ -30,7 +30,7 @@
               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
           ]"
         >
-          Courses Applications
+          Courses Applications ({{ courseRegistrations.length }})
         </button>
       </nav>
     </div>
@@ -203,8 +203,7 @@
               </div>
               <div>
                 <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{{ selectedCourse.name }}</h3>
-                <p class="text-blue-600 dark:text-blue-400 text-lg">{{ selectedCourse.course }}</p>
-                <p class="text-gray-600 dark:text-gray-400">Applied on {{ selectedCourse.applicationDate || 'Feb 15, 2025' }}</p>
+                <p class="text-blue-600 dark:text-blue-400 text-lg">{{ selectedCourse.course.title }}</p>
               </div>
             </div>
           </div>
@@ -232,15 +231,7 @@
                 <CalendarIcon class="h-5 w-5 text-purple-500 mr-2" />
                 <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Date of Birth</span>
               </div>
-              <span class="font-bold text-lg text-gray-900 dark:text-white">{{ selectedCourse.dateofbirth }}</span>
-            </div>
-
-            <div class="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-              <div class="flex items-center mb-3">
-                <UserIcon class="h-5 w-5 text-pink-500 mr-2" />
-                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Gender</span>
-              </div>
-              <span class="font-bold text-lg text-gray-900 dark:text-white">{{ selectedCourse.gender }}</span>
+              <span class="font-bold text-lg text-gray-900 dark:text-white">{{ selectedCourse.birth_date }}</span>
             </div>
 
             <div class="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
@@ -256,18 +247,7 @@
                 <BookOpenIcon class="h-5 w-5 text-indigo-500 mr-2" />
                 <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Course</span>
               </div>
-              <span class="font-bold text-lg text-gray-900 dark:text-white">{{ selectedCourse.course }}</span>
-            </div>
-          </div>
-
-          <!-- Description Section -->
-          <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6 mb-8">
-            <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-              <DocumentTextIcon class="h-5 w-5 text-blue-500 mr-2" />
-              Application Description
-            </h4>
-            <div class="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-6">
-              <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-base">{{ selectedCourse.description }}</p>
+              <span class="font-bold text-lg text-gray-900 dark:text-white">{{ selectedCourse.course.title }}</span>
             </div>
           </div>
         </div>
@@ -287,8 +267,7 @@ import {
   PhoneIcon, 
   CalendarIcon, 
   UserIcon, 
-  BookOpenIcon,
-  DocumentTextIcon
+  BookOpenIcon
 } from '@heroicons/vue/24/outline'
 import Table from '../UI/Table.vue'
 import { useMinistryStore } from '../../stores/useMinistryStore'
@@ -322,11 +301,11 @@ const registrationColumns = [
 
 const courseColumns = [
   { key: 'name', label: 'Name', sortable: true },
-  { key: 'course', label: 'Course', sortable: true },
+  { key: 'course.title', label: 'Course', sortable: true },
   { key: 'duration', label: 'Duration', sortable: true },
   { key: 'email', label: 'Email' },
   { key: 'phone', label: 'Phone' },
-  { key: 'dateofbirth', label: 'Date of Birth' }
+  { key: 'birth_date', label: 'Date of Birth' }
 ]
 
 
@@ -347,51 +326,5 @@ const getMinistryGradient = (ministry) => {
 onMounted(async () => {
   await MinistryStore.fetchMinistries()
   await CoursesStore.fetchCourses()
-
-
-  // Transform and add the JSON data to registrations only if not already exists
-  jsonResponse.forEach(item => {
-    const existingIndex = registrations.value.findIndex(reg => reg.id === item.uid || (reg.name === item.name && reg.email === item.email))
-    if (existingIndex === -1) {
-      const birthDate = new Date(item.birth_date)
-      const today = new Date()
-      const age = today.getFullYear() - birthDate.getFullYear() - (today < new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate()) ? 1 : 0)
-
-      const transformedItem = {
-        id: item.uid,
-        name: item.name,
-        email: item.email,
-        phone: item.phone,
-        ministry: item.ministry.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()),
-        age: age,
-        gender: item.gender.charAt(0).toUpperCase() + item.gender.slice(1), // Capitalize gender
-        date: new Date(), // Current date as application date
-        reason: "Interested in joining the ministry", // Default reason
-        membershipDuration: "New", // Default duration
-        skills: item.skills.split(',').map(s => s.trim()).filter(skill => skill.length > 0) // Split skills string into array
-      }
-
-      registrations.value.push(transformedItem)
-    } else {
-      // Update existing entry with transformed data if needed
-      const existing = registrations.value[existingIndex]
-      if (existing.ministry === item.ministry) {
-        existing.ministry = item.ministry.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())
-      }
-      if (existing.gender === item.gender) {
-        existing.gender = item.gender.charAt(0).toUpperCase() + item.gender.slice(1)
-      }
-      // Calculate age if birth_date is available
-      if (item.birth_date && !existing.age) {
-        const birthDate = new Date(item.birth_date)
-        const today = new Date()
-        existing.age = today.getFullYear() - birthDate.getFullYear() - (today < new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate()) ? 1 : 0)
-      }
-      // Add missing fields
-      if (!existing.reason) existing.reason = "Interested in joining the ministry"
-      if (!existing.membershipDuration) existing.membershipDuration = "New"
-      if (!existing.skills && item.skills) existing.skills = item.skills.split(',').map(s => s.trim()).filter(skill => skill.length > 0)
-    }
-  })
 })
 </script>

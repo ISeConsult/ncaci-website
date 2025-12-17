@@ -16,7 +16,7 @@
 
                     <div class="flex items-center justify-center pb-4">
                         <UIButton class="items-center" size="lg">
-                            <NuxtLink :to="item.link" class="w-full text-center">
+                            <NuxtLink :to="$localePath(item.link)" class="w-full text-center">
                                 {{ readmore }}
                             </NuxtLink>
                         </UIButton>

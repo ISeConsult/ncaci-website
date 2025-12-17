@@ -428,6 +428,8 @@
     "addressLabel": "address:",
     "address": "P. O. Box 3265",
     "contactDetailsLabel": "contact details:",
-    "findUsLabel": "find us here:"
+    "findUsLabel": "find us here:",
+    "phone": "Phone Number",
+    "phonePlaceholder": "Enter your phone number"
   }
 }

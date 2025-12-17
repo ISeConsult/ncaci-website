@@ -19,8 +19,8 @@
 
       <!-- Action Buttons -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-        <NuxtLink 
-          to="/" 
+        <NuxtLink
+          :to="$localePath('/')"
           class="px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Go Home

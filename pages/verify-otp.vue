@@ -48,6 +48,9 @@ import TextField from '~/components/UI/TextField.vue'
 import Button from '~/components/UI/Button.vue'
 import { useToast } from '~/composables/useToast'
 import axios from 'axios'
+import CryptoJS from 'crypto-js';
+
+const SECRET_KEY = 'your-secret-key-here';
 
 const { addToast } = useToast()
 const field = ref('')
@@ -56,6 +59,12 @@ const resendLoading = ref(false)
 
 const config = useRuntimeConfig()
 const baseUrl = config.public.baseUrl
+
+const decryptData = (encryptedData: string | null) => {
+  if (!encryptedData) return '';
+  const bytes = CryptoJS.AES.decrypt(encryptedData, SECRET_KEY);
+  return bytes.toString(CryptoJS.enc.Utf8);
+};
 
 const handleVerifyOtp = async () => {
   if (field.value.length !== 6) {
@@ -67,7 +76,7 @@ const handleVerifyOtp = async () => {
   try {
     const response = await axios.post(`${baseUrl}/auth/users/verify-otp/`, {
       otp: field.value,
-      field: localStorage.getItem('resetEmail')
+      field: decryptData(localStorage.getItem('resetEmail'))
     })
     console.log('Verify OTP response:', response.data)
     if (response.data.success) {
@@ -94,7 +103,7 @@ const resendOtp = async () => {
   try {
     const response = await axios.post(`${baseUrl}/auth/users/forgot-password/`, {
       // Assuming email is stored in localStorage or sessionStorage from previous step
-      field: localStorage.getItem('resetEmail')
+      field: decryptData(localStorage.getItem('resetEmail'))
     })
     console.log('Resend OTP response:', response.data)
     if (response.data.success) {

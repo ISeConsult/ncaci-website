@@ -14,7 +14,7 @@
                                 <p class="text-sm font-bold text-left uppercase text-[#FF4949]">{{ formatCategory(blog.category) }}</p>
                             </div>
                             <div>
-                                <Nuxt-link :to="`/blog/${blog.uid}`" class="text-2xl font-bold text-left uppercase mb-4 hover:text-blue-600 transition-colors duration-200">
+                                <Nuxt-link :to="$localePath(`/blog/${blog.uid}`)" class="text-2xl font-bold text-left uppercase mb-4 hover:text-blue-600 transition-colors duration-200">
                                     <h2 class="text-xl font-bold uppercase text-black mb-2 hover:text-blue-600">{{ blog.title }}</h2>
                                 </Nuxt-link>
                             </div>

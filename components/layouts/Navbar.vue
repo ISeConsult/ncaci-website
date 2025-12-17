@@ -2,41 +2,39 @@
   <nav :class="navbarClasses">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-20">
-         <!-- Logo -->
+        <!-- Logo -->
         <div class="flex-shrink-0 flex items-center">
-          <NuxtLink to="/" class="flex bg-white p-1 items-center">
+          <NuxtLink :to="$localePath('/')" class="flex bg-white p-1 items-center">
             <img class="block h-16 w-auto" src="/public/images/church-logo.png" alt="NuxtApp" />
           </NuxtLink>
         </div>
         <!--main navigation -->
         <div class="flex items-center">
-         
-
           <!-- Desktop Navigation -->
           <div :class="desktopNavClasses">
             <template v-for="(item, index) in navigation" :key="index">
               <div v-if="item.name === 'Media'" class="relative group">
                 <NuxtLink
-                  :to="item.to"
+                  :to="$localePath(item.to)"
                   :class="navLinkClasses(item.to)"
                 >
                   {{ item.name }}
                 </NuxtLink>
                 <div class="absolute left-0 mt-2 w-40 bg-white rounded-md shadow-lg z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                   <NuxtLink
-                    to="/media"
+                    :to="$localePath('/media')"
                     class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     {{ $t('navbar.gallery') }}
                   </NuxtLink>
                   <NuxtLink
-                    to="/activity"
+                    :to="$localePath('/activity')"
                     class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     {{ $t('navbar.activities') }}
                   </NuxtLink>
                   <NuxtLink
-                    to="/directorate"
+                    :to="$localePath('/directorate')"
                     class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     {{ $t('navbar.directorates') }}
@@ -45,7 +43,7 @@
               </div>
               <div v-else>
                 <NuxtLink
-                  :to="item.to"
+                  :to="$localePath(item.to)"
                   :class="navLinkClasses(item.to)"
                 >
                   {{ item.name }}
@@ -57,18 +55,17 @@
 
         <!-- Right section: Search, buttons, and menu -->
         <div class="flex items-center space-x-4">
-
           <!--Buttons-->
           <div class="hidden lg:block">
             <UIButton size="lg">
-              <NuxtLink to="/contact" class="w-full text-center" :class="buttonLinkClasses">
+              <NuxtLink :to="$localePath('/contact')" class="w-full text-center" :class="buttonLinkClasses">
                 {{ $t('navbar.contact') }}
               </NuxtLink>
             </UIButton>
           </div>
 
           <!-- Language Switcher -->
-          <Button variant="danger" size="sm" @click="setLocale(nextLocale?.code || 'en')" :class="buttonLinkClasses">{{ currentLocale?.code }}</Button>
+          <Button variant="danger" size="sm" @click="setLocale(nextLocale?.code || 'en')" :class="buttonLinkClasses">{{ currentLocale?.name }}</Button>
 
           <!-- Color mode selector -->
           <div class="hidden lg:ml-4 lg:flex lg:items-center">
@@ -92,7 +89,7 @@
 
     <!-- Mobile menu -->
     <transition
-      
+      enter-active-class="transition ease-out duration-200"
       enter-from-class="transform opacity-0 scale-95"
       enter-to-class="transform opacity-100 scale-100"
       leave-active-class="transition ease-in duration-75"
@@ -101,18 +98,72 @@
     >
       <div v-if="isMobileMenuOpen" :class="mobileMenuClasses">
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <NuxtLink
-            v-for="(item, index) in navigation"
-            :key="index"
-            :to="item.to"
-            :class="mobileNavLinkClasses(item.to)"
-            @click="isMobileMenuOpen = false"
-          >
-            {{ item.name }}
-          </NuxtLink>
+          <template v-for="(item, index) in navigation" :key="index">
+            <!-- Media dropdown for mobile -->
+            <div v-if="item.name === 'Media'">
+              <div class="relative">
+                <button
+                  @click="toggleMobileMediaDropdown"
+                  :class="mobileMediaButtonClasses"
+                >
+                  {{ item.name }}
+                  <svg 
+                    class="ml-2 h-4 w-4 transition-transform duration-200" 
+                    :class="{ 'transform rotate-180': isMobileMediaOpen }" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <transition
+                  enter-active-class="transition duration-100 ease-out"
+                  enter-from-class="transform scale-95 opacity-0"
+                  enter-to-class="transform scale-100 opacity-100"
+                  leave-active-class="transition duration-75 ease-in"
+                  leave-from-class="transform scale-100 opacity-100"
+                  leave-to-class="transform scale-95 opacity-0"
+                >
+                  <div v-if="isMobileMediaOpen" class="ml-4 mt-1 space-y-1">
+                    <NuxtLink
+                      :to="$localePath('/media')"
+                      :class="mobileNavLinkClasses('/media')"
+                      @click="closeMobileMenu"
+                    >
+                      {{ $t('navbar.gallery') }}
+                    </NuxtLink>
+                    <NuxtLink
+                      :to="$localePath('/activity')"
+                      :class="mobileNavLinkClasses('/activity')"
+                      @click="closeMobileMenu"
+                    >
+                      {{ $t('navbar.activities') }}
+                    </NuxtLink>
+                    <NuxtLink
+                      :to="$localePath('/directorate')"
+                      :class="mobileNavLinkClasses('/directorate')"
+                      @click="closeMobileMenu"
+                    >
+                      {{ $t('navbar.directorates') }}
+                    </NuxtLink>
+                  </div>
+                </transition>
+              </div>
+            </div>
+            <!-- Other navigation items -->
+            <NuxtLink
+              v-else
+              :to="$localePath(item.to)"
+              :class="mobileNavLinkClasses(item.to)"
+              @click="closeMobileMenu"
+            >
+              {{ item.name }}
+            </NuxtLink>
+          </template>
 
           <!-- Mobile Language Switcher -->
-          <button class="border p-1" @click="setLocale(nextLocale?.code || 'en')">
+          <button class="border p-1 rounded-md text-white" @click="setLocale(nextLocale?.code || 'en')">
             {{ currentLocale?.name }}
           </button>
         </div>
@@ -120,7 +171,7 @@
         <div class="pt-4 pb-3 border-t border-gray-200">
           <div class="flex items-center px-4">
             <UIButton class="w-full" size="lg">
-              <NuxtLink to="/contact" class="w-full text-center" :class="buttonLinkClasses">
+              <NuxtLink :to="$localePath('/contact')" class="w-full text-center" :class="buttonLinkClasses" @click="closeMobileMenu">
                 {{ $t('navbar.contact') }}
               </NuxtLink>
             </UIButton>
@@ -146,6 +197,7 @@ const { locales, setLocale, locale } = useI18n()
 
 const route = useRoute()
 const isMobileMenuOpen = ref(false)
+const isMobileMediaOpen = ref(false)
 const isScrolled = ref(false)
 
 const navigation = [
@@ -194,12 +246,27 @@ const mobileMenuClasses = computed(() =>
   'lg:hidden border-t border-gray-200 bg-black bg-opacity-80'
 )
 
+const mobileMediaButtonClasses = computed(() => [
+  'flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/10'
+])
+
 const mobileNavLinkClasses = (to: string) => {
   const isActive = to === route.path
   return [
     'block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200',
-    isActive ? 'bg-white/20 text-white' : 'bg-white/20 text-white'
+    isActive ? 'bg-white/20 text-white' : 'text-white hover:bg-white/10'
   ]
+}
+
+// Toggle mobile media dropdown
+const toggleMobileMediaDropdown = () => {
+  isMobileMediaOpen.value = !isMobileMediaOpen.value
+}
+
+// Close mobile menu
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false
+  isMobileMediaOpen.value = false
 }
 
 // 👇 Track scroll
@@ -215,7 +282,6 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 </script>
-
 
 <style scoped>
 .router-link-active {

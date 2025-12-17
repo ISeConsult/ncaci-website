@@ -59,7 +59,6 @@ import Button from '~/components/UI/Button.vue'
 import { useToast } from '~/composables/useToast'
 
 import axios from "axios";
-import { useRouter } from 'vue-router';
 import CryptoJS from 'crypto-js';
 import { onMounted } from 'vue';
 
@@ -73,8 +72,8 @@ const loading = ref(false);
 const config = useRuntimeConfig()
 const baseUrl = config.public.baseUrl
 
-// Secret key for encryption (consider moving to environment variables for better security)
-const SECRET_KEY = 'your-secret-key-here'; // Replace with a secure key
+// Secret key for encryption
+const SECRET_KEY = 'your-secret-key-here';
 
 // Function to encrypt data
 const encryptData = (data: string) => {
@@ -104,27 +103,32 @@ onMounted(() => {
   }
 });
 
-// console.log('Base URL:', baseUrl);
-
 const handleLogin = async () => {
   loading.value = true;
   try {
     const response = await axios.post(`${baseUrl}/auth/users/login/`, {
       field: field.value,
       password: password.value,
-      // rememberMe: rememberMe.value,
     });
     console.log('Login response:', response.data);
     if (response.data.success) {
       // Encrypt and store credentials in localStorage
       localStorage.setItem('encryptedField', encryptData(field.value));
       localStorage.setItem('encryptedPassword', encryptData(password.value));
+      // Ecrypt password_change
+      if (response.data.password_changed) {
+        localStorage.setItem('encryptedPasswordChange', encryptData(String(response.data.password_changed)));
+      }
       if (response.data.token) {
-        localStorage.setItem('authToken', encryptData(response.data.token));
+        localStorage.setItem('authToken', encryptData(String(response.data.token)));
       }
       addToast(response.data.message, 'success');
-      // Redirect to home
-      await router.push('/admin/overview');
+
+      if (!response.data.password_changed) {
+        await router.push('/reset-password');
+      } else {
+        await router.push('/admin/overview');
+      }
     } else {
       addToast(response.data.message, 'error');
     }

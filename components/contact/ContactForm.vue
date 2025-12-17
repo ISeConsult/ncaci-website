@@ -23,7 +23,7 @@
                         <TextField
                             v-model="formData.phone"
                             :label="$t('contact.phone')"
-                            :placeholder="$t('contact.emailPlaceholder')"
+                            :placeholder="$t('contact.phonePlaceholder')"
                             required
                         />
 

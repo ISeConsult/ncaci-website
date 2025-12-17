@@ -48,6 +48,9 @@ import TextField from '~/components/UI/TextField.vue'
 import Button from '~/components/UI/Button.vue'
 import { useToast } from '~/composables/useToast'
 import axios from 'axios'
+import CryptoJS from 'crypto-js';
+
+const SECRET_KEY = 'your-secret-key-here';
 
 const { addToast } = useToast()
 const password = ref('')
@@ -56,6 +59,11 @@ const loading = ref(false)
 
 const config = useRuntimeConfig()
 const baseUrl = config.public.baseUrl
+
+const decryptData = (encryptedData: string) => {
+  const bytes = CryptoJS.AES.decrypt(encryptedData, SECRET_KEY);
+  return bytes.toString(CryptoJS.enc.Utf8);
+};
 
 const handleResetPassword = async () => {
   if (password.value !== confirm_password.value) {
@@ -68,7 +76,7 @@ const handleResetPassword = async () => {
     const response = await axios.post(`${baseUrl}/auth/users/update-password/`, {
       password: password.value,
       confirm_password: confirm_password.value,
-      field: localStorage.getItem('resetEmail')
+      field: decryptData(localStorage.getItem('encryptedField'))
     })
     console.log('Reset password response:', response.data)
     if (response.data.success) {

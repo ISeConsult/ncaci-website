@@ -17,7 +17,6 @@
               <p class="text-black font-thin text-sm">{{ item.description }}</p>
             </div>
           </div>
-          <!-- <div class=" w-full h-2 bg-[#FF4949]"></div> -->
         </div>
       </div>
     </div>
@@ -29,7 +28,7 @@
      <div class="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
       <span class="text-xs font-thin text-center uppercase text1 mb-4">{{ $t('about.subtitle') }}</span>
       <h1 class="text-2xl font-bold text-center uppercase text1 mb-2">{{ $t('about.heading') }}</h1>
-      <NuxtLink to="/about" class="cursor-pointer">
+      <NuxtLink :to="$localePath('/about')" class="cursor-pointer">
         <p class="text-1 font-semibold text-sm">{{ $t('about.readMore') }} <ArrowRightIcon class="w-4 h-4 inline-block"/></p>
       </NuxtLink>
      </div>
@@ -73,7 +72,7 @@ const aboutData = [
   background-image: url('/images/church-bg.png');
   background-size: cover;
   background-position: center;
-  filter: blur(6px);
+  filter: blur(10px);
   transform: scale(1.05);
   z-index: 0;
 }

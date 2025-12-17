@@ -31,7 +31,7 @@ const baseUrl = config.public.baseUrl
         }
       });
       if (response.data) {
-        dashboard.value = response.data.message
+        dashboard.value = response.data.data
         console.log('dashboard display:', dashboard.value);
       }
     } catch (error) {

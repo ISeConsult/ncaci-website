@@ -34,7 +34,7 @@
           </h1>
 
           <UIButton size="lg" class="sm:size-xl">
-            <NuxtLink to="/contact" class="w-full text-center">
+            <NuxtLink :to="$localePath('/contact')" class="w-full text-center">
               {{ $t('hero.button') }}
             </NuxtLink>
           </UIButton>

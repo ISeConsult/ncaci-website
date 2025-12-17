@@ -117,13 +117,6 @@ const { gallaries, loading } = storeToRefs(GallaryStore);
 const ActivityStore = useActivityStore()
 const { activities } = storeToRefs(ActivityStore);
 
-const filter = [
-  { title: 'all', value: 'all' },
-  { title: 'upcoming', value: 'upcoming' },
-  { title: 'past', value: 'past' },
-  { title: 'ongoing', value: 'ongoing' },
-]
-
 const selectedFilter = ref('all')
 const showModal = ref(false)
 const currentImage = ref('')
