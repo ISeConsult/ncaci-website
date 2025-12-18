@@ -7,7 +7,7 @@
     </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       <StatsCard 
         v-for="stat in stats" 
         :key="stat.title" 
@@ -48,7 +48,7 @@
 import StatsCard from '@/components/shared/StatsCard.vue'
 import RecentEvents from '@/components/shared/RecentEvents.vue'
 import LeadershipQuickAccess from '@/components/shared/LeadershipQuickAccess.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import Table from '../UI/Table.vue'
 import { useDashboardStore } from '@/stores/useDashboardStore'
 import { storeToRefs } from 'pinia'
@@ -58,86 +58,45 @@ const { loading, dashboard } = storeToRefs(DashboardStore)
 
 defineEmits(['navigate-to-leaders'])
 
-// Data
-const stats = [
-  { title: 'Total Members', value: '1,247', icon: 'UsersIcon', color: 'bg-blue-500' },
-  { title: 'Active Events', value: '24', icon: 'CalendarIcon', color: 'bg-green-500' },
-  { title: 'Ministries', value: '12', icon: 'SparklesIcon', color: 'bg-purple-500' },
-  { title: 'This Month', value: '89', icon: 'ClipboardDocumentListIcon', color: 'bg-orange-500' }
-]
+// Stats data
+const stats = computed(() => {
+  if (!dashboard.value) return []
+  return [
+    { title: 'Total Members', value: dashboard.value.total_members, icon: 'UsersIcon', color: 'bg-blue-500' },
+    { title: 'Active Events', value: dashboard.value.active_events, icon: 'CalendarIcon', color: 'bg-green-500' },
+    { title: 'Ministries', value: dashboard.value.ministries, icon: 'SparklesIcon', color: 'bg-purple-500' }
+  ]
+})
 
-const recentEvents = [
-  { id: 1, title: 'Sunday Service', date: 'Today, 10:00 AM' },
-  { id: 2, title: 'Youth Fellowship', date: 'Tomorrow, 6:00 PM' },
-  { id: 3, title: 'Bible Study', date: 'Wednesday, 7:00 PM' },
-  { id: 4, title: 'Prayer Meeting', date: 'Friday, 6:00 PM' }
-]
+// Recent events data
+const recentEvents = computed(() => {
+  if (!dashboard.value?.event_chart) return []
+  return dashboard.value.event_chart.map(event => ({
+    title: event.title,
+    date: event.start_date
+  }))
+})
 
-const quickAccessLeaders = [
-  { title: 'Executive Council', count: 8, icon: 'UsersIcon' },
-  { title: 'District Heads', count: 12, icon: 'MapPinIcon' },
-  { title: 'Men Fellowship', count: 45, icon: 'UsersIcon' },
-  { title: 'Women & Youth', count: 67, icon: 'UsersIcon' }
-]
+// Quick access leaders data
+const quickAccessLeaders = computed(() => {
+  if (!dashboard.value?.church_leader_stats) return []
+  return Object.entries(dashboard.value.church_leader_stats).map(([key, value]) => ({
+    title: key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+    count: value,
+    icon: 'UsersIcon'
+  }))
+})
 
-// Sample data
-const courses = ref([
-  {
-    id: 1,
-    title: 'Introduction to Biblical Studies',
-    category: 'Bible Study',
-    instructor: 'Dr. John Smith',
-    description: 'A foundational course on understanding the Bible.',
-    duration: '1 Year',
-    schedule: 'Mondays 6-8 PM',
-    startDate: '2025-10-01',
-    endDate: '2025-11-26',
-  },
-  {
-    id: 2,
-    title: 'Advanced Biblical Studies',
-    category: 'Bible Study',
-    instructor: 'Dr. Jane Doe',
-    description: 'Advanced topics in Biblical Studies.',
-    duration: '2 Years',
-    schedule: 'Tuesdays 6-8 PM',
-    startDate: '2025-10-01',
-    endDate: '2025-11-26'
-  },
-  {
-    id: 3,
-    title: 'Biblical Literature',
-    category: 'Bible Study',
-    instructor: 'Dr. John Smith',
-    description: 'An in-depth study of biblical literature.',
-    duration: '1 Year',
-    schedule: 'Wednesdays 6-8 PM',
-    startDate: '2025-10-01',
-    endDate: '2025-11-26'
-  },
-  {
-    id: 4,
-    title: 'Biblical Interpretation',
-    category: 'Bible Study',
-    instructor: 'Dr. Jane Doe',
-    description: 'A critical analysis of biblical texts.',
-    duration: '2 Years',
-    schedule: 'Thursdays 6-8 PM',
-    startDate: '2025-10-01',
-    endDate: '2025-11-26'
-  },
-  {
-    id: 5,
-    title: 'Biblical Interpretation',
-    category: 'Bible Study',
-    instructor: 'Dr. Jane Doe',
-    description: 'A critical analysis of biblical texts.',
-    duration: '2 Years',
-    schedule: 'Thursdays 6-8 PM',
-    startDate: '2025-10-01',
-    endDate: '2025-11-26'
-  }
-])
+// Courses data
+const courses = computed(() => {
+  if (!dashboard.value?.course_list) return []
+  return dashboard.value.course_list.map(course => ({
+    ...course,
+    startDate: course.start_date,
+    endDate: course.end_date,
+    schedule: `${course.start_date} - ${course.end_date}`
+  }))
+})
 
 // Course table columns
 const courseColumns = [

@@ -9,7 +9,7 @@
                 </div>
                 <div>
                     <div class="flex items-center justify-between mb-6">
-                        <p class="text-xs font-light text-left uppercase text1 mb-1">Tuesday 13 May, 2022</p>
+                        <p class="text-xs font-light text-left uppercase text1 mb-1">{{ news[0]?.date }}</p>
                         <p class="text-sm font-light text-left uppercase text1 mb-1">By {{ news[0]?.author }}</p>
                     </div>
                     <div>
@@ -17,7 +17,7 @@
                         <p class="text1 font-thin text-base" v-html="news[0]?.content"></p>
                     </div>
                     <div class="mt-8">
-                        <nuxt-link :to="`/blog/${news[0]?.uid}`" class="hover:text-blue-600 transition-colors duration-200">
+                        <nuxt-link :to="$localePath(`/blog/${news[0]?.uid}`)" class="hover:text-blue-600 transition-colors duration-200">
                             READ MORE
                         </nuxt-link>
                     </div>
@@ -58,7 +58,7 @@
 
                     <div>
                         <p class="text-xs font-light text-left capitalize mb-1">by {{ item.author }}</p>
-                        <p class="text-xs font-light text-left capitalize mb-1">Tuesday 13 May, 2022</p>
+                        <p class="text-xs font-light text-left capitalize mb-1">{{ item.date }}</p>
                     </div>
                 </div>
 

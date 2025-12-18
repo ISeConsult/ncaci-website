@@ -370,6 +370,8 @@
     "addressLabel": "adresse:",
     "address": "P. O. Box 3265",
     "contactDetailsLabel": "détails de contact:",
-    "findUsLabel": "trouvez-nous ici:"
+    "findUsLabel": "trouvez-nous ici:",
+    "phone": "Numéro de téléphone",
+    "phonePlaceholder": "Entrez votre numéro de téléphone"
   }
 }

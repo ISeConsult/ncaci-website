@@ -186,13 +186,15 @@
 
     <!-- Pagination -->
     <div class="flex justify-center items-center pb-6">
-      <Pagination
+      <!-- <Pagination
         :currentPage="currentPage"
         :totalPages="totalPages"
         :totalItems="activities.length"
         :itemsPerPage="itemsPerPage"
         @update:currentPage="(page) => (currentPage = page)"
-      />
+      /> -->
+
+      <Pagination :current-page="currentPage" :total-pages="totalPages" :total-items="activities.length" :items-per-page="itemsPerPage" @update:currentPage="onPageChange"/>
     </div>
   </div>
 </template>
@@ -232,7 +234,12 @@ const activities = computed(() => {
 const currentPage = ref(1)
 const itemsPerPage = ref(3)
 
-const totalPages = computed(() => Math.ceil(activities.length / itemsPerPage.value))
+const onPageChange = (page) => {
+  currentPage.value = page
+}
+
+const totalPages = computed(() => Math.ceil(activities.value.length / itemsPerPage.value))
+
 
 const paginatedActivities = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value

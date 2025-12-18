@@ -109,5 +109,11 @@ const baseUrl = config.public.baseUrl
     }
   };
 
-  return { users, loading, fetchUsers, addUser, updateUser, deleteUser }
+  async function logout() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('encryptedField');
+    localStorage.removeItem('encryptedPassword');
+  }
+
+  return { users, loading, fetchUsers, addUser, updateUser, deleteUser, logout }
 })

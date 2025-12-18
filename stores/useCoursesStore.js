@@ -31,7 +31,7 @@ const baseUrl = config.public.baseUrl
         }
       });
       if (response.data) {
-        courses.value = response.data.message
+        courses.value = response.data.data
         console.log('courses display:', courses.value);
       }
     } catch (error) {

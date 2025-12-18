@@ -32,7 +32,7 @@
     <!--Files-->
     <div class="flex flex-col justify-center items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full">
-            <div v-for="dir in filteredDiretorates" :key="dir.name" class="directorate-card bg-white border rounded-lg p-4 text-center hover:shadow-lg transition-shadow relative overflow-hidden" v-if="filteredDiretorate && filteredDiretorate.length > 0">
+            <div v-for="dir in filteredDiretorates" :key="dir.name" class="directorate-card bg-white border rounded-lg p-4 text-center hover:shadow-lg transition-shadow relative overflow-hidden" v-if="filteredDiretorates && filteredDiretorates.length > 0">
                 <h3 class="text-lg text-black font-semibold mb-2">{{ dir.name }}</h3>
                 <p class="text-sm text-gray-600">{{ dir.file_type.toUpperCase() }}</p>
                 <div @click="downloadFile(dir.file)" class="download-slide bg-blue-500 flex cursor-pointer items-center justify-center p-2 transform translate-y-full hover:translate-y-0 transition-transform duration-300 rounded-b-lg">
