@@ -109,7 +109,10 @@
     <!-- Modal for creating new article -->
     <Modal :is-open="isModalOpen" size="3xl" :title="isEditing ? 'Edit Article' : 'Create New Article'" @close="closeModal">
       <form @submit.prevent="submitArticle" class="space-y-4" enctype="multipart/form-data">
-        <TextField v-model="formData.title" label="Title" placeholder="Enter article title" required />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <TextField v-model="formData.title" label="Title" placeholder="Enter article title" required />
+          <DatePicker class="mt-0 md:mt-6" v-model="formData.date" data-type="date"  label="Date" placeholder="Select article date" required />
+        </div>
         <ClientOnly>
           <QuillEditor v-model:content="formData.content" content-type="html" label="Content" placeholder="Enter article content" />
         </ClientOnly>
@@ -202,6 +205,7 @@ import FileInput from '../UI/FileInput.vue'
 import { useNewsStore } from '../../stores/useNewsStore'
 import { storeToRefs } from 'pinia'
 import { useToast } from '~/composables/useToast'
+import DatePicker from '../UI/DatePicker.vue'
 
 const NewsStore = useNewsStore()
 const { news, loading } = storeToRefs(NewsStore)
@@ -246,6 +250,7 @@ const formData = ref({
   author: '',
   article_image: null,
   quote: '',
+  date: '',
 })
 
 const isEditing = ref(false)
@@ -268,6 +273,7 @@ const openModal = (news = null) => {
     author: '',
     article_image: null,
     quote: '',
+    date: '',
   }
 
   isModalOpen.value = true
@@ -285,6 +291,7 @@ const closeModal = () => {
     author: '',
     article_image: null,
     quote: '',
+    date: '',
   }
 }
 

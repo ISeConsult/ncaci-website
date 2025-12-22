@@ -68,7 +68,7 @@
 
     <!-- Pagination -->
     <div class="mt-8 flex justify-center">
-      <Pagination  :current-page="currentPage" :total-pages="totalPages" :total-items="contacts.length" :items-per-page="itemsPerPage" @update:currentPage="onPageChange"/>
+      <Pagination  :current-page="currentPage" :total-pages="totalPages" :total-items="(paginatedContacts.value || []).length" :items-per-page="itemsPerPage" @update:currentPage="onPageChange"/>
     </div>
 
     <!-- Empty State -->
@@ -147,7 +147,7 @@ const selectedContact = ref(null)
 const currentPage = ref(1)
 const itemsPerPage = 6
 
-const totalPages = computed(() => Math.ceil(contacts.length / itemsPerPage))
+const totalPages = computed(() => Math.ceil((contacts.value || []).length / itemsPerPage))
 
 const onPageChange = (page) => {
   currentPage.value = page
@@ -156,7 +156,7 @@ const onPageChange = (page) => {
 const paginatedContacts = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
-  return contacts.value.slice(start, end)
+  return contacts.value.slice(start, end) 
 })
 
 

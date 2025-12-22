@@ -139,6 +139,9 @@
           :loading="loading"
           class="text-nowrap"
         >
+          <template #cell-image="{ item }">
+            <img :src="item.image" :alt="item.name" class="w-12 h-12 rounded-full object-cover" />
+          </template>
           <template #actions="{ item }">
             <button
               @click="openFacultyModal(item)"
@@ -522,6 +525,12 @@ const courseColumns = [
 
 // Faculty table columns
 const facultyColumns = [
+  {
+    key: 'image',
+    label: 'Image',
+    sortable: false,
+    cellClass: () => 'w-12 h-12'
+  },
   {
     key: 'name',
     label: 'Name',
