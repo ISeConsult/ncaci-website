@@ -138,6 +138,10 @@ const baseUrl = config.public.baseUrl
         data = formData;
         // Remove Content-Type header to let axios set it for FormData
       } else {
+        data = { ...eventData };
+        if (data.image && !(data.image.file || data.image instanceof File)) {
+          delete data.image;
+        }
         headers['Content-Type'] = 'application/json';
       }
 

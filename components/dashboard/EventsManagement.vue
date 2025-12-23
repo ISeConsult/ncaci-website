@@ -16,7 +16,7 @@
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Upcoming Events</h3>
           </div>
           <div v-if="events && events.length > 0" class="p-6">
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div
                 v-for="event in paginatedEvents"
                 :key="event.id"
@@ -181,7 +181,7 @@
   </div>
   
 
-  <Modal v-model:is-open="isModalOpen" :title="iEditing ? 'Edit Event' : 'Create New Event'" size="2xl" @close="closeModal">
+  <Modal v-model:is-open="isModalOpen" :title="isEditing ? 'Edit Event' : 'Create New Event'" size="2xl" @close="closeModal">
     <form @submit.prevent="submitNewEvent" enctype="multipart/form-data">
       <div class="space-y-4">
         <FileInput v-model="formData.image" accept="image/*" label="Image" />
@@ -206,7 +206,7 @@
     <template #footer>
       <div class="flex justify-end space-x-2 pt-4">
         <Button type="button" @click="closeModal" variant="secondary">Cancel</Button>
-        <Button type="submit" :loading="loading" @click="submitNewEvent">{{ iEditing ? 'Update' : 'Create' }}</Button>
+        <Button type="submit" :loading="loading" @click="submitNewEvent">{{ isEditing ? 'Update' : 'Create' }}</Button>
       </div>
     </template>
   </Modal>
@@ -290,7 +290,7 @@ const openModal = (event = null) => {
 const currentPage = ref(1)
 const itemsPerPage = ref(4)
 
-const totalPages = computed(() => Math.ceil(events.length / itemsPerPage.value))
+const totalPages = computed(() => Math.ceil((events.value || []).length / itemsPerPage.value))
 
 const onPageChange = (page) => {
   currentPage.value = page

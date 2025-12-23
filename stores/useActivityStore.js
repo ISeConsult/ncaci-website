@@ -71,7 +71,7 @@ export const useActivityStore = defineStore('ActivityStore', () => {
 
         data = formData;
       } else {
-        delete headers['Content-Type'];
+        headers['Content-Type'] = 'application/json';
       }
 
       // Make the API request
@@ -120,7 +120,11 @@ export const useActivityStore = defineStore('ActivityStore', () => {
 
         data = formData;
       } else {
-        delete headers['Content-Type'];
+        data = { ...activityData };
+        if (data.image && !(data.image.file || data.image instanceof File)) {
+          delete data.image;
+        }
+        headers['Content-Type'] = 'application/json';
       }
 
       // Make the API request

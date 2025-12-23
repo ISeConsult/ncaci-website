@@ -71,8 +71,10 @@ const baseUrl = config.public.baseUrl
         data = formData;
         // Remove Content-Type header to let axios set it for FormData
         delete headers['Content-Type'];
+      } else {
+        headers['Content-Type'] = 'application/json';
       }
-      
+
       const response = await axios.post(`${baseUrl}/dashboard/staffs/`, data, { headers});
       if (response.data) {
         await fetchStaffs();

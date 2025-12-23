@@ -75,7 +75,7 @@ const baseUrl = config.public.baseUrl
 
       const response = await axios.post(`${baseUrl}/dashboard/articles/`, data, { headers });
       if (response.data) {
-        await fetcNews();
+        await fetchNews();
         console.log('News added:', response.data);
         return response;
       }
@@ -117,12 +117,16 @@ const baseUrl = config.public.baseUrl
         data = formData;
         // Remove Content-Type header to let axios set it for FormData
       } else {
+        data = { ...newsData };
+        if (data.article_image && !(data.article_image.file || data.article_image instanceof File)) {
+          delete data.article_image;
+        }
         headers['Content-Type'] = 'application/json';
       }
 
       const response = await axios.patch(`${baseUrl}/dashboard/articles/${newsId}/`, data, { headers });
       if (response.data) {
-        await fetcNews();
+        await fetchNews();
         console.log('News updated:', response.data);
         return response;
       }

@@ -94,7 +94,6 @@ import { ref } from 'vue'
 import Table from '../UI/Table.vue';
 import Modal from '../UI/Modal.vue';
 import TextField from '../UI/TextField.vue';
-import Skeleton from '../UI/Skeleton.vue';
 import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { useUserStore } from '@/stores/useUserStore';
 import { storeToRefs } from 'pinia';

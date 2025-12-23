@@ -51,10 +51,6 @@
           <!-- Activity Details -->
           <div class="space-y-3 mb-6">
             <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
-              <CalendarIcon class="h-4 w-4 mr-2 text-red-500" />
-              <span class="font-medium">{{ activity.schedule }}</span>
-            </div>
-            <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
               <MapPinIcon class="h-4 w-4 mr-2 text-red-500" />
               <span class="font-medium">{{ activity.location }}</span>
             </div>
@@ -166,7 +162,7 @@
             type="button"
             :disabled="!formData.title || !formData.description || !formData.category"
           >
-            Create Activity
+            {{ isEditing ? 'Update' : 'Create' }}
           </Button>
         </div>
       </template>
