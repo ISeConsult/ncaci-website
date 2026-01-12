@@ -24,9 +24,9 @@
                       </div>
                     </div>
 
-                    <!-- Description Overlay - Shown on hover -->
-                    <div class="absolute bottom-0 left-0 right-0 z-20 bg-black bg-opacity-60 flex items-end justify-center px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <div class="text-center text-white max-w-xs">
+                    <!-- Description Overlay -->
+                    <div class="absolute bottom-0 left-0 right-0 z-20 bg-black bg-opacity-60 flex items-end justify-center px-6 opacity-0 group-hover:opacity-100 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                      <div class="text-center text-white max-w-xs overflow-y-auto scrollbar-hide h-64 py-4">
                         <p class="text-sm text-gray-200 text-left leading-relaxed py-2">
                           {{ item.description }}
                         </p>

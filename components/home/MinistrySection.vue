@@ -243,7 +243,7 @@ const submitForm = async () => {
 const ministries = [
   {
     name: t('ministry.music.name'),
-    image: '/images/music-min.jpg',
+    image: '/images/hero-slider3.jpg',
     meetingDays: t('ministry.music.meetingDays'),
     caption: t('ministry.music.caption'),
     upcomingEvent: {
@@ -257,7 +257,7 @@ const ministries = [
   },
   {
     name: t('ministry.youth.name'),
-    image: '/images/youth-min.jpg',
+    image: '/images/hero-slider4.jpg',
     meetingDays: t('ministry.youth.meetingDays'),
     caption: t('ministry.youth.caption'),
     upcomingEvent: {
@@ -271,7 +271,7 @@ const ministries = [
   },
   {
     name: t('ministry.mens.name'),
-    image: '/images/mens-min.jpg',
+    image: '/images/hero-slider2.jpg',
     meetingDays: t('ministry.mens.meetingDays'),
     caption: t('ministry.mens.caption'),
     upcomingEvent: {
@@ -285,7 +285,7 @@ const ministries = [
   },
   {
     name: t('ministry.womens.name'),
-    image: '/images/women-min.jpg',
+    image: '/images/about-hero.jpg',
     meetingDays: t('ministry.womens.meetingDays'),
     caption: t('ministry.womens.caption'),
     upcomingEvent: {
